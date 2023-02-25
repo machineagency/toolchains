@@ -1,0 +1,1 @@
+import{y as e}from"./index-59651c4e.js";const i={displayName:"text",out:{id:"text",type:"string"},state:{text:"#asdf"}};function o(t){console.log(t)}function s(t){return e`<input type="text" @keydown=${o} />`}export{i as config,s as view};
