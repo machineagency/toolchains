@@ -103,7 +103,6 @@ function importTool(toolName) {
 }
 
 function addTool(toolName) {
-  console.log(toolName);
   if (toolName in globalState.imports) {
     addToolToToolchain(toolName);
   } else {

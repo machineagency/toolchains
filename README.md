@@ -1,7 +1,25 @@
 # toolchains
 
-- [x] click button to add a module
-- [ ] toolchain data structure
-- [ ] module ui renders
-- [ ] module can connect
-- [ ] pan zoom
+- [ ] save/load toolchain state
+- workspace ui
+  - [ ] mobile pan zoom
+  - [x] module library
+  - [x] pan zoom
+  - [x] background
+  - [x] click button to add a module
+- toolchain ui
+  - [ ] module layering
+  - [ ] active module
+  - [ ] toolchain shape pane
+  - [ ] ports can be connected
+- module ui
+  - [x] render template module ui
+  - [x] ports
+  - [x] header
+  - [x] state pane
+  - [ ] pin ui panels open
+  - [ ] css tweaks
+  - [ ] drag modules
+- in-tool ui
+  - how to handle tool style scoping?
+  - should i stick with lit-html templating?
