@@ -1,0 +1,70 @@
+.state-header {
+  background-color: var(--planager-gray);
+  color: var(--planager-text-light);
+  font-size: 0.7rem;
+  font-weight: bolder;
+}
+.state-header:hover {
+  background-color: var(--planager-workspace-background);
+  cursor: pointer;
+}
+.number {
+  color: var(--planager-blue);
+  padding: 0.1rem;
+}
+.number:hover {
+  color: var(--planager-text-light);
+  background-color: var(--planager-blue);
+}
+.string {
+  color: var(--planager-text-dark);
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50ch;
+  padding-left: 0.3rem;
+}
+.boolean {
+  color: var(--planager-purple);
+}
+.array-decor {
+  color: var(--planager-text-dark);
+}
+
+.state-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+
+.state-container .key:nth-of-type(4n + 1) {
+  background-color: #2b2d39;
+}
+
+.state-container .value:nth-of-type(4n + 2) {
+  background-color: #dfdfdf;
+}
+
+.state-container .key:nth-of-type(4n + 3) {
+  background-color: #373948;
+}
+
+.state-container .value:nth-of-type(4n + 4) {
+  background-color: #e9e9e9;
+}
+
+.key {
+  text-align: right;
+  padding: 0.1rem 0.3rem;
+  color: var(--text-light);
+}
+
+.keyval-container {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+.keyval-container .key {
+  background-color: unset;
+}

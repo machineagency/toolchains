@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "dev": "vite",
+    "host": "vite --host",
+    "build": "vite build",
+    "preview": "vite build && vite preview",
+    "deploy": "vite build --base=/toolchains/ && gh-pages -d dist"
+  },
+  "devDependencies": {
+    "vite": "^4.1.4"
+  },
+  "dependencies": {
+    "firebase": "^9.17.1",
+    "lit-html": "^2.6.1"
+  }
+}

@@ -1,0 +1,49 @@
+/* @font-face {
+  font-family: "National Park";
+  src: url("assets/fonts/NationalPark/woff2/NationalPark-Bold.woff2")
+      format("woff2"),
+    url("assets/fonts/NationalPark/woff2/NationalPark-ExtraBold.woff2")
+      format("woff2"),
+    url("assets/fonts/NationalPark/woff2/NationalPark-ExtraLight.woff2")
+      format("woff2"),
+    url("assets/fonts/NationalPark/woff2/NationalPark-Light.woff2")
+      format("woff2"),
+    url("assets/fonts/NationalPark/woff2/NationalPark-Medium.woff2")
+      format("woff2"),
+    url("assets/fonts/NationalPark/woff2/NationalPark-Regular.woff2")
+      format("woff2"),
+    url("assets/fonts/NationalPark/woff2/NationalPark-SemiBold.woff2")
+      format("woff2"),
+    url("assets/fonts/NationalPark/woff2/NationalPark-VariableVF.woff2")
+      format("woff2"),
+    url("assets/fonts/NationalPark/woff/NationalPark-Bold.woff") format("woff"),
+    url("assets/fonts/NationalPark/woff/NationalPark-ExtraBold.woff")
+      format("woff"),
+    url("assets/fonts/NationalPark/woff/NationalPark-ExtraLight.woff")
+      format("woff"),
+    url("assets/fonts/NationalPark/woff/NationalPark-Light.woff") format("woff"),
+    url("assets/fonts/NationalPark/woff/NationalPark-Medium.woff")
+      format("woff"),
+    url("assets/fonts/NationalPark/woff/NationalPark-Regular.woff")
+      format("woff"),
+    url("assets/fonts/NationalPark/woff/NationalPark-SemiBold.woff")
+      format("woff"),
+    url("assets/fonts/NationalPark/woff/NationalPark-VariableVF.woff")
+      format("woff");
+} */
+
+@font-face {
+  font-family: "National Park";
+  src: url("assets/fonts/NationalPark/woff2/NP-Regular.woff2") format("woff2"),
+    url("assets/fonts/NationalPark/woff/NP-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "National Park";
+  src: url("assets/fonts/NationalPark/woff2/NP-Bold.woff2") format("woff2"),
+    url("assets/fonts/NationalPark/woff/NP-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
