@@ -1,4 +1,4 @@
-import{y as n}from"./index-7137d624.js";const i={displayName:"Color",inports:{},outports:{color:{type:"color"}},view:{width:"200px",height:"200px"},state:{currentColor:null}};function e(o,r){console.log(o),r.currentColor=o.target.value}function a(o){return n`<style>
+import{y as n}from"./index-0a8ee395.js";const i={displayName:"Color",inports:{},outports:{color:{type:"color"}},view:{width:"200px",height:"200px"},state:{currentColor:null}};function e(o,r){console.log(o),r.currentColor=o.target.value}function a(o){return n`<style>
       input[type="color"] {
         appearance: none;
         -moz-appearance: none;
