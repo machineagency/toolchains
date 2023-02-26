@@ -2,21 +2,39 @@ import { html } from "lit-html";
 
 const config = {
   displayName: "text",
-  out: {
-    id: "text",
-    type: "string",
+  inports: {},
+  outports: {
+    text: {
+      type: "string",
+      value: null,
+    },
+  },
+  view: {
+    width: "200px",
+    height: "50px",
   },
   state: {
-    text: "#asdf",
+    text: "hello",
   },
 };
 
-function onKeydown(e) {
-  console.log(e);
+function onInput(e, state) {
+  state.text = e.target.value;
+  // state.outports.text.value = e.target.value;
 }
 
 function view(state) {
-  return html`<input type="text" @keydown=${onKeydown} />`;
+  return html`<style>
+      input {
+        width: 100%;
+      }
+    </style>
+    <input
+      type="text"
+      value=${state.text}
+      @input=${(e) => onInput(e, state)} />`;
 }
 
-export { config, view };
+const lifecycle = {};
+
+export { config, view, lifecycle };

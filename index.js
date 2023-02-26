@@ -1,23 +1,12 @@
 import { html, render } from "lit-html";
-import { initializeApp } from "firebase/app";
 import { dracula } from "./themes";
 import { addPanZoom } from "./addPanZoom";
+import { addToolInteraction } from "./addToolInteraction";
 import { statePane } from "./ui/statePane";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDOVuFoZPjhBG3yW1ahTsrnqTWbXMSTtek",
-  authDomain: "toolchains-5434e.firebaseapp.com",
-  projectId: "toolchains-5434e",
-  storageBucket: "toolchains-5434e.appspot.com",
-  messagingSenderId: "92747901115",
-  appId: "1:92747901115:web:fd3833a481c10d3977219e",
-};
-
-const app = initializeApp(firebaseConfig);
 
 let globalState = {
   initialized: false,
-  toolbox: ["textInput", "toggle", "colorInput"],
+  toolbox: ["test", "textInput", "toggle", "colorInput"],
   imports: {},
   toolchain: {
     modules: {},
@@ -25,27 +14,72 @@ let globalState = {
   },
   theme: dracula,
   panZoom: null,
+  transforming: false,
+  selection: new Set(),
+};
+
+let defaultTool = {
+  moduleClass: null,
+  displayName: null,
+  inports: [],
+  outports: [],
+  state: {},
+  lifecycle: {},
+  view: { height: "100px", width: "100px" },
+  pos: { x: 0, y: 0 },
+  focus: false,
+  ui: {
+    toolbar: true,
+    statePanel: false,
+  },
 };
 
 let modID = 0;
 
-function renderModules(state) {
-  return Object.entries(state.toolchain.modules).map(([id, mod]) => {
-    return html`<div class="mod" style="--x:${mod.pos.x}px;--y:${mod.pos.y}px;">
-      <div class="module-header"><span>${mod.displayName}</span></div>
-      <div class="inport-container">
+function toolUI(toolID, mod, toolView) {
+  return html`<div
+    class="mod ${mod.ui.toolbar ? "show-toolbar" : "hide-toolbar"} ${
+    mod.ui.statePanel ? "show-state" : "hide-state"
+  }"
+    data-toolid=${toolID}
+    style="
+      --x:${mod.pos.x}px;
+      --y:${mod.pos.y}px;
+      --ui-width:${mod.view.width};
+      --ui-height:${mod.view.height};">
+    <div class="module-background">
+      <div class="b1"></div>
+      <div class="b2"></div>
+      <div class="b3"></div>
+    </div>
+      <div class="toolbar">
+        <span class="module-displayname">${mod.displayName}</span>
+        <span class="module-actions">
+          <i class="toggle-state fa-solid fa-code fa-xs "></i>
+          <i class="remove fa-solid fa-rectangle-xmark"></i>
+          <i class="pin fa-solid fa-xs fa-thumbtack"></i>
+          <i class="drag fa-solid fa-grip-vertical"></i>
+        </span>
+      </div>
+      <div class="inports port-container">
         <div class="port"></div>
         <div class="port"></div>
       </div>
-      <div class="outport-container">
+      <div class="outports port-container">
+        <div class="port"></div>
+        <div class="port"></div>
         <div class="port"></div>
         <div class="port"></div>
       </div>
-      <div class="module-ui">
-        ${state.imports[mod.moduleClass].view(mod.state)}
-      </div>
+      <div class="tool-view">${toolView(mod.state)}</div>
       <div class="module-state">${statePane(mod.state)}</div>
-    </div>`;
+    </div>
+  </div>`;
+}
+
+function renderModules(state) {
+  return Object.entries(state.toolchain.modules).map(([id, tool]) => {
+    return toolUI(id, tool, state.imports[tool.moduleClass].view);
   });
 }
 
@@ -54,7 +88,7 @@ const view = (state) => {
   const y = state.panZoom ? state.panZoom.y() : 0;
   const scale = state.panZoom ? state.panZoom.scale() : 1;
   return html`<div id="app-container">
-    <div id="toolbar"><span>toolchains</span></div>
+    <div id="top-bar"><span>toolchains</span></div>
     <div id="workspace">
       <canvas
         id="background"
@@ -73,29 +107,39 @@ const view = (state) => {
   </div>`;
 };
 
-function addToolToToolchain(toolName) {
-  let config = globalState.imports[toolName].config;
-  globalState.toolchain.modules[`${toolName}_${modID}`] = {
-    moduleClass: toolName,
-    displayName: config.displayName,
-    state: config.state,
-    pos: {
-      x: modID * 30,
-      y: modID * 30,
-    },
-    focus: false,
-  };
+function addToolToToolchain(toolName, lifecycle) {
+  // Deep copy the default config
+  let config = JSON.parse(JSON.stringify(globalState.imports[toolName].config));
+
+  let toolID = `${toolName}_${modID}`;
+
+  // Deep copy the default tool
+  let newTool = JSON.parse(JSON.stringify(defaultTool));
+
+  Object.assign(newTool, config);
+
+  newTool.moduleClass = toolName;
+  newTool.pos.x += modID * 30;
+  newTool.pos.y += modID * 30;
+
+  // Run the tool's init method
+  if ("init" in lifecycle) {
+    lifecycle.init(newTool.state);
+  }
+
+  globalState.toolchain.modules[toolID] = newTool;
   modID++;
 }
 
 function importTool(toolName) {
   import(`./tools/${toolName}.js`)
-    .then((module) => {
+    .then((tool) => {
       globalState.imports[toolName] = {
-        config: module.config,
-        view: module.view,
+        config: tool.config,
+        view: tool.view,
+        lifecycle: tool.lifecycle ?? {},
       };
-      addToolToToolchain(toolName);
+      addToolToToolchain(toolName, tool.lifecycle);
     })
     .catch((err) => {
       console.log(err);
@@ -104,7 +148,7 @@ function importTool(toolName) {
 
 function addTool(toolName) {
   if (toolName in globalState.imports) {
-    addToolToToolchain(toolName);
+    addToolToToolchain(toolName, globalState.imports[toolName].lifecycle);
   } else {
     importTool(toolName);
   }
@@ -139,12 +183,11 @@ window.addEventListener("resize", () => {
 init();
 
 const background = document.getElementById("background");
+const workspace = document.getElementById("workspace");
+
 const panZoom = addPanZoom(background, globalState);
 globalState.panZoom = panZoom;
 
-panZoom.setScaleXY({
-  x: [-window.innerWidth / 2, window.innerWidth / 2],
-  y: [-window.innerHeight / 2, window.innerHeight / 2],
-});
+addToolInteraction(workspace, globalState);
 
 window.requestAnimationFrame(r);

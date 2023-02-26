@@ -1,0 +1,78 @@
+.state-container {
+  display: grid;
+  background-color: var(--black);
+  min-width: 100%;
+  width: fit-content;
+  padding: 1px;
+  grid-template-columns: auto auto;
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+
+.state-container .state-key:nth-of-type(4n + 1) {
+  background-color: #2b2d39;
+}
+
+.state-container .state-value:nth-of-type(4n + 2) {
+  background-color: #dfdfdf;
+}
+
+.state-container .state-key:nth-of-type(4n + 3) {
+  background-color: #373948;
+}
+
+.state-container .state-value:nth-of-type(4n + 4) {
+  background-color: #e9e9e9;
+}
+
+.number {
+  color: var(--blue);
+  padding: 0.1rem;
+}
+
+.number:hover {
+  color: var(--text-light);
+  background-color: var(--blue);
+}
+
+.string {
+  color: var(--text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50ch;
+}
+
+.string:hover {
+  color: var(--text-light);
+  background-color: var(--gray);
+}
+
+.boolean {
+  color: var(--purple);
+}
+.array-decor {
+  color: var(--text-dark);
+}
+
+.state-key {
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  padding: 1px 2px;
+}
+
+.state-value {
+  display: flex;
+  align-items: center;
+  padding: 1px 2px;
+}
+
+.keyval-container {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.keyval-container .key {
+  background-color: unset;
+}

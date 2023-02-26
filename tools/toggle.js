@@ -1,30 +1,40 @@
 import { html } from "lit-html";
 
 const config = {
-  displayName: "toggle",
-
-  out: {
-    id: "bool",
-    type: "boolean",
+  displayName: "text",
+  inports: {},
+  outports: {
+    text: {
+      type: "string",
+      value: null,
+    },
+  },
+  view: {
+    width: "200px",
+    height: "50px",
   },
   state: {
-    toggled: true,
+    text: "hello",
   },
 };
 
-function onClick(e) {
-  console.log(e);
+function onInput(e, state) {
+  state.text = e.target.value;
+  // state.outports.text.value = e.target.value;
 }
 
 function view(state) {
   return html`<style>
-      input[type="checkbox"] {
-        height: 20px;
-        width: 20px;
-        margin: 0;
+      input {
+        width: 100%;
       }
     </style>
-    <input type="checkbox" @click=${onClick} />`;
+    <input
+      type="text"
+      value=${state.text}
+      @input=${(e) => onInput(e, state)} />`;
 }
 
-export { config, view };
+const lifecycle = {};
+
+export { config, view, lifecycle };

@@ -1,0 +1,195 @@
+#modules {
+  position: fixed;
+}
+
+.mod {
+  box-sizing: content-box;
+  position: fixed;
+  transform: translate(var(--x, 0), var(--y, 0));
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto auto auto;
+  min-height: var(--ui-height);
+  min-width: var(--ui-width);
+}
+
+.mod.show-toolbar .inports,
+.mod.show-toolbar .outports,
+.mod:hover .inports,
+.mod:hover .outports {
+  visibility: visible;
+}
+
+.mod.show-state .module-state {
+  display: block;
+}
+
+/* TOOLBAR  */
+
+.mod.show-toolbar .toolbar,
+.mod:hover .toolbar {
+  top: 1px;
+  visibility: visible;
+}
+
+.toolbar {
+  border: 1px solid var(--black);
+  background-color: var(--black);
+  position: relative;
+  z-index: 2;
+  user-select: none;
+  grid-row: 1;
+  grid-column: 2;
+  visibility: hidden;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 5px;
+  gap: 20px;
+  top: 100%;
+  transition: all ease-in-out 150ms;
+}
+
+.module-displayname {
+  font-weight: 600;
+}
+
+.module-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.module-actions > i {
+  display: inline;
+}
+
+/* TOOLBAR BUTTONS */
+
+.remove {
+  cursor: pointer;
+}
+
+.remove:hover {
+  color: var(--red);
+}
+
+.pin {
+  cursor: pointer;
+}
+
+.pin:hover,
+.mod.show-toolbar .pin:hover {
+  color: var(--cyan);
+}
+
+.mod.show-toolbar .pin {
+  color: var(--blue);
+}
+
+.toggle-state {
+  cursor: pointer;
+}
+
+.toggle-state:hover,
+.mod.show-state .toggle-state:hover {
+  color: var(--cyan);
+}
+
+.mod.show-state .toggle-state {
+  color: var(--purple);
+}
+
+.drag:hover {
+  color: var(--orange);
+  cursor: move;
+}
+
+/* TOOL VIEW */
+
+.tool-view {
+  box-sizing: content-box;
+  border: 1px solid var(--black);
+  position: relative;
+  line-height: 0;
+  grid-row: 2;
+  grid-column: 2;
+  height: var(--ui-height);
+  width: var(--ui-width);
+  z-index: 3;
+  background-color: var(--black);
+}
+
+/* PORTS */
+
+.port-container {
+  display: flex;
+  width: 12px;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  gap: 2px;
+  z-index: 1;
+}
+
+.inports {
+  grid-row: 2;
+  grid-column: 1;
+}
+
+.outports {
+  grid-row: 2;
+  grid-column: 3;
+}
+
+.mod.show-toolbar .outports .port,
+.mod:hover .outports .port {
+  height: 12px;
+  right: -3px;
+}
+
+.mod.show-toolbar .inports .port,
+.mod:hover .inports .port {
+  height: 12px;
+  left: -3px;
+}
+
+.inports .port {
+  left: calc(100% + 5px);
+}
+
+.outports .port {
+  right: calc(100% + 5px);
+}
+
+.port {
+  position: relative;
+  transition: all ease-in-out 150ms;
+  height: 0px;
+  cursor: pointer;
+  overflow: visible;
+}
+
+.port::before {
+  content: "";
+  background-color: var(--blue);
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.port:hover ::before {
+  background-color: var(--text-light);
+}
+
+.module-state {
+  z-index: 3;
+  grid-row: 3;
+  grid-column: 2;
+  display: none;
+  font-family: monospace;
+  overflow: hidden;
+  max-width: var(--ui-width);
+}

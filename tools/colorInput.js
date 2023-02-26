@@ -1,18 +1,25 @@
 import { html } from "lit-html";
 
 const config = {
-  displayName: "color",
-  out: {
-    id: "text",
-    type: "string",
+  displayName: "Color",
+  inports: {},
+  outports: {
+    color: {
+      type: "color",
+    },
+  },
+  view: {
+    width: "200px",
+    height: "200px",
   },
   state: {
-    currentColor: "#ffff00",
+    currentColor: null,
   },
 };
 
-function onChange(e) {
+function onChange(e, state) {
   console.log(e);
+  state.currentColor = e.target.value;
 }
 
 function view(state) {
@@ -25,9 +32,8 @@ function view(state) {
         border: 0;
         padding: 0;
         cursor: pointer;
-        min-height: 60px;
-        min-width: 60px;
         width: 100%;
+        height: 100%;
       }
       ::-webkit-color-swatch-wrapper {
         padding: 0;
@@ -46,7 +52,18 @@ function view(state) {
         padding: 0;
       }
     </style>
-    <input type="color" value=${state.currentColor} @change=${onChange} />`;
+    <input
+      type="color"
+      value=${state.currentColor}
+      @change=${(e) => onChange(e, state)} />`;
 }
 
-export { config, view };
+function init(state) {
+  state.currentColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+}
+
+const lifecycle = {
+  init,
+};
+
+export { config, view, lifecycle };

@@ -1,25 +1,38 @@
 # toolchains
 
-- [ ] save/load toolchain state
+- core
+  - [x] add/remove tools
+  - [ ] save/load toolchain state
+  - [ ] connect/disconnect ports
+  - [ ] basic port type checking
+- tool lifecyle
+  - [ ] init
+  - [ ] onResize
+  - [ ] onConnection (in/outport)
+  - [ ] onPortUpdate
 - workspace ui
-  - [ ] mobile pan zoom
-  - [x] module library
+  - [x] tool library
   - [x] pan zoom
   - [x] background
-  - [x] click button to add a module
+  - [x] click button to add a tool
+  - [ ] collapse all toolui
+  - [ ] drag select modules
+  - [ ] nice pipe routing
+  - [ ] module alignment/layout
+  - [ ] mobile pan zoom
 - toolchain ui
-  - [ ] module layering
-  - [ ] active module
+  - [ ] tool layering
+  - [ ] active tool
   - [ ] toolchain shape pane
-  - [ ] ports can be connected
-- module ui
-  - [x] render template module ui
+- tool ui
+  - [x] render template tool ui
   - [x] ports
   - [x] header
   - [x] state pane
-  - [ ] pin ui panels open
-  - [ ] css tweaks
-  - [ ] drag modules
+  - [x] pin tool ui panels open
+  - [ ] drag tool
+  - [ ] edit displayname
 - in-tool ui
+  - [x] set initial width and height from tool config
   - how to handle tool style scoping?
   - should i stick with lit-html templating?

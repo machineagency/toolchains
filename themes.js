@@ -8,6 +8,7 @@ const dracula = {
   "--blue": "#4395d4",
   "--purple": "#9674c8",
   "--gray": "#848484",
+  "--black": "#282a36",
   "--text-light": "#f8f8f2",
   "--text-dark": "#282a36",
   "--pipe": "#b7b7b7",

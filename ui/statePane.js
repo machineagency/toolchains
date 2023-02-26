@@ -23,8 +23,8 @@ function renderObject(val) {
   for (const [key, value] of Object.entries(val)) {
     arr.push(
       html`
-        <span class="key">${key}:</span>
-        <span class="value">${renderValue(value)}</span>
+        <span class="state-key">${key}:</span>
+        <span class="state-value">${renderValue(value)}</span>
       `
     );
   }
@@ -97,8 +97,8 @@ function renderState(state) {
   let arr = [];
   for (const [key, value] of Object.entries(state)) {
     arr.push(
-      html` <span class="key">${key}</span>
-        <span class="value">${renderValue(value)}</span>`
+      html` <span class="state-key">${key}</span>
+        <span class="state-value">${renderValue(value)}</span>`
     );
   }
   return arr;

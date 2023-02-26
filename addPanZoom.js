@@ -16,6 +16,13 @@ export function addPanZoom(el, state) {
       "translate(" + pointX + "px, " + pointY + "px) scale(" + scale + ")";
   }
 
+  function svgPoint({ x, y }) {
+    let newX = (x - pointX) / scale;
+    let newY = (y - pointY) / scale;
+
+    return { x: newX, y: newY };
+  }
+
   listen("pointerdown", "", (e) => {
     if (e.shiftKey) return;
 
@@ -24,11 +31,6 @@ export function addPanZoom(el, state) {
     start = { x: e.offsetX - pointX, y: e.offsetY - pointY };
 
     if (e.detail === 2) {
-      // console.log(
-      //   e.offsetX,
-      //   e.offsetY,
-      //   svgPoint({ x: e.offsetX, y: e.offsetY })
-      // );
     }
   });
 
@@ -98,5 +100,6 @@ export function addPanZoom(el, state) {
     x: () => pointX,
     y: () => pointY,
     setScaleXY,
+    svgPoint,
   };
 }
