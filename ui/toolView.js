@@ -1,13 +1,26 @@
 import { html } from "lit-html";
-import { statePane } from "./statePane";
+import { stateView } from "./stateView";
 
-function portUI(portID, portInfo) {
-  return html`<div class="port" data-portid=${portID} title=${portID}></div>`;
+const portTypes = {
+  boolean: "var(--green)",
+  string: "var(--purple)",
+  number: "var(--blue)",
+  array: "var(--pink)",
+  object: "var(--orange)",
+};
+
+function portView(portID, portInfo) {
+  return html`<div
+    class="port"
+    data-portid=${portID}
+    style="--port-color: ${portTypes[portInfo.type]}">
+    <div class="port-id">${portID}</div>
+  </div>`;
 }
 
-function toolUI(toolID, tool) {
+export function toolView(toolID, tool) {
   return html`<div
-    class="mod ${tool.uiState.toolbar ? "show-toolbar" : "hide-toolbar"} ${
+    class="tool ${tool.uiState.toolbar ? "show-toolbar" : "hide-toolbar"} ${
     tool.uiState.statePanel ? "show-state" : "hide-state"
   }"
     data-toolid=${toolID}
@@ -16,14 +29,14 @@ function toolUI(toolID, tool) {
       --y:${tool.pos.y}px;
       --ui-width:${tool.ui.width};
       --ui-height:${tool.ui.height};">
-    <div class="module-background">
+    <div class="tool-background">
       <div class="b1"></div>
       <div class="b2"></div>
       <div class="b3"></div>
     </div>
       <div class="toolbar">
-        <span class="module-displayname">${tool.ui.displayName}</span>
-        <span class="module-actions">
+        <span class="tool-displayname">${tool.ui.displayName}</span>
+        <span class="tool-actions">
           <i class="toggle-state fa-solid fa-code fa-xs "></i>
           <i class="remove fa-solid fa-rectangle-xmark"></i>
           <i class="pin fa-solid fa-xs fa-thumbtack"></i>
@@ -32,18 +45,16 @@ function toolUI(toolID, tool) {
       </div>
       <div class="inports port-container">
         ${Object.entries(tool.inports).map(([portID, port]) =>
-          portUI(portID, port)
+          portView(portID, port)
         )}
       </div>
       <div class="outports port-container">
         ${Object.entries(tool.outports).map(([portID, port]) =>
-          portUI(portID, port)
+          portView(portID, port)
         )}
       </div>
       <div class="tool-view">${tool.render()}</div>
-      <div class="module-state">${statePane(tool.state)}</div>
+      <div class="tool-state">${stateView(tool.state)}</div>
     </div>
   </div>`;
 }
-
-export { toolUI };

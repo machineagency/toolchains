@@ -104,17 +104,6 @@ function renderState(state) {
   return arr;
 }
 
-// function render() {
-//   return html`<div>
-//     <div id="header" class="unselectable" @click=${this.toggleCollapse}>
-//       State
-//     </div>
-//     ${this.expanded
-//       ? html`<div class="state-container">${this.renderState()}</div>`
-//       : nothing}
-//   </div>`;
-// }
-
-export function statePane(state) {
+export function stateView(state) {
   return html` <div class="state-container">${renderState(state)}</div>`;
 }

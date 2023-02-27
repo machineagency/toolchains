@@ -4,20 +4,30 @@ export function addToolInteraction(tools, state) {
   const listen = createListener(tools);
 
   function getToolDetails(e) {
-    let id = e.target.closest(".mod").dataset.toolid;
-    return [id, state.toolchain.modules[id]];
+    let id = parentToolElement(e).dataset.toolid;
+    return [id, state.toolchain.tools[id]];
+  }
+
+  function parentToolElement(e) {
+    return e.target.closest(".tool");
   }
 
   listen("pointerdown", ".remove", (e) => {
     let [toolID, toolInfo] = getToolDetails(e);
     console.log(`Removing ${toolID}`);
 
-    // TODO: should call the module's delete lifecycle method
-    delete state.toolchain.modules[toolID];
+    // TODO: should call the tool's remove lifecycle method
+    delete state.toolchain.tools[toolID];
   });
 
   listen("pointerdown", ".drag", (e) => {
     let [toolID, toolInfo] = getToolDetails(e);
+
+    // Get the parent tool and reappend it to the parentNode,
+    // this brings it to the front
+    let parentTool = parentToolElement(e);
+    parentTool.parentNode.appendChild(parentTool);
+
     state.selection.add(toolID);
     state.transforming = true;
   });
@@ -28,8 +38,8 @@ export function addToolInteraction(tools, state) {
     let dy = e.movementY / state.panZoom.scale();
 
     state.selection.forEach((toolID) => {
-      state.toolchain.modules[toolID].pos.x += dx;
-      state.toolchain.modules[toolID].pos.y += dy;
+      state.toolchain.tools[toolID].pos.x += dx;
+      state.toolchain.tools[toolID].pos.y += dy;
     });
   });
 

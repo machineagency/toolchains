@@ -1,15 +1,17 @@
 import { html, render } from "lit-html";
 import { dracula } from "./themes";
+
 import { addPanZoom } from "./addPanZoom";
 import { addToolInteraction } from "./addToolInteraction";
-import { toolUI } from "./ui/toolInterface";
+
+import { toolView } from "./ui/toolView";
 
 let globalState = {
   initialized: false,
-  toolbox: ["test", "color", "toggle", "text"],
+  toolbox: ["test", "dataViewer", "color", "toggle", "text"],
   imports: {},
   toolchain: {
-    modules: {},
+    tools: {},
     shape: {},
   },
   theme: dracula,
@@ -18,8 +20,15 @@ let globalState = {
   selection: new Set(),
 };
 
+const layers = {
+  SELECTED: 5,
+  BACKGROUND: 0,
+  PIPES: 1,
+  TOOLS: 3,
+};
+
 let defaultTool = {
-  moduleClass: null,
+  toolClass: null,
   inports: {},
   outports: {},
   state: {},
@@ -28,6 +37,7 @@ let defaultTool = {
   pos: { x: 0, y: 0 },
   focus: false,
   uiState: {
+    layer: layers.TOOLS,
     toolbar: true,
     statePanel: false,
   },
@@ -43,56 +53,11 @@ const globalCallbacks = (toolID) => {
   };
 };
 
-let modID = 0;
+let currID = 0;
 
-// function portUI(portID, portInfo) {
-//   return html`<div class="port" data-portid=${portID} title=${portID}></div>`;
-// }
-
-// function toolUI(toolID, tool) {
-//   return html`<div
-//     class="mod ${tool.uiState.toolbar ? "show-toolbar" : "hide-toolbar"} ${
-//     tool.uiState.statePanel ? "show-state" : "hide-state"
-//   }"
-//     data-toolid=${toolID}
-//     style="
-//       --x:${tool.pos.x}px;
-//       --y:${tool.pos.y}px;
-//       --ui-width:${tool.ui.width};
-//       --ui-height:${tool.ui.height};">
-//     <div class="module-background">
-//       <div class="b1"></div>
-//       <div class="b2"></div>
-//       <div class="b3"></div>
-//     </div>
-//       <div class="toolbar">
-//         <span class="module-displayname">${tool.ui.displayName}</span>
-//         <span class="module-actions">
-//           <i class="toggle-state fa-solid fa-code fa-xs "></i>
-//           <i class="remove fa-solid fa-rectangle-xmark"></i>
-//           <i class="pin fa-solid fa-xs fa-thumbtack"></i>
-//           <i class="drag fa-solid fa-grip-vertical"></i>
-//         </span>
-//       </div>
-//       <div class="inports port-container">
-//         ${Object.entries(tool.inports).map(([portID, port]) =>
-//           portUI(portID, port)
-//         )}
-//       </div>
-//       <div class="outports port-container">
-//         ${Object.entries(tool.outports).map(([portID, port]) =>
-//           portUI(portID, port)
-//         )}
-//       </div>
-//       <div class="tool-view">${tool.render()}</div>
-//       <div class="module-state">${statePane(tool.state)}</div>
-//     </div>
-//   </div>`;
-// }
-
-function renderModules(state) {
-  return Object.entries(state.toolchain.modules).map(([id, tool]) => {
-    return toolUI(id, tool);
+function renderTools(state) {
+  return Object.entries(state.toolchain.tools).map(([id, tool]) => {
+    return toolView(id, tool);
   });
 }
 
@@ -106,7 +71,7 @@ const view = (state) => {
       <canvas
         id="background"
         style="--offset-x: ${x}px;--offset-y: ${y}px;--scale: ${scale}"></canvas>
-      <div id="modules" class="transform-group">${renderModules(state)}</div>
+      <div id="tools" class="transform-group">${renderTools(state)}</div>
       <div id="toolbox">
         <div id="toolbox-title">toolbox</div>
         ${state.toolbox.map(
@@ -123,11 +88,11 @@ const view = (state) => {
 function addToolToToolchain(toolName) {
   const toolConstructor = globalState.imports[toolName];
 
-  let toolID = `${toolName}_${modID}`;
+  let toolID = `${toolName}_${currID}`;
   let newTool = JSON.parse(JSON.stringify(defaultTool));
 
-  newTool.pos.x += modID * 30;
-  newTool.pos.y += modID * 30;
+  newTool.pos.x += currID * 30;
+  newTool.pos.y += currID * 30;
 
   Object.assign(newTool, toolConstructor(globalCallbacks(toolID)));
 
@@ -135,8 +100,8 @@ function addToolToToolchain(toolName) {
     newTool.init();
   }
 
-  globalState.toolchain.modules[toolID] = newTool;
-  modID++;
+  globalState.toolchain.tools[toolID] = newTool;
+  currID++;
 }
 
 async function importTool(toolName) {

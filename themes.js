@@ -14,8 +14,8 @@ const dracula = {
   "--pipe": "#b7b7b7",
   "--workspace-background": "#44475a",
   "--toolbar": "#282a36",
-  "--module-background": "#f8f8f2",
-  "--module-background-accent": "#d5d5d5",
+  "--tool-background": "#f8f8f2",
+  "--tool-background-accent": "#d5d5d5",
   "--background-dots": "#d6cce0",
   "--port": "#b7b7b7",
 };

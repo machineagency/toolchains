@@ -1,9 +1,9 @@
-#modules {
+#tools {
   position: fixed;
 }
 
-.mod {
-  box-sizing: content-box;
+.tool {
+  /* box-sizing: content-box; */
   position: fixed;
   transform: translate(var(--x, 0), var(--y, 0));
   display: grid;
@@ -13,21 +13,21 @@
   min-width: var(--ui-width);
 }
 
-.mod.show-toolbar .inports,
-.mod.show-toolbar .outports,
-.mod:hover .inports,
-.mod:hover .outports {
+.tool.show-toolbar .inports,
+.tool.show-toolbar .outports,
+.tool:hover .inports,
+.tool:hover .outports {
   visibility: visible;
 }
 
-.mod.show-state .module-state {
+.tool.show-state .tool-state {
   display: block;
 }
 
 /* TOOLBAR  */
 
-.mod.show-toolbar .toolbar,
-.mod:hover .toolbar {
+.tool.show-toolbar .toolbar,
+.tool:hover .toolbar {
   top: 1px;
   visibility: visible;
 }
@@ -51,17 +51,17 @@
   transition: all ease-in-out 150ms;
 }
 
-.module-displayname {
+.tool-displayname {
   font-weight: 600;
 }
 
-.module-actions {
+.tool-actions {
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
-.module-actions > i {
+.tool-actions > i {
   display: inline;
 }
 
@@ -80,11 +80,11 @@
 }
 
 .pin:hover,
-.mod.show-toolbar .pin:hover {
+.tool.show-toolbar .pin:hover {
   color: var(--cyan);
 }
 
-.mod.show-toolbar .pin {
+.tool.show-toolbar .pin {
   color: var(--blue);
 }
 
@@ -93,11 +93,11 @@
 }
 
 .toggle-state:hover,
-.mod.show-state .toggle-state:hover {
+.tool.show-state .toggle-state:hover {
   color: var(--cyan);
 }
 
-.mod.show-state .toggle-state {
+.tool.show-state .toggle-state {
   color: var(--purple);
 }
 
@@ -112,20 +112,31 @@
   box-sizing: content-box;
   border: 1px solid var(--black);
   position: relative;
-  line-height: 0;
   grid-row: 2;
   grid-column: 2;
   height: var(--ui-height);
   width: var(--ui-width);
   z-index: 3;
-  background-color: var(--black);
+  background-color: var(--tool-background);
+}
+
+/* STATE PANE */
+
+.tool-state {
+  z-index: 3;
+  grid-row: 3;
+  grid-column: 2;
+  display: none;
+  font-family: monospace;
+  overflow: hidden;
+  max-width: var(--ui-width);
 }
 
 /* PORTS */
 
 .port-container {
   display: flex;
-  width: 12px;
+  width: 0px;
   flex-direction: column;
   justify-content: center;
   position: relative;
@@ -143,53 +154,45 @@
   grid-column: 3;
 }
 
-.mod.show-toolbar .outports .port,
-.mod:hover .outports .port {
-  height: 12px;
-  right: -3px;
+.outports .port {
+  transform: translateX(-100%);
 }
 
-.mod.show-toolbar .inports .port,
-.mod:hover .inports .port {
-  height: 12px;
-  left: -3px;
+.tool.show-toolbar .outports .port,
+.tool:hover .outports .port {
+  max-height: 20px;
+  max-width: 50px;
+  right: -2px;
+  transform: translateX(0);
 }
 
 .inports .port {
-  left: calc(100% + 5px);
+  transform: translateX(0);
 }
 
-.outports .port {
-  right: calc(100% + 5px);
+.tool.show-toolbar .inports .port,
+.tool:hover .inports .port {
+  max-height: 20px;
+  max-width: 50px;
+  right: 3px;
+  transform: translateX(-100%);
 }
 
 .port {
   position: relative;
   transition: all ease-in-out 150ms;
-  height: 0px;
+  max-height: 0px;
+  max-width: 0px;
+  width: fit-content;
   cursor: pointer;
-  overflow: visible;
-}
-
-.port::before {
-  content: "";
-  background-color: var(--blue);
-  display: block;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-}
-
-.port:hover ::before {
-  background-color: var(--text-light);
-}
-
-.module-state {
-  z-index: 3;
-  grid-row: 3;
-  grid-column: 2;
-  display: none;
-  font-family: monospace;
   overflow: hidden;
-  max-width: var(--ui-width);
+  background-color: var(--port);
+  border-radius: 6px;
+  padding: 2px 4px;
+  font-size: small;
+  border: 1px solid var(--black);
+}
+
+.port:hover {
+  background-color: var(--port-color);
 }

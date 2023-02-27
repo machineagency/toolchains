@@ -15,12 +15,33 @@ export default function test(globalCallbacks) {
     obj: { currentColor: "#ffff00", num: 500000, floatieBoi: 25.8 },
   };
 
-  const inports = {};
+  const inports = {
+    text: {
+      type: "string",
+      value: "asdf",
+    },
+    num: {
+      type: "number",
+      value: 57,
+    },
+    bool: {
+      type: "boolean",
+      value: false,
+    },
+  };
 
   const outports = {
     text: {
       type: "string",
-      value: null,
+      value: "asdf",
+    },
+    num: {
+      type: "number",
+      value: 57,
+    },
+    bool: {
+      type: "boolean",
+      value: false,
     },
   };
 
@@ -34,33 +55,42 @@ export default function test(globalCallbacks) {
 
   const shuffle = (e) => {
     globalCallbacks.log("shufflin!!!");
-    state.colors = new Array(15).fill(0).map(() => {
+    state.colors = new Array(30).fill(0).map(() => {
       return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
     });
   };
 
   const render = () => {
     return html`<style>
+        .container {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+        }
         .grid-container {
           display: grid;
-          grid-gap: 1px;
           grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+          grid-auto-rows: auto;
+          flex: 1;
         }
         .grid-container > div {
           width: 100%;
-          aspect-ratio: 1;
         }
         .grid-container > div:hover {
           background-color: var(--pink);
         }
+        button {
+          width: 100%;
+        }
       </style>
-      <button @click=${shuffle}>Shuffle!</button>
-
-      <div class="grid-container">
-        ${state.colors.map(
-          (color) => html`<div style="background-color: ${color};"></div>`
-        )}
-      </div> `;
+      <div class="container">
+        <div class="grid-container">
+          ${state.colors.map(
+            (color) => html`<div style="background-color: ${color};"></div>`
+          )}
+        </div>
+        <button @click=${shuffle}>Shuffle!</button>
+      </div>`;
   };
 
   return { ui, inports, outports, state, init, resize, render };

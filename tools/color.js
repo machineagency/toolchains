@@ -8,11 +8,7 @@ export default function color(globalCallbacks) {
   };
 
   const state = {
-    colors: [],
     currentColor: "#ffff00",
-    num: 500000,
-    floatieBoi: 25.8,
-    obj: { currentColor: "#ffff00", num: 500000, floatieBoi: 25.8 },
   };
 
   const inports = {};
@@ -20,27 +16,20 @@ export default function color(globalCallbacks) {
   const outports = {
     color: {
       type: "string",
-      value: state.currentColor,
+      value: null,
     },
   };
 
   function colorInput(e) {
     state.currentColor = e.target.value;
+    outports.color.value = e.target.value;
   }
 
-  let localVar = Math.floor(Math.random() * 40);
-
   const init = () => {
-    shuffle();
-  };
-
-  const resize = () => {};
-
-  const shuffle = (e) => {
-    globalCallbacks.log("shufflin");
-    state.colors = new Array(15).fill(0).map(() => {
-      return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-    });
+    state.currentColor = `#${Math.floor(Math.random() * 16777215).toString(
+      16
+    )}`;
+    outports.color.value = state.currentColor;
   };
 
   const render = () => {
@@ -76,5 +65,5 @@ export default function color(globalCallbacks) {
       <input type="color" value=${state.currentColor} @input=${colorInput} />`;
   };
 
-  return { ui, inports, outports, state, init, resize, render };
+  return { ui, inports, outports, state, init, render };
 }
