@@ -40,22 +40,23 @@ export function addToolInteraction(tools, state) {
 
   listen("pointerdown", ".pin", (e) => {
     let [toolID, toolInfo] = getToolDetails(e);
-    toolInfo.ui.toolbar = !toolInfo.ui.toolbar;
-    console.log("Toggle pin");
+    toolInfo.uiState.toolbar = !toolInfo.uiState.toolbar;
   });
 
   listen("pointerdown", ".toggle-state", (e) => {
     let [toolID, toolInfo] = getToolDetails(e);
-    toolInfo.ui.statePanel = !toolInfo.ui.statePanel;
+    toolInfo.uiState.statePanel = !toolInfo.uiState.statePanel;
     console.log("Toggle state");
   });
 
   listen("pointerdown", ".outports .port", (e) => {
     let [toolID, toolInfo] = getToolDetails(e);
-    console.log("outport");
+    const portID = e.target.dataset.portid;
+    console.log(`${toolID} outport ${portID}`);
   });
   listen("pointerdown", ".inports .port", (e) => {
     let [toolID, toolInfo] = getToolDetails(e);
-    console.log("inport");
+    const portID = e.target.dataset.portid;
+    console.log(`${toolID} inport ${portID}`);
   });
 }

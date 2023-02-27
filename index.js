@@ -2,11 +2,11 @@ import { html, render } from "lit-html";
 import { dracula } from "./themes";
 import { addPanZoom } from "./addPanZoom";
 import { addToolInteraction } from "./addToolInteraction";
-import { statePane } from "./ui/statePane";
+import { toolUI } from "./ui/toolInterface";
 
 let globalState = {
   initialized: false,
-  toolbox: ["test", "textInput", "toggle", "colorInput"],
+  toolbox: ["test", "color", "toggle", "text"],
   imports: {},
   toolchain: {
     modules: {},
@@ -20,66 +20,79 @@ let globalState = {
 
 let defaultTool = {
   moduleClass: null,
-  displayName: null,
-  inports: [],
-  outports: [],
+  inports: {},
+  outports: {},
   state: {},
   lifecycle: {},
-  view: { height: "100px", width: "100px" },
+  ui: { displayName: null, height: "100px", width: "100px" },
   pos: { x: 0, y: 0 },
   focus: false,
-  ui: {
+  uiState: {
     toolbar: true,
     statePanel: false,
   },
 };
 
+const toolchainLog = (toolID, message) => {
+  console.log(`${toolID} says: ${message}`);
+};
+
+const globalCallbacks = (toolID) => {
+  return {
+    log: (msg) => toolchainLog(toolID, msg),
+  };
+};
+
 let modID = 0;
 
-function toolUI(toolID, mod, toolView) {
-  return html`<div
-    class="mod ${mod.ui.toolbar ? "show-toolbar" : "hide-toolbar"} ${
-    mod.ui.statePanel ? "show-state" : "hide-state"
-  }"
-    data-toolid=${toolID}
-    style="
-      --x:${mod.pos.x}px;
-      --y:${mod.pos.y}px;
-      --ui-width:${mod.view.width};
-      --ui-height:${mod.view.height};">
-    <div class="module-background">
-      <div class="b1"></div>
-      <div class="b2"></div>
-      <div class="b3"></div>
-    </div>
-      <div class="toolbar">
-        <span class="module-displayname">${mod.displayName}</span>
-        <span class="module-actions">
-          <i class="toggle-state fa-solid fa-code fa-xs "></i>
-          <i class="remove fa-solid fa-rectangle-xmark"></i>
-          <i class="pin fa-solid fa-xs fa-thumbtack"></i>
-          <i class="drag fa-solid fa-grip-vertical"></i>
-        </span>
-      </div>
-      <div class="inports port-container">
-        <div class="port"></div>
-        <div class="port"></div>
-      </div>
-      <div class="outports port-container">
-        <div class="port"></div>
-        <div class="port"></div>
-        <div class="port"></div>
-        <div class="port"></div>
-      </div>
-      <div class="tool-view">${toolView(mod.state)}</div>
-      <div class="module-state">${statePane(mod.state)}</div>
-    </div>
-  </div>`;
-}
+// function portUI(portID, portInfo) {
+//   return html`<div class="port" data-portid=${portID} title=${portID}></div>`;
+// }
+
+// function toolUI(toolID, tool) {
+//   return html`<div
+//     class="mod ${tool.uiState.toolbar ? "show-toolbar" : "hide-toolbar"} ${
+//     tool.uiState.statePanel ? "show-state" : "hide-state"
+//   }"
+//     data-toolid=${toolID}
+//     style="
+//       --x:${tool.pos.x}px;
+//       --y:${tool.pos.y}px;
+//       --ui-width:${tool.ui.width};
+//       --ui-height:${tool.ui.height};">
+//     <div class="module-background">
+//       <div class="b1"></div>
+//       <div class="b2"></div>
+//       <div class="b3"></div>
+//     </div>
+//       <div class="toolbar">
+//         <span class="module-displayname">${tool.ui.displayName}</span>
+//         <span class="module-actions">
+//           <i class="toggle-state fa-solid fa-code fa-xs "></i>
+//           <i class="remove fa-solid fa-rectangle-xmark"></i>
+//           <i class="pin fa-solid fa-xs fa-thumbtack"></i>
+//           <i class="drag fa-solid fa-grip-vertical"></i>
+//         </span>
+//       </div>
+//       <div class="inports port-container">
+//         ${Object.entries(tool.inports).map(([portID, port]) =>
+//           portUI(portID, port)
+//         )}
+//       </div>
+//       <div class="outports port-container">
+//         ${Object.entries(tool.outports).map(([portID, port]) =>
+//           portUI(portID, port)
+//         )}
+//       </div>
+//       <div class="tool-view">${tool.render()}</div>
+//       <div class="module-state">${statePane(tool.state)}</div>
+//     </div>
+//   </div>`;
+// }
 
 function renderModules(state) {
   return Object.entries(state.toolchain.modules).map(([id, tool]) => {
-    return toolUI(id, tool, state.imports[tool.moduleClass].view);
+    return toolUI(id, tool);
   });
 }
 
@@ -107,46 +120,32 @@ const view = (state) => {
   </div>`;
 };
 
-function addToolToToolchain(toolName, lifecycle) {
-  // Deep copy the default config
-  let config = JSON.parse(JSON.stringify(globalState.imports[toolName].config));
+function addToolToToolchain(toolName) {
+  const toolConstructor = globalState.imports[toolName];
 
   let toolID = `${toolName}_${modID}`;
-
-  // Deep copy the default tool
   let newTool = JSON.parse(JSON.stringify(defaultTool));
 
-  Object.assign(newTool, config);
-
-  newTool.moduleClass = toolName;
   newTool.pos.x += modID * 30;
   newTool.pos.y += modID * 30;
 
-  // Run the tool's init method
-  if ("init" in lifecycle) {
-    lifecycle.init(newTool.state);
+  Object.assign(newTool, toolConstructor(globalCallbacks(toolID)));
+
+  if ("init" in newTool) {
+    newTool.init();
   }
 
   globalState.toolchain.modules[toolID] = newTool;
   modID++;
 }
 
-function importTool(toolName) {
-  import(`./tools/${toolName}.js`)
-    .then((tool) => {
-      globalState.imports[toolName] = {
-        config: tool.config,
-        view: tool.view,
-        lifecycle: tool.lifecycle ?? {},
-      };
-      addToolToToolchain(toolName, tool.lifecycle);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+async function importTool(toolName) {
+  const { default: toolExport } = await import(`./tools/${toolName}.js`);
+  globalState.imports[toolName] = toolExport;
+  addToolToToolchain(toolName);
 }
 
-function addTool(toolName) {
+async function addTool(toolName) {
   if (toolName in globalState.imports) {
     addToolToToolchain(toolName, globalState.imports[toolName].lifecycle);
   } else {

@@ -2,26 +2,26 @@ import { html } from "lit-html";
 
 export default function color(globalCallbacks) {
   const ui = {
-    displayName: "toggle",
-    width: "100px",
+    displayName: "text",
+    width: "200px",
     height: "50px",
   };
 
   const state = {
-    toggle: false,
+    text: "hello world",
   };
 
   const inports = {};
 
   const outports = {
-    toggle: {
-      type: "boolean",
-      value: state.toggle,
+    text: {
+      type: "string",
+      value: state.text,
     },
   };
 
-  function onInput(e) {
-    state.toggle = e.target.checked;
+  function onInput(e, state) {
+    state.text = e.target.value;
   }
 
   const init = () => {
@@ -34,7 +34,10 @@ export default function color(globalCallbacks) {
           width: 100%;
         }
       </style>
-      <input type="checkbox" ?checked=${state.toggle} @input=${onInput} />`;
+      <input
+        type="text"
+        value=${state.text}
+        @input=${(e) => onInput(e, state)} />`;
   };
 
   return { ui, inports, outports, state, init, render };

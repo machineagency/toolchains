@@ -16,13 +16,12 @@
   - [x] background
   - [x] click button to add a tool
   - [ ] collapse all toolui
-  - [ ] drag select modules
+  - [ ] box select tools for moving
   - [ ] nice pipe routing
-  - [ ] module alignment/layout
+  - [ ] tool alignment/layout
   - [ ] mobile pan zoom
-- toolchain ui
   - [ ] tool layering
-  - [ ] active tool
+  - [ ] active tool should be highlighted?
   - [ ] toolchain shape pane
 - tool ui
   - [x] render template tool ui
@@ -36,3 +35,28 @@
   - [x] set initial width and height from tool config
   - how to handle tool style scoping?
   - should i stick with lit-html templating?
+
+## tool implementation
+
+- initialized from a default/saved state
+- returns lifecycle methods
+- tool lifecycle
+  - init
+  - save
+  - reload
+  - render
+  - resize
+  - connect
+  - disconnect
+  - inportsUpdated
+
+```js
+export function tool(toolState, globalState) {
+  let localVar = 123;
+
+  const init = () => {};
+  const resize = () => {};
+  const inports = () => {};
+  const view = () => {};
+}
+```
