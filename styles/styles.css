@@ -22,6 +22,8 @@ body {
 }
 
 #top-bar {
+  position: fixed;
+  width: 100%;
   background-color: #282a36;
   color: #f8f8f2;
   display: flex;
@@ -80,4 +82,21 @@ body {
   width: 100%;
   height: 100%;
   position: fixed;
+}
+
+#toolchain {
+  position: fixed;
+}
+
+#pipes {
+  position: fixed;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.pipe {
+  fill: none;
+  stroke: var(--port);
+  stroke-width: 3px;
 }

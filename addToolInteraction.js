@@ -1,7 +1,7 @@
 import { createListener } from "./utils.js";
 
-export function addToolInteraction(tools, state) {
-  const listen = createListener(tools);
+export function addToolInteraction(workspace, state) {
+  const listen = createListener(workspace);
 
   function getToolDetails(e) {
     let id = parentToolElement(e).dataset.toolid;
@@ -57,16 +57,5 @@ export function addToolInteraction(tools, state) {
     let [toolID, toolInfo] = getToolDetails(e);
     toolInfo.uiState.statePanel = !toolInfo.uiState.statePanel;
     console.log("Toggle state");
-  });
-
-  listen("pointerdown", ".outports .port", (e) => {
-    let [toolID, toolInfo] = getToolDetails(e);
-    const portID = e.target.dataset.portid;
-    console.log(`${toolID} outport ${portID}`);
-  });
-  listen("pointerdown", ".inports .port", (e) => {
-    let [toolID, toolInfo] = getToolDetails(e);
-    const portID = e.target.dataset.portid;
-    console.log(`${toolID} inport ${portID}`);
   });
 }

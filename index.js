@@ -1,30 +1,27 @@
-import { html, render } from "lit-html";
+import { html, render, svg } from "lit-html";
 import { dracula } from "./themes";
 
 import { addPanZoom } from "./addPanZoom";
+import { addMouseTracking } from "./addMouseTracking";
 import { addToolInteraction } from "./addToolInteraction";
+import { addPipeConnection } from "./addPipeConnection";
 
 import { toolView } from "./ui/toolView";
 
 let globalState = {
+  mouse: null,
   initialized: false,
   toolbox: ["test", "dataViewer", "color", "toggle", "text"],
   imports: {},
   toolchain: {
     tools: {},
-    shape: {},
+    pipes: {},
   },
   theme: dracula,
   panZoom: null,
   transforming: false,
   selection: new Set(),
-};
-
-const layers = {
-  SELECTED: 5,
-  BACKGROUND: 0,
-  PIPES: 1,
-  TOOLS: 3,
+  keysPressed: [],
 };
 
 let defaultTool = {
@@ -37,7 +34,6 @@ let defaultTool = {
   pos: { x: 0, y: 0 },
   focus: false,
   uiState: {
-    layer: layers.TOOLS,
     toolbar: true,
     statePanel: false,
   },
@@ -61,6 +57,26 @@ function renderTools(state) {
   });
 }
 
+function calculatePipeBezier(pipeInfo) {
+  let start = pipeInfo.start ?? globalState.mouse;
+  let end = pipeInfo.end ?? globalState.mouse;
+
+  return `M${start.x},${start.y}
+    C${start.x + 100},${start.y}
+    ${end.x - 100},${end.y}
+    ${end.x},${end.y}`;
+}
+
+function renderPipes(state) {
+  return Object.entries(state.toolchain.pipes).map(([pipeID, pipeData]) => {
+    console.log();
+
+    return svg`<path class="pipe" data-pipeid=${pipeID} d="${calculatePipeBezier(
+      pipeData
+    )}" />`;
+  });
+}
+
 const view = (state) => {
   const x = state.panZoom ? state.panZoom.x() : 0;
   const y = state.panZoom ? state.panZoom.y() : 0;
@@ -71,7 +87,10 @@ const view = (state) => {
       <canvas
         id="background"
         style="--offset-x: ${x}px;--offset-y: ${y}px;--scale: ${scale}"></canvas>
-      <div id="tools" class="transform-group">${renderTools(state)}</div>
+      <svg id="pipes" preserveAspectRatio="xMidYMid meet">
+        <g class="transform-group">${renderPipes(state)}</g>
+      </svg>
+      <div id="toolchain" class="transform-group">${renderTools(state)}</div>
       <div id="toolbox">
         <div id="toolbox-title">toolbox</div>
         ${state.toolbox.map(
@@ -146,12 +165,14 @@ window.addEventListener("resize", () => {
 
 init();
 
-const background = document.getElementById("background");
+const svgBackground = document.getElementById("pipes");
 const workspace = document.getElementById("workspace");
 
-const panZoom = addPanZoom(background, globalState);
+const panZoom = addPanZoom(svgBackground, globalState);
 globalState.panZoom = panZoom;
 
+addMouseTracking(workspace, globalState);
+addPipeConnection(workspace, globalState);
 addToolInteraction(workspace, globalState);
 
 window.requestAnimationFrame(r);

@@ -16,7 +16,7 @@ export function addPanZoom(el, state) {
       "translate(" + pointX + "px, " + pointY + "px) scale(" + scale + ")";
   }
 
-  function svgPoint({ x, y }) {
+  function toWorkspaceCoords({ x, y }) {
     let newX = (x - pointX) / scale;
     let newY = (y - pointY) / scale;
 
@@ -100,6 +100,6 @@ export function addPanZoom(el, state) {
     x: () => pointX,
     y: () => pointY,
     setScaleXY,
-    svgPoint,
+    toWorkspaceCoords,
   };
 }

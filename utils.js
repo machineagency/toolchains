@@ -11,3 +11,9 @@ export const createListener =
       if (selectorString === "" || matchesTrigger(e, selectorString)) event(e);
     });
   };
+
+// pipe ID utils
+
+export const buildPipeID = (startTool, startPort, endTool, endPort) => {
+  return `${startTool}_${startPort}_${endTool}_${endPort}`;
+};

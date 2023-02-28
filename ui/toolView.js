@@ -14,7 +14,7 @@ function portView(portID, portInfo) {
     class="port"
     data-portid=${portID}
     style="--port-color: ${portTypes[portInfo.type]}">
-    <div class="port-id">${portID}</div>
+    ${portID}
   </div>`;
 }
 
