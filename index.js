@@ -2,7 +2,7 @@ import { html, render, svg } from "lit-html";
 import { dracula } from "./themes";
 
 import { addPanZoom } from "./addPanZoom";
-import { addMouseTracking } from "./addMouseTracking";
+import { addGlobalInteraction } from "./addGlobalInteraction";
 import { addToolInteraction } from "./addToolInteraction";
 import { addPipeConnection } from "./addPipeConnection";
 
@@ -171,7 +171,7 @@ const workspace = document.getElementById("workspace");
 const panZoom = addPanZoom(svgBackground, globalState);
 globalState.panZoom = panZoom;
 
-addMouseTracking(workspace, globalState);
+addGlobalInteraction(workspace, globalState);
 addPipeConnection(workspace, globalState);
 addToolInteraction(workspace, globalState);
 

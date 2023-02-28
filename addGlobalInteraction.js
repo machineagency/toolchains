@@ -1,8 +1,4 @@
-import { createListener } from "./utils.js";
-
-export const addMouseTracking = (workspace, state) => {
-  const listen = createListener(workspace);
-
+export const addGlobalInteraction = (workspace, state) => {
   window.addEventListener("pointermove", (e) => {
     state.mouse = state.panZoom.toWorkspaceCoords({
       x: e.clientX,
@@ -13,7 +9,7 @@ export const addMouseTracking = (workspace, state) => {
   window.addEventListener("keydown", (e) => {
     if (!state.keysPressed.includes(e.key)) state.keysPressed.push(e.key);
 
-    // Reset selected points on escape
+    // Delete any loose pipe on escape
     if (e.key === "Escape") delete state.toolchain.pipes["loose"];
   });
 
