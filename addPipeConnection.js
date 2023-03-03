@@ -12,15 +12,6 @@ export function addPipeConnection(workspace, state) {
     return e.target.closest(".tool");
   }
 
-  function portConnectionPoint(portEl) {
-    let rect = portEl.getBoundingClientRect();
-
-    return state.panZoom.toWorkspaceCoords({
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2,
-    });
-  }
-
   function addPipe(start, end) {
     if (start.toolID == end.toolID) {
       console.log("Can't connect a tool to itself!");
@@ -39,7 +30,6 @@ export function addPipeConnection(workspace, state) {
   listen("click", ".inports .port", (e) => {
     const [toolID, toolInfo] = getToolDetails(e);
     const portID = e.target.dataset.portid;
-    const coords = portConnectionPoint(e.target);
 
     if ("loose" in state.toolchain.pipes) {
       let start = state.toolchain.pipes["loose"].start;
@@ -50,8 +40,6 @@ export function addPipeConnection(workspace, state) {
       let end = {
         toolID: toolID,
         portID: portID,
-        x: coords.x,
-        y: coords.y,
       };
 
       addPipe(start, end);
@@ -61,8 +49,6 @@ export function addPipeConnection(workspace, state) {
         end: {
           toolID: toolID,
           portID: portID,
-          x: coords.x,
-          y: coords.y,
         },
       };
     }
@@ -71,7 +57,6 @@ export function addPipeConnection(workspace, state) {
   listen("pointerdown", ".outports .port", (e) => {
     let [toolID, toolInfo] = getToolDetails(e);
     const portID = e.target.dataset.portid;
-    const coords = portConnectionPoint(e.target);
 
     if ("loose" in state.toolchain.pipes) {
       let end = state.toolchain.pipes["loose"].end;
@@ -82,8 +67,6 @@ export function addPipeConnection(workspace, state) {
       let start = {
         toolID: toolID,
         portID: portID,
-        x: coords.x,
-        y: coords.y,
       };
 
       addPipe(start, end);
@@ -93,8 +76,6 @@ export function addPipeConnection(workspace, state) {
         start: {
           toolID: toolID,
           portID: portID,
-          x: coords.x,
-          y: coords.y,
         },
       };
     }

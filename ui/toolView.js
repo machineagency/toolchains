@@ -9,9 +9,10 @@ const portTypes = {
   object: "var(--orange)",
 };
 
-function portView(portID, portInfo) {
+function portView(portID, portInfo, portSide) {
   return html`<div
     class="port"
+    data-portside=${portSide}
     data-portid=${portID}
     style="--port-color: ${portTypes[portInfo.type]}">
     ${portID}
@@ -45,12 +46,12 @@ export function toolView(toolID, tool) {
       </div>
       <div class="inports port-container">
         ${Object.entries(tool.inports).map(([portID, port]) =>
-          portView(portID, port)
+          portView(portID, port, "inport")
         )}
       </div>
       <div class="outports port-container">
         ${Object.entries(tool.outports).map(([portID, port]) =>
-          portView(portID, port)
+          portView(portID, port, "outport")
         )}
       </div>
       <div class="tool-view">${tool.render()}</div>

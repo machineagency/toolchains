@@ -49,14 +49,18 @@ body {
   display: flex;
   flex-direction: column;
   user-select: none;
-  font-weight: bold;
   border: 1px solid var(--black);
 }
 
-#toolbox-title {
+.ui-pane {
+  background-color: var(--tool-background);
+}
+
+.pane-header {
   background-color: var(--black);
   color: var(--text-light);
   padding: 0.2rem;
+  font-weight: bold;
 }
 
 #toolbox button {
@@ -65,6 +69,21 @@ body {
   cursor: pointer;
 }
 
+/* TOOLCHAIN INFO */
+
+#toolchain-info {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  border: 1px solid var(--black);
+}
+
+.info-header {
+  font-weight: bold;
+}
 /* BACKGROUND */
 
 #background {

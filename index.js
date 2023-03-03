@@ -58,8 +58,8 @@ function renderTools(state) {
 }
 
 function calculatePipeBezier(pipeInfo) {
-  let start = pipeInfo.start ?? globalState.mouse;
-  let end = pipeInfo.end ?? globalState.mouse;
+  let start = pipeInfo.startCoords;
+  let end = pipeInfo.endCoords;
 
   return `M${start.x},${start.y}
     C${start.x + 100},${start.y}
@@ -67,12 +67,46 @@ function calculatePipeBezier(pipeInfo) {
     ${end.x},${end.y}`;
 }
 
+function portConnectionPoint(state, portEl) {
+  let rect = portEl.getBoundingClientRect();
+
+  return state.panZoom.toWorkspaceCoords({
+    x: rect.left + rect.width / 2,
+    y: rect.top + rect.height / 2,
+  });
+}
+
+function queryPortCoords(state, pipeData) {
+  let startCoords, endCoords;
+  if (pipeData.start) {
+    let startPort = document.querySelector(
+      `[data-toolid="${pipeData.start.toolID}"] [data-portside="outport"][data-portid="${pipeData.start.portID}"]`
+    );
+    startCoords = portConnectionPoint(state, startPort);
+  } else {
+    startCoords = state.mouse;
+  }
+  if (pipeData.end) {
+    let endPort = document.querySelector(
+      `[data-toolid="${pipeData.end.toolID}"] [data-portside="inport"][data-portid="${pipeData.end.portID}"]`
+    );
+    endCoords = portConnectionPoint(state, endPort);
+  } else {
+    endCoords = state.mouse;
+  }
+
+  return {
+    startCoords,
+    endCoords,
+  };
+}
+
 function renderPipes(state) {
   return Object.entries(state.toolchain.pipes).map(([pipeID, pipeData]) => {
-    console.log();
+    let portCoords = queryPortCoords(state, pipeData);
 
     return svg`<path class="pipe" data-pipeid=${pipeID} d="${calculatePipeBezier(
-      pipeData
+      portCoords
     )}" />`;
   });
 }
@@ -92,12 +126,22 @@ const view = (state) => {
       </svg>
       <div id="toolchain" class="transform-group">${renderTools(state)}</div>
       <div id="toolbox">
-        <div id="toolbox-title">toolbox</div>
+        <div class="pane-header">toolbox</div>
         ${state.toolbox.map(
           (toolName) =>
             html`<button class="add-tool" @click=${() => addTool(toolName)}>
               ${toolName}
             </button>`
+        )}
+      </div>
+      <div id="toolchain-info" class="ui-pane">
+        <div class="pane-header">tools</div>
+        ${Object.keys(state.toolchain.tools).map(
+          (toolID) => html`<div>${toolID}</div>`
+        )}
+        <div class="pane-header">pipes</div>
+        ${Object.keys(state.toolchain.pipes).map(
+          (pipeID) => html`<div>${pipeID}</div>`
         )}
       </div>
     </div>
