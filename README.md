@@ -7,8 +7,8 @@
   - [ ] connect/disconnect ports
     - [x] draw pipes between ports
     - [ ] send data from outports to inports
-    - [ ] pipes update when tools moved
-    - [ ] remove pipes between ports
+    - [x] pipes update when tools moved
+    - [x] remove pipes between ports
   - [ ] save/load toolchain state
   - [ ] basic port type checking
 - tool lifecycle

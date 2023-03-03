@@ -114,8 +114,22 @@ body {
   height: 100%;
 }
 
-.pipe {
+.pipe-background {
+  /* the gray pipe */
   fill: none;
   stroke: var(--port);
   stroke-width: 3px;
+}
+
+.pipe {
+  /* the actual pipe, which is thicker, hidden, and revealed on hover */
+  fill: none;
+  stroke: var(--yellow);
+  stroke-width: 5px;
+  stroke-opacity: 0;
+  cursor: pointer;
+}
+
+.pipe:hover {
+  stroke-opacity: 1;
 }

@@ -7,6 +7,7 @@ import { addToolInteraction } from "./addToolInteraction";
 import { addPipeConnection } from "./addPipeConnection";
 
 import { toolView } from "./ui/toolView";
+import { pipeInteraction } from "./pipeInteraction";
 
 let globalState = {
   mouse: null,
@@ -104,10 +105,9 @@ function queryPortCoords(state, pipeData) {
 function renderPipes(state) {
   return Object.entries(state.toolchain.pipes).map(([pipeID, pipeData]) => {
     let portCoords = queryPortCoords(state, pipeData);
+    let pipeD = calculatePipeBezier(portCoords);
 
-    return svg`<path class="pipe" data-pipeid=${pipeID} d="${calculatePipeBezier(
-      portCoords
-    )}" />`;
+    return svg`<path class="pipe-background" data-pipeid=${pipeID} d="${pipeD}" /><path class="pipe" data-pipeid=${pipeID} d="${pipeD}" />`;
   });
 }
 
@@ -218,5 +218,6 @@ globalState.panZoom = panZoom;
 addGlobalInteraction(workspace, globalState);
 addPipeConnection(workspace, globalState);
 addToolInteraction(workspace, globalState);
+pipeInteraction(workspace, globalState);
 
 window.requestAnimationFrame(r);
