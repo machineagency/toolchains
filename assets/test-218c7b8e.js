@@ -1,4 +1,4 @@
-import{y as r}from"./index-13e005d8.js";function f(n){const i={displayName:"Test",width:"200px",height:"200px"},t={colors:[],currentColor:"#ffff00",num:5e5,floatieBoi:25.8,obj:{currentColor:"#ffff00",num:5e5,floatieBoi:25.8}},a={text:{type:"string",value:"asdf"},num:{type:"number",value:57},bool:{type:"boolean",value:!1}},l={text:{type:"string",value:"asdf"},num:{type:"number",value:57},bool:{type:"boolean",value:!1}},s=()=>{o()},u=()=>{},o=e=>{n.log("shufflin!!!"),t.colors=new Array(30).fill(0).map(()=>`#${Math.floor(Math.random()*16777215).toString(16)}`)};return{ui:i,inports:a,outports:l,state:t,init:s,resize:u,render:()=>r`<style>
+import{y as r}from"./index-5b250036.js";const a={inports:{text:{type:"string",value:"asdf"},num:{type:"number",value:57},bool:{type:"boolean",value:!1}},outports:{text:{type:"string",value:"asdf"},num:{type:"number",value:57},bool:{type:"boolean",value:!1}},state:{colors:[],currentColor:"#ffff00",num:5e5,floatieBoi:25.8,obj:{currentColor:"#ffff00",num:5e5,floatieBoi:25.8}},ui:{displayName:"Test",width:"200px",height:"200px"}};function l(s,u,t){const n=()=>{o()},i=()=>{},o=e=>{t.colors=new Array(30).fill(0).map(()=>`#${Math.floor(Math.random()*16777215).toString(16)}`)};return{init:n,resize:i,render:()=>r`<style>
         .container {
           display: flex;
           flex-direction: column;
@@ -25,4 +25,4 @@ import{y as r}from"./index-13e005d8.js";function f(n){const i={displayName:"Test
           ${t.colors.map(e=>r`<div style="background-color: ${e};"></div>`)}
         </div>
         <button @click=${o}>Shuffle!</button>
-      </div>`}}export{f as default};
+      </div>`}}const f={config:a,tool:l};export{f as default};

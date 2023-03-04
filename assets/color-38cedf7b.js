@@ -1,4 +1,4 @@
-import{y as c}from"./index-13e005d8.js";function s(l){const n={displayName:"Color",width:"200px",height:"200px"},o={currentColor:"#ffff00"},e={},r={color:{type:"string",value:null}};function a(t){o.currentColor=t.target.value,r.color.value=t.target.value}return{ui:n,inports:e,outports:r,state:o,init:()=>{o.currentColor=`#${Math.floor(Math.random()*16777215).toString(16)}`,r.color.value=o.currentColor},render:()=>c`<style>
+import{y as c}from"./index-5b250036.js";const l={inports:{},outports:{color:{type:"string",value:null}},state:{currentColor:"#ffff00"},ui:{displayName:"Color",width:"200px",height:"200px"}};function a(i,r,o){function e(n){o.currentColor=n.target.value,r.color.value=n.target.value}function t(){o.currentColor=`#${Math.floor(Math.random()*16777215).toString(16)}`,r.color.value=o.currentColor}return{init:t,render:()=>c`<style>
         input[type="color"] {
           appearance: none;
           -moz-appearance: none;
@@ -27,4 +27,4 @@ import{y as c}from"./index-13e005d8.js";function s(l){const n={displayName:"Colo
           padding: 0;
         }
       </style>
-      <input type="color" value=${o.currentColor} @input=${a} />`}}export{s as default};
+      <input type="color" value=${o.currentColor} @input=${e} />`}}const d={config:l,tool:a};export{d as default};

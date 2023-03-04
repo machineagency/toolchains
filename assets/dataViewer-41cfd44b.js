@@ -1,1 +1,0 @@
-import{y as r}from"./index-13e005d8.js";function d(o){const e={displayName:"data viewer",width:"200px",height:"100px"},a={},t={data:{type:"object",value:null}};return{ui:e,inports:t,outports:{},state:a,render:()=>r`<div class="viewer">${JSON.stringify(t.data)}</div>`}}export{d as default};
