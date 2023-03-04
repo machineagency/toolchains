@@ -27,20 +27,6 @@ let globalState = {
   keysPressed: [],
 };
 
-// let defaultTool = {
-//   toolClass: null,
-//   inports: {},
-//   outports: {},
-//   state: {},
-//   ui: { displayName: null, height: "100px", width: "100px" },
-//   pos: { x: 0, y: 0 },
-//   focus: false,
-//   uiState: {
-//     toolbar: true,
-//     statePanel: false,
-//   },
-// };
-
 const toolchainLog = (toolID, message) => {
   console.log(`${toolID} says: ${message}`);
 };
@@ -101,21 +87,21 @@ const view = (state) => {
             </button>`
         )}
       </div>
-      <div id="toolchain-info" class="ui-pane">
+      <!-- <div id="toolchain-info" class="ui-pane">
         <div class="pane-header">tools</div>
         ${Object.entries(state.toolchain.tools).map(
-          ([toolID, toolInfo]) =>
-            html`<div>
-              ${toolID}${JSON.stringify(toolInfo.outports)}${JSON.stringify(
-                toolInfo.inports
-              )}
-            </div>`
-        )}
+        ([toolID, toolInfo]) =>
+          html`<div>
+            ${toolID}${JSON.stringify(toolInfo.outports)}${JSON.stringify(
+              toolInfo.inports
+            )}
+          </div>`
+      )}
         <div class="pane-header">pipes</div>
         ${Object.keys(state.toolchain.pipes).map(
-          (pipeID) => html`<div>${pipeID}</div>`
-        )}
-      </div>
+        (pipeID) => html`<div>${pipeID}</div>`
+      )}
+      </div> -->
     </div>
   </div>`;
 };

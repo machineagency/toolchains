@@ -4,9 +4,9 @@
   - [x] add/remove tools
   - [x] pan/zoom workspace
   - [x] drag tools
-  - [ ] connect/disconnect ports
+  - [x] add/remove pipes
     - [x] draw pipes between ports
-    - [ ] send data from outports to inports
+    - [x] send data from outports to inports
     - [x] pipes update when tools moved
     - [x] remove pipes between ports
   - [ ] save/load toolchain state
@@ -16,7 +16,6 @@
   - [ ] resize
   - [ ] save state
   - [ ] load state
-  - [ ] update port
 - tool ui
   - [x] set initial width and height from tool config
   - [x] render template tool ui
@@ -50,12 +49,10 @@
 ## tool implementation
 
 **Current approach:** when a tool is imported, we import the default export from
-the tool's file. This should be a function which returns the tool's
-configuration, state, and lifecycle methods. It can optionally accept a
-`toolchain` parameter, which is an object containing methods the tool can use to
-interact with the global toolchain interface, e.g. by logging to the console.
+the tool's file. This should be a object containing the tool's configuration and
+a function which returns its lifecycle methods.
 
-- tool methods
+- lifecycle methods
   - `render` - returns a template that is rendered in a toolpane
   - `init` - run when the tool is added to the toolchain. _saved state will be
     passed in if present?_
@@ -75,62 +72,61 @@ interact with the global toolchain interface, e.g. by logging to the console.
 ### Example tool definition
 
 ```js
-export default function tool(globalCallbacks) {
-  const ui = {
-    displayName: "Example",
-    width: "200px",
-    height: "200px",
-  };
+import { html } from "lit-html";
 
-  const state = {
+const config = {
+  inports: {
+    text: {
+      type: "string",
+      value: "asdf",
+    },
+    num: {
+      type: "number",
+      value: 57,
+    },
+    bool: {
+      type: "boolean",
+      value: false,
+    },
+  },
+  outports: {
+    text: {
+      type: "string",
+      value: "asdf",
+    },
+    num: {
+      type: "number",
+      value: 57,
+    },
+    bool: {
+      type: "boolean",
+      value: false,
+    },
+  },
+  state: {
     colors: [],
     currentColor: "#ffff00",
     num: 500000,
     floatieBoi: 25.8,
     obj: { currentColor: "#ffff00", num: 500000, floatieBoi: 25.8 },
-  };
+  },
+  ui: {
+    displayName: "Test",
+    width: "200px",
+    height: "200px",
+  },
+};
 
-  const inports = {
-    text: {
-      type: "string",
-      value: "asdf",
-    },
-    num: {
-      type: "number",
-      value: 57,
-    },
-    bool: {
-      type: "boolean",
-      value: false,
-    },
-  };
-
-  const outports = {
-    text: {
-      type: "string",
-      value: "asdf",
-    },
-    num: {
-      type: "number",
-      value: 57,
-    },
-    bool: {
-      type: "boolean",
-      value: false,
-    },
-  };
+function test(inports, outports, state) {
+  let localVar = Math.floor(Math.random() * 40);
 
   const init = () => {
-    // things here run when added to toolchain. can initialize state variables
     shuffle();
   };
 
-  const resize = () => {
-    // this runs when the tool ui is resized
-  };
+  const resize = () => {};
 
   const shuffle = (e) => {
-    globalCallbacks.log("shufflin!!!");
     state.colors = new Array(30).fill(0).map(() => {
       return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
     });
@@ -157,15 +153,20 @@ export default function tool(globalCallbacks) {
         }
         button {
           width: 100%;
-        }</style
-      ><button @click=${shuffle}>Shuffle!</button>
-      <div class="grid-container">
-        ${state.colors.map(
-          (color) => html`<div style="background-color: ${color};"></div>`
-        )}
-      </div> `;
+        }
+      </style>
+      <div class="container">
+        <div class="grid-container">
+          ${state.colors.map(
+            (color) => html`<div style="background-color: ${color};"></div>`
+          )}
+        </div>
+        <button @click=${shuffle}>Shuffle!</button>
+      </div>`;
   };
 
-  return { ui, inports, outports, state, init, resize, render };
+  return { init, resize, render };
 }
+
+export default { config, tool: test };
 ```
