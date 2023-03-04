@@ -3,7 +3,6 @@ import { Directive, directive } from "lit-html/directive.js";
 import { stateView } from "./stateView";
 
 class Shadow extends Directive {
-  attributeNames = "";
   constructor(partInfo) {
     super(partInfo);
     partInfo.parentNode.attachShadow({ mode: "open" });

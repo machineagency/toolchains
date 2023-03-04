@@ -1,4 +1,5 @@
 import { createListener } from "./utils.js";
+import _ from "lodash";
 
 export function addToolInteraction(workspace, state) {
   const listen = createListener(workspace);
@@ -23,6 +24,7 @@ export function addToolInteraction(workspace, state) {
 
   listen("pointerdown", ".remove", (e) => {
     let [toolID, toolInfo] = getToolDetails(e);
+    console.log(`Removing ${toolID}`);
     let pipes = getConnectedPipes(toolID);
     pipes.forEach(([pipeID, pipe]) => {
       if (pipe.end.toolID != toolID) {
@@ -30,11 +32,12 @@ export function addToolInteraction(workspace, state) {
         let endPort = endTool.inports[pipe.end.portID];
         endPort.value = null;
       }
-      delete state.toolchain.pipes[pipeID];
+      state.toolchain.pipes = _.omit(state.toolchain.pipes, pipeID);
     });
 
     // TODO: should call the tool's remove lifecycle method
-    delete state.toolchain.tools[toolID];
+    state.toolchain.tools = _.omit(state.toolchain.tools, toolID);
+    // delete state.toolchain.tools[toolID];
   });
 
   listen("pointerdown", ".drag", (e) => {

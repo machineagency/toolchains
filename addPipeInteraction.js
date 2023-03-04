@@ -5,7 +5,6 @@ export function addPipeInteraction(workspace, state) {
 
   listen("contextmenu", ".pipe", (e) => {
     e.preventDefault();
-    console.log(e.target.dataset.pipeid);
     delete state.toolchain.pipes[e.target.dataset.pipeid];
   });
 }
