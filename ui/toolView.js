@@ -1,5 +1,19 @@
-import { html } from "lit-html";
+import { render, html } from "lit-html";
+import { Directive, directive } from "lit-html/directive.js";
 import { stateView } from "./stateView";
+
+class Shadow extends Directive {
+  attributeNames = "";
+  constructor(partInfo) {
+    super(partInfo);
+    partInfo.parentNode.attachShadow({ mode: "open" });
+  }
+  update(part, arr) {
+    render(arr[0], part.parentNode.shadowRoot);
+  }
+}
+
+const shadow = directive(Shadow);
 
 const portTypes = {
   boolean: "var(--green)",
@@ -54,8 +68,7 @@ export function toolView(toolID, tool) {
           portView(portID, port, "outport")
         )}
       </div>
-
-      <div class="tool-view">${tool.lifecycle.render()}</div>
+      <div class="tool-view">${shadow(tool.lifecycle.render())}</div>
       <div class="tool-state">${stateView(tool.state)}</div>
     </div>
   </div>`;

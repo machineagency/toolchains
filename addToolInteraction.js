@@ -12,9 +12,26 @@ export function addToolInteraction(workspace, state) {
     return e.target.closest(".tool");
   }
 
+  function getConnectedPipes(toolID) {
+    let pipes = Object.entries(state.toolchain.pipes).filter(
+      ([pipeID, pipeData]) => {
+        return pipeData.start.toolID == toolID || pipeData.end.toolID == toolID;
+      }
+    );
+    return pipes;
+  }
+
   listen("pointerdown", ".remove", (e) => {
     let [toolID, toolInfo] = getToolDetails(e);
-    console.log(`Removing ${toolID}`);
+    let pipes = getConnectedPipes(toolID);
+    pipes.forEach(([pipeID, pipe]) => {
+      if (pipe.end.toolID != toolID) {
+        let endTool = state.toolchain.tools[pipe.end.toolID];
+        let endPort = endTool.inports[pipe.end.portID];
+        endPort.value = null;
+      }
+      delete state.toolchain.pipes[pipeID];
+    });
 
     // TODO: should call the tool's remove lifecycle method
     delete state.toolchain.tools[toolID];
