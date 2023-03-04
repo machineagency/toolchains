@@ -1,6 +1,6 @@
 import { createListener } from "./utils.js";
 
-export function pipeInteraction(workspace, state) {
+export function addPipeInteraction(workspace, state) {
   const listen = createListener(workspace);
 
   listen("contextmenu", ".pipe", (e) => {

@@ -54,7 +54,8 @@ export function toolView(toolID, tool) {
           portView(portID, port, "outport")
         )}
       </div>
-      <div class="tool-view">${tool.render()}</div>
+
+      <div class="tool-view">${tool.lifecycle.render()}</div>
       <div class="tool-state">${stateView(tool.state)}</div>
     </div>
   </div>`;

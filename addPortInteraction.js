@@ -1,6 +1,40 @@
 import { createListener, buildPipeID } from "./utils.js";
 
-export function addPipeConnection(workspace, state) {
+function portConnectionPoint(state, portEl) {
+  let rect = portEl.getBoundingClientRect();
+
+  return state.panZoom.toWorkspaceCoords({
+    x: rect.left + rect.width / 2,
+    y: rect.top + rect.height / 2,
+  });
+}
+
+export function queryPortCoords(state, pipeData) {
+  let startCoords, endCoords;
+  if (pipeData.start) {
+    let startPort = document.querySelector(
+      `[data-toolid="${pipeData.start.toolID}"] [data-portside="outport"][data-portid="${pipeData.start.portID}"]`
+    );
+    startCoords = portConnectionPoint(state, startPort);
+  } else {
+    startCoords = state.mouse;
+  }
+  if (pipeData.end) {
+    let endPort = document.querySelector(
+      `[data-toolid="${pipeData.end.toolID}"] [data-portside="inport"][data-portid="${pipeData.end.portID}"]`
+    );
+    endCoords = portConnectionPoint(state, endPort);
+  } else {
+    endCoords = state.mouse;
+  }
+
+  return {
+    startCoords,
+    endCoords,
+  };
+}
+
+export function addPortInteraction(workspace, state) {
   const listen = createListener(workspace);
 
   function getToolDetails(e) {

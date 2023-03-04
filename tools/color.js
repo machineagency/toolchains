@@ -1,36 +1,36 @@
 import { html } from "lit-html";
 
-export default function color(globalCallbacks) {
-  const ui = {
-    displayName: "Color",
-    width: "200px",
-    height: "200px",
-  };
+const inports = {};
 
-  const state = {
-    currentColor: "#ffff00",
-  };
+const outports = {
+  color: {
+    type: "string",
+    value: "SHOULDN'T SEE THIS",
+  },
+};
 
-  const inports = {};
+const state = {
+  currentColor: "#ffff00",
+};
 
-  const outports = {
-    color: {
-      type: "string",
-      value: null,
-    },
-  };
+const ui = {
+  displayName: "Color",
+  width: "200px",
+  height: "200px",
+};
 
+function color(inports, outports, state) {
   function colorInput(e) {
     state.currentColor = e.target.value;
     outports.color.value = e.target.value;
   }
 
-  const init = () => {
+  function init() {
     state.currentColor = `#${Math.floor(Math.random() * 16777215).toString(
       16
     )}`;
     outports.color.value = state.currentColor;
-  };
+  }
 
   const render = () => {
     return html`<style>
@@ -65,5 +65,7 @@ export default function color(globalCallbacks) {
       <input type="color" value=${state.currentColor} @input=${colorInput} />`;
   };
 
-  return { ui, inports, outports, state, init, render };
+  return { init, render };
 }
+
+export default { inports, outports, state, ui, tool: color };

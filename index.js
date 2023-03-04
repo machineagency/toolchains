@@ -1,18 +1,20 @@
 import { html, render, svg } from "lit-html";
 import { dracula } from "./themes";
 
+import _ from "lodash";
+
 import { addPanZoom } from "./addPanZoom";
 import { addGlobalInteraction } from "./addGlobalInteraction";
 import { addToolInteraction } from "./addToolInteraction";
-import { addPipeConnection } from "./addPipeConnection";
+import { queryPortCoords, addPortInteraction } from "./addPortInteraction";
+import { addPipeInteraction } from "./addPipeInteraction";
 
 import { toolView } from "./ui/toolView";
-import { pipeInteraction } from "./pipeInteraction";
 
 let globalState = {
   mouse: null,
   initialized: false,
-  toolbox: ["test", "dataViewer", "color", "toggle", "text"],
+  toolbox: ["test", "dataViewer", "color", "toggle", "text", "gradient"],
   imports: {},
   toolchain: {
     tools: {},
@@ -30,7 +32,6 @@ let defaultTool = {
   inports: {},
   outports: {},
   state: {},
-  lifecycle: {},
   ui: { displayName: null, height: "100px", width: "100px" },
   pos: { x: 0, y: 0 },
   focus: false,
@@ -58,7 +59,7 @@ function renderTools(state) {
   });
 }
 
-function calculatePipeBezier(pipeInfo) {
+export function calculatePipeBezier(pipeInfo) {
   let start = pipeInfo.startCoords;
   let end = pipeInfo.endCoords;
 
@@ -66,40 +67,6 @@ function calculatePipeBezier(pipeInfo) {
     C${start.x + 100},${start.y}
     ${end.x - 100},${end.y}
     ${end.x},${end.y}`;
-}
-
-function portConnectionPoint(state, portEl) {
-  let rect = portEl.getBoundingClientRect();
-
-  return state.panZoom.toWorkspaceCoords({
-    x: rect.left + rect.width / 2,
-    y: rect.top + rect.height / 2,
-  });
-}
-
-function queryPortCoords(state, pipeData) {
-  let startCoords, endCoords;
-  if (pipeData.start) {
-    let startPort = document.querySelector(
-      `[data-toolid="${pipeData.start.toolID}"] [data-portside="outport"][data-portid="${pipeData.start.portID}"]`
-    );
-    startCoords = portConnectionPoint(state, startPort);
-  } else {
-    startCoords = state.mouse;
-  }
-  if (pipeData.end) {
-    let endPort = document.querySelector(
-      `[data-toolid="${pipeData.end.toolID}"] [data-portside="inport"][data-portid="${pipeData.end.portID}"]`
-    );
-    endCoords = portConnectionPoint(state, endPort);
-  } else {
-    endCoords = state.mouse;
-  }
-
-  return {
-    startCoords,
-    endCoords,
-  };
 }
 
 function renderPipes(state) {
@@ -136,8 +103,13 @@ const view = (state) => {
       </div>
       <div id="toolchain-info" class="ui-pane">
         <div class="pane-header">tools</div>
-        ${Object.keys(state.toolchain.tools).map(
-          (toolID) => html`<div>${toolID}</div>`
+        ${Object.entries(state.toolchain.tools).map(
+          ([toolID, toolInfo]) =>
+            html`<div>
+              ${toolID}${JSON.stringify(toolInfo.outports)}${JSON.stringify(
+                toolInfo.inports
+              )}
+            </div>`
         )}
         <div class="pane-header">pipes</div>
         ${Object.keys(state.toolchain.pipes).map(
@@ -148,22 +120,91 @@ const view = (state) => {
   </div>`;
 };
 
-function addToolToToolchain(toolName) {
-  const toolConstructor = globalState.imports[toolName];
+function getConnectedInports(toolID, portID) {
+  let pipes = Object.entries(globalState.toolchain.pipes).filter(
+    ([pipeID, pipeData]) => {
+      return pipeData.start.toolID == toolID && pipeData.start.portID == portID;
+    }
+  );
+  return pipes;
+}
 
-  let toolID = `${toolName}_${currID}`;
-  let newTool = JSON.parse(JSON.stringify(defaultTool));
+const outportHandler = (toolID, portID) => {
+  return {
+    set(target, prop, val, receiver) {
+      const pipes = getConnectedInports(toolID, portID);
+      pipes.forEach(([pipeID, pipeData]) => {
+        let toolToUpdate = globalState.toolchain.tools[pipeData.end.toolID];
+        let portToUpdate = toolToUpdate.inports[pipeData.end.portID];
+        portToUpdate.value = val;
+      });
+      return Reflect.set(target, prop, val, receiver);
+    },
+  };
+};
 
-  newTool.pos.x += currID * 30;
-  newTool.pos.y += currID * 30;
+const inportHandler = (toolID, portID) => {
+  return {
+    set(target, prop, val, receiver) {
+      console.log(`inport ${prop} updated to ${val}!`);
+      return Reflect.set(target, prop, val, receiver);
+    },
+  };
+};
 
-  Object.assign(newTool, toolConstructor(globalCallbacks(toolID)));
+function makeTool(toolID, toolObj) {
+  let outports = {};
+  let inports = {};
+  let state = {};
 
-  if ("init" in newTool) {
-    newTool.init();
+  const stateHandler = {
+    set(target, prop, val, receiver) {
+      // console.log(`state ${prop} updated to ${val}!`);
+      return Reflect.set(target, prop, val, receiver);
+    },
+  };
+
+  for (const [portID, val] of Object.entries(toolObj.inports)) {
+    inports[portID] = new Proxy(
+      _.cloneDeep(val),
+      inportHandler(toolID, portID)
+    );
   }
 
+  for (const [portID, val] of Object.entries(toolObj.outports)) {
+    outports[portID] = new Proxy(
+      _.cloneDeep(val),
+      outportHandler(toolID, portID)
+    );
+  }
+
+  state = new Proxy(_.cloneDeep(toolObj.state), stateHandler);
+
+  let lifecycle = toolObj.tool(inports, outports, state);
+
+  return { inports, outports, state, lifecycle };
+}
+
+function addToolToToolchain(toolName) {
+  console.log(globalState.imports[toolName]);
+  const toolObj = globalState.imports[toolName];
+
+  let toolID = `${toolName}_${currID}`;
+  let newTool = makeTool(toolID, toolObj);
+
+  newTool.uiState = {
+    toolbar: true,
+    statePanel: false,
+  };
+
+  newTool.pos = { x: 0, y: 0 };
+  newTool.pos.x += currID * 30;
+  newTool.pos.y += currID * 30;
+  newTool.ui = toolObj.ui;
+
   globalState.toolchain.tools[toolID] = newTool;
+  if ("init" in newTool.lifecycle) newTool.lifecycle.init();
+
   currID++;
 }
 
@@ -175,7 +216,7 @@ async function importTool(toolName) {
 
 async function addTool(toolName) {
   if (toolName in globalState.imports) {
-    addToolToToolchain(toolName, globalState.imports[toolName].lifecycle);
+    addToolToToolchain(toolName);
   } else {
     importTool(toolName);
   }
@@ -216,8 +257,8 @@ const panZoom = addPanZoom(svgBackground, globalState);
 globalState.panZoom = panZoom;
 
 addGlobalInteraction(workspace, globalState);
-addPipeConnection(workspace, globalState);
+addPortInteraction(workspace, globalState);
 addToolInteraction(workspace, globalState);
-pipeInteraction(workspace, globalState);
+addPipeInteraction(workspace, globalState);
 
 window.requestAnimationFrame(r);

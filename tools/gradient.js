@@ -1,0 +1,48 @@
+import { html } from "lit-html";
+
+const inports = {
+  c1: {
+    type: "string",
+    value: null,
+  },
+  c2: {
+    type: "string",
+    value: null,
+  },
+  dir: {
+    type: "number",
+    value: 180,
+  },
+};
+
+const outports = {};
+
+const state = {};
+
+const ui = {
+  displayName: "Gradient",
+  width: "200px",
+  height: "200px",
+};
+
+function gradient(inports, outports, state) {
+  const resize = () => {};
+
+  const render = () => {
+    return html`<style>
+        .gradient {
+          height: 100%;
+          background-image: linear-gradient(
+            ${inports.dir.value}deg,
+            ${inports.c1.value ?? "green"},
+            ${inports.c2.value ?? "cyan"}
+          );
+        }
+      </style>
+      <div class="gradient"></div>`;
+  };
+
+  return { resize, render };
+}
+
+export default { inports, outports, state, ui, tool: gradient };
