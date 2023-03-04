@@ -14,7 +14,7 @@ import { toolView } from "./ui/toolView";
 let globalState = {
   mouse: null,
   initialized: false,
-  toolbox: ["test", "dataViewer", "color", "toggle", "text", "gradient"],
+  toolbox: ["test", "color", "toggle", "text", "gradient"],
   imports: {},
   toolchain: {
     tools: {},
@@ -27,19 +27,19 @@ let globalState = {
   keysPressed: [],
 };
 
-let defaultTool = {
-  toolClass: null,
-  inports: {},
-  outports: {},
-  state: {},
-  ui: { displayName: null, height: "100px", width: "100px" },
-  pos: { x: 0, y: 0 },
-  focus: false,
-  uiState: {
-    toolbar: true,
-    statePanel: false,
-  },
-};
+// let defaultTool = {
+//   toolClass: null,
+//   inports: {},
+//   outports: {},
+//   state: {},
+//   ui: { displayName: null, height: "100px", width: "100px" },
+//   pos: { x: 0, y: 0 },
+//   focus: false,
+//   uiState: {
+//     toolbar: true,
+//     statePanel: false,
+//   },
+// };
 
 const toolchainLog = (toolID, message) => {
   console.log(`${toolID} says: ${message}`);
@@ -146,7 +146,7 @@ const outportHandler = (toolID, portID) => {
 const inportHandler = (toolID, portID) => {
   return {
     set(target, prop, val, receiver) {
-      console.log(`inport ${prop} updated to ${val}!`);
+      // console.log(`inport ${prop} updated to ${val}!`);
       return Reflect.set(target, prop, val, receiver);
     },
   };
@@ -164,21 +164,21 @@ function makeTool(toolID, toolObj) {
     },
   };
 
-  for (const [portID, val] of Object.entries(toolObj.inports)) {
+  for (const [portID, val] of Object.entries(toolObj.config.inports)) {
     inports[portID] = new Proxy(
       _.cloneDeep(val),
       inportHandler(toolID, portID)
     );
   }
 
-  for (const [portID, val] of Object.entries(toolObj.outports)) {
+  for (const [portID, val] of Object.entries(toolObj.config.outports)) {
     outports[portID] = new Proxy(
       _.cloneDeep(val),
       outportHandler(toolID, portID)
     );
   }
 
-  state = new Proxy(_.cloneDeep(toolObj.state), stateHandler);
+  state = new Proxy(_.cloneDeep(toolObj.config.state), stateHandler);
 
   let lifecycle = toolObj.tool(inports, outports, state);
 
@@ -186,7 +186,6 @@ function makeTool(toolID, toolObj) {
 }
 
 function addToolToToolchain(toolName) {
-  console.log(globalState.imports[toolName]);
   const toolObj = globalState.imports[toolName];
 
   let toolID = `${toolName}_${currID}`;
@@ -200,7 +199,7 @@ function addToolToToolchain(toolName) {
   newTool.pos = { x: 0, y: 0 };
   newTool.pos.x += currID * 30;
   newTool.pos.y += currID * 30;
-  newTool.ui = toolObj.ui;
+  newTool.ui = toolObj.config.ui;
 
   globalState.toolchain.tools[toolID] = newTool;
   if ("init" in newTool.lifecycle) newTool.lifecycle.init();

@@ -1,28 +1,27 @@
 import { html } from "lit-html";
 
-const inports = {
-  c1: {
-    type: "string",
-    value: null,
+const config = {
+  inports: {
+    c1: {
+      type: "string",
+      value: null,
+    },
+    c2: {
+      type: "string",
+      value: null,
+    },
+    dir: {
+      type: "number",
+      value: 180,
+    },
   },
-  c2: {
-    type: "string",
-    value: null,
+  outports: {},
+  state: {},
+  ui: {
+    displayName: "Gradient",
+    width: "200px",
+    height: "200px",
   },
-  dir: {
-    type: "number",
-    value: 180,
-  },
-};
-
-const outports = {};
-
-const state = {};
-
-const ui = {
-  displayName: "Gradient",
-  width: "200px",
-  height: "200px",
 };
 
 function gradient(inports, outports, state) {
@@ -45,4 +44,4 @@ function gradient(inports, outports, state) {
   return { resize, render };
 }
 
-export default { inports, outports, state, ui, tool: gradient };
+export default { config, tool: gradient };

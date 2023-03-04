@@ -1,31 +1,29 @@
 import { html } from "lit-html";
 
-export default function color(globalCallbacks) {
-  const ui = {
+const config = {
+  inports: {},
+  outports: {
+    text: {
+      type: "string",
+      value: null,
+    },
+  },
+  state: { text: "hello world" },
+  ui: {
     displayName: "text",
     width: "200px",
     height: "50px",
-  };
+  },
+};
 
-  const state = {
-    text: "hello world",
-  };
-
-  const inports = {};
-
-  const outports = {
-    text: {
-      type: "string",
-      value: state.text,
-    },
-  };
-
+function text(inports, outports, state) {
   function onInput(e, state) {
     state.text = e.target.value;
+    outports.text = e.target.value;
   }
 
   const init = () => {
-    globalCallbacks.log("initializing!!");
+    console.log("initializing!!");
   };
 
   const render = () => {
@@ -40,5 +38,7 @@ export default function color(globalCallbacks) {
         @input=${(e) => onInput(e, state)} />`;
   };
 
-  return { ui, inports, outports, state, init, render };
+  return { init, render };
 }
+
+export default { config, tool: text };

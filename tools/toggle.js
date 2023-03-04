@@ -1,31 +1,29 @@
 import { html } from "lit-html";
 
-export default function color(globalCallbacks) {
-  const ui = {
+const config = {
+  inports: {},
+  outports: {
+    toggle: {
+      type: "boolean",
+      value: false,
+    },
+  },
+  state: { toggle: false },
+  ui: {
     displayName: "toggle",
     width: "100px",
     height: "50px",
-  };
+  },
+};
 
-  const state = {
-    toggle: false,
-  };
-
-  const inports = {};
-
-  const outports = {
-    toggle: {
-      type: "boolean",
-      value: state.toggle,
-    },
-  };
-
+function toggle(inports, outports, state) {
   function onInput(e) {
     state.toggle = e.target.checked;
+    outports.toggle = e.target.checked;
   }
 
   const init = () => {
-    globalCallbacks.log("initializing!!");
+    console.log("initializing!!");
   };
 
   const render = () => {
@@ -37,5 +35,7 @@ export default function color(globalCallbacks) {
       <input type="checkbox" ?checked=${state.toggle} @input=${onInput} />`;
   };
 
-  return { ui, inports, outports, state, init, render };
+  return { init, render };
 }
+
+export default { config, tool: toggle };

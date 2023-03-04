@@ -1,50 +1,49 @@
 import { html } from "lit-html";
 
-export default function test(globalCallbacks) {
-  const ui = {
-    displayName: "Test",
-    width: "200px",
-    height: "200px",
-  };
-
-  const state = {
+const config = {
+  inports: {
+    text: {
+      type: "string",
+      value: "asdf",
+    },
+    num: {
+      type: "number",
+      value: 57,
+    },
+    bool: {
+      type: "boolean",
+      value: false,
+    },
+  },
+  outports: {
+    text: {
+      type: "string",
+      value: "asdf",
+    },
+    num: {
+      type: "number",
+      value: 57,
+    },
+    bool: {
+      type: "boolean",
+      value: false,
+    },
+  },
+  state: {
     colors: [],
     currentColor: "#ffff00",
     num: 500000,
     floatieBoi: 25.8,
     obj: { currentColor: "#ffff00", num: 500000, floatieBoi: 25.8 },
-  };
+  },
+  ui: {
+    displayName: "Test",
+    width: "200px",
+    height: "200px",
+  },
+};
 
-  const inports = {
-    text: {
-      type: "string",
-      value: "asdf",
-    },
-    num: {
-      type: "number",
-      value: 57,
-    },
-    bool: {
-      type: "boolean",
-      value: false,
-    },
-  };
-
-  const outports = {
-    text: {
-      type: "string",
-      value: "asdf",
-    },
-    num: {
-      type: "number",
-      value: 57,
-    },
-    bool: {
-      type: "boolean",
-      value: false,
-    },
-  };
-
+function test(inports, outports, state) {
   let localVar = Math.floor(Math.random() * 40);
 
   const init = () => {
@@ -54,7 +53,6 @@ export default function test(globalCallbacks) {
   const resize = () => {};
 
   const shuffle = (e) => {
-    globalCallbacks.log("shufflin!!!");
     state.colors = new Array(30).fill(0).map(() => {
       return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
     });
@@ -93,5 +91,7 @@ export default function test(globalCallbacks) {
       </div>`;
   };
 
-  return { ui, inports, outports, state, init, resize, render };
+  return { init, resize, render };
 }
+
+export default { config, tool: test };

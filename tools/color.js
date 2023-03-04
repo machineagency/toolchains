@@ -1,22 +1,19 @@
 import { html } from "lit-html";
 
-const inports = {};
-
-const outports = {
-  color: {
-    type: "string",
-    value: "SHOULDN'T SEE THIS",
+const config = {
+  inports: {},
+  outports: {
+    color: {
+      type: "string",
+      value: null,
+    },
   },
-};
-
-const state = {
-  currentColor: "#ffff00",
-};
-
-const ui = {
-  displayName: "Color",
-  width: "200px",
-  height: "200px",
+  state: { currentColor: "#ffff00" },
+  ui: {
+    displayName: "Color",
+    width: "200px",
+    height: "200px",
+  },
 };
 
 function color(inports, outports, state) {
@@ -68,4 +65,4 @@ function color(inports, outports, state) {
   return { init, render };
 }
 
-export default { inports, outports, state, ui, tool: color };
+export default { config, tool: color };
