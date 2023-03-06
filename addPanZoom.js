@@ -41,10 +41,10 @@ export function addPanZoom(el, state) {
     pointX = e.offsetX - start.x;
     pointY = e.offsetY - start.y;
 
-    const imgs = document.querySelectorAll(".transform-group");
+    const transformGroups = document.querySelectorAll(".transform-group");
 
-    for (const img of imgs) {
-      setTransform(img);
+    for (const group of transformGroups) {
+      setTransform(group);
     }
   });
 

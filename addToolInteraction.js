@@ -1,5 +1,4 @@
 import { createListener } from "./utils.js";
-import _ from "lodash";
 
 export function addToolInteraction(workspace, state) {
   const listen = createListener(workspace);
@@ -32,12 +31,11 @@ export function addToolInteraction(workspace, state) {
         let endPort = endTool.inports[pipe.end.portID];
         endPort.value = null;
       }
-      state.toolchain.pipes = _.omit(state.toolchain.pipes, pipeID);
+      delete state.toolchain.pipes[pipeID];
     });
 
     // TODO: should call the tool's remove lifecycle method
-    state.toolchain.tools = _.omit(state.toolchain.tools, toolID);
-    // delete state.toolchain.tools[toolID];
+    delete state.toolchain.tools[toolID];
   });
 
   listen("pointerdown", ".drag", (e) => {
@@ -45,8 +43,9 @@ export function addToolInteraction(workspace, state) {
 
     // Get the parent tool and reappend it to the parentNode,
     // this brings it to the front
-    let parentTool = parentToolElement(e);
-    parentTool.parentNode.appendChild(parentTool);
+    // Nope, this causes issues with deleting tools - not entirely sure why
+    // let parentTool = parentToolElement(e);
+    // parentTool.parentNode.appendChild(parentTool);
 
     state.selection.add(toolID);
     state.transforming = true;

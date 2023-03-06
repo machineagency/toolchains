@@ -1,4 +1,4 @@
-import { html, render, svg } from "lit-html";
+import { html, nothing, render, svg } from "lit-html";
 import { dracula } from "./themes";
 
 import _ from "lodash";
@@ -10,6 +10,7 @@ import { queryPortCoords, addPortInteraction } from "./addPortInteraction";
 import { addPipeInteraction } from "./addPipeInteraction";
 
 import { toolView } from "./ui/toolView";
+import { debugView } from "./ui/debugView";
 
 let globalState = {
   mouse: null,
@@ -25,16 +26,11 @@ let globalState = {
   transforming: false,
   selection: new Set(),
   keysPressed: [],
+  debug: true,
 };
 
 const toolchainLog = (toolID, message) => {
   console.log(`${toolID} says: ${message}`);
-};
-
-const globalCallbacks = (toolID) => {
-  return {
-    log: (msg) => toolchainLog(toolID, msg),
-  };
 };
 
 let currID = 0;
@@ -58,6 +54,7 @@ export function calculatePipeBezier(pipeInfo) {
 function renderPipes(state) {
   return Object.entries(state.toolchain.pipes).map(([pipeID, pipeData]) => {
     let portCoords = queryPortCoords(state, pipeData);
+    if (!portCoords) return;
     let pipeD = calculatePipeBezier(portCoords);
 
     return svg`<path class="pipe-background" data-pipeid=${pipeID} d="${pipeD}" /><path class="pipe" data-pipeid=${pipeID} d="${pipeD}" />`;
@@ -68,8 +65,14 @@ const view = (state) => {
   const x = state.panZoom ? state.panZoom.x() : 0;
   const y = state.panZoom ? state.panZoom.y() : 0;
   const scale = state.panZoom ? state.panZoom.scale() : 1;
+
   return html`<div id="app-container">
-    <div id="top-bar"><span>toolchains</span></div>
+    <div id="top-bar">
+      <span>toolchains</span
+      ><i
+        @click=${() => (state.debug = !state.debug)}
+        class="fa-solid fa-bug toggle-debug"></i>
+    </div>
     <div id="workspace">
       <canvas
         id="background"
@@ -87,21 +90,7 @@ const view = (state) => {
             </button>`
         )}
       </div>
-      <div id="toolchain-info" class="ui-pane">
-        <div class="pane-header">tools</div>
-        ${Object.entries(state.toolchain.tools).map(
-          ([toolID, toolInfo]) =>
-            html`<div>
-              ${toolID}${JSON.stringify(toolInfo.outports)}${JSON.stringify(
-                toolInfo.inports
-              )}
-            </div>`
-        )}
-        <div class="pane-header">pipes</div>
-        ${Object.keys(state.toolchain.pipes).map(
-          (pipeID) => html`<div>${pipeID}</div>`
-        )}
-      </div>
+      ${state.debug ? debugView(state) : nothing}
     </div>
   </div>`;
 };

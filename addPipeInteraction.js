@@ -5,6 +5,11 @@ export function addPipeInteraction(workspace, state) {
 
   listen("contextmenu", ".pipe", (e) => {
     e.preventDefault();
-    delete state.toolchain.pipes[e.target.dataset.pipeid];
+
+    const pipeID = e.target.dataset.pipeid;
+    const end = state.toolchain.pipes[pipeID].end;
+    state.toolchain.tools[end.toolID].inports[end.portID].value = null;
+
+    delete state.toolchain.pipes[pipeID];
   });
 }

@@ -27,11 +27,18 @@ body {
   background-color: #282a36;
   color: #f8f8f2;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 0.3rem;
   font-size: 1.2rem;
   z-index: 1000;
   user-select: none;
   font-weight: 900;
+}
+
+.toggle-debug:hover {
+  color: var(--pink);
+  cursor: pointer;
 }
 
 #workspace {
@@ -71,7 +78,7 @@ body {
 
 /* TOOLCHAIN INFO */
 
-#toolchain-info {
+#debug-pane {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -79,10 +86,43 @@ body {
   flex-direction: column;
   user-select: none;
   border: 1px solid var(--black);
+  /* background-color: var(--tool-background); */
 }
 
-.info-header {
+.debug-content {
+  display: flex;
+  background-color: var(--black);
+}
+
+.debug-header {
+  background-color: var(--black);
+  color: var(--text-light);
+  padding: 0.2rem;
   font-weight: bold;
+  font-size: small;
+}
+
+.debug-header > span {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+}
+
+.debug-details {
+  font-family: monospace;
+  font-size: smaller;
+}
+
+.debug-info {
+  font-family: monospace;
+  font-size: smaller;
+  padding: 0.1rem 0.2rem;
+  background-color: var(--tool-background);
+}
+
+.debug-entry {
+  display: grid;
+  gap: 1px;
+  height: fit-content;
 }
 /* BACKGROUND */
 

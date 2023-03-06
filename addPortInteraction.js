@@ -10,13 +10,15 @@ function portConnectionPoint(state, portEl) {
 }
 
 export function queryPortCoords(state, pipeData) {
+  // maybe should use the live directive?
   let startCoords, endCoords;
   if (pipeData.start) {
     let startPort = document.querySelector(
       `[data-toolid="${pipeData.start.toolID}"] [data-portside="outport"][data-portid="${pipeData.start.portID}"]`
     );
-    console.log(pipeData.start.toolID);
-    console.log(startPort);
+    // console.log(pipeData.start.toolID);
+    // console.log(startPort);
+    if (!startPort) return;
     startCoords = portConnectionPoint(state, startPort);
   } else {
     startCoords = state.mouse;
@@ -25,9 +27,9 @@ export function queryPortCoords(state, pipeData) {
     let endPort = document.querySelector(
       `[data-toolid="${pipeData.end.toolID}"] [data-portside="inport"][data-portid="${pipeData.end.portID}"]`
     );
-    console.log(pipeData.end.toolID);
-    console.log(endPort);
-
+    // console.log(pipeData.end.toolID);
+    // console.log(endPort);
+    if (!endPort) return;
     endCoords = portConnectionPoint(state, endPort);
   } else {
     endCoords = state.mouse;
