@@ -1,4 +1,4 @@
-export const addGlobalInteraction = (workspace, state) => {
+export function addGlobalInteraction(state) {
   window.addEventListener("pointermove", (e) => {
     state.mouse = state.panZoom.toWorkspaceCoords({
       x: e.clientX,
@@ -16,4 +16,4 @@ export const addGlobalInteraction = (workspace, state) => {
   window.addEventListener("keyup", (e) => {
     state.keysPressed.splice(state.keysPressed.indexOf(e.key), 1);
   });
-};
+}

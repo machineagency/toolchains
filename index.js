@@ -1,19 +1,20 @@
-import { html, nothing, render, svg } from "lit-html";
-import { dracula } from "./themes";
-
+import { render } from "lit-html";
 import _ from "lodash";
+import { v4 as uuidv4 } from "uuid";
+
+import { dracula } from "./themes";
 
 import { addPanZoom } from "./addPanZoom";
 import { addGlobalInteraction } from "./addGlobalInteraction";
 import { addToolInteraction } from "./addToolInteraction";
-import { queryPortCoords, addPortInteraction } from "./addPortInteraction";
+import { addPortInteraction } from "./addPortInteraction";
 import { addPipeInteraction } from "./addPipeInteraction";
 import { addNavInteraction } from "./addNavInteraction";
+import { addToolboxInteraction } from "./addToolboxInteraction";
 
-import { toolView } from "./ui/toolView";
-import { debugView } from "./ui/debugView";
+import { view } from "./ui/workspaceView";
 
-let globalState = {
+const globalState = {
   mouse: null,
   initialized: false,
   toolbox: ["test", "color", "toggle", "text", "gradient", "axi"],
@@ -30,79 +31,8 @@ let globalState = {
   keysPressed: [],
   debug: false,
   uploadToolchain: uploadToolchain,
-};
-
-let currID = 0;
-
-function renderTools(state) {
-  return Object.entries(state.toolchain.tools).map(([id, tool]) => {
-    return toolView(id, tool);
-  });
-}
-
-export function calculatePipeBezier(pipeInfo) {
-  let start = pipeInfo.startCoords;
-  let end = pipeInfo.endCoords;
-
-  return `M${start.x},${start.y}
-    C${start.x + 100},${start.y}
-    ${end.x - 100},${end.y}
-    ${end.x},${end.y}`;
-}
-
-function renderPipes(state) {
-  return Object.entries(state.toolchain.pipes).map(([pipeID, pipeData]) => {
-    let portCoords = queryPortCoords(state, pipeData);
-    if (!portCoords) return;
-    let pipeD = calculatePipeBezier(portCoords);
-
-    return svg`<path class="pipe-background" data-pipeid=${pipeID} d="${pipeD}" /><path class="pipe" data-pipeid=${pipeID} d="${pipeD}" />`;
-  });
-}
-
-const view = (state) => {
-  const x = state.panZoom ? state.panZoom.x() : 0;
-  const y = state.panZoom ? state.panZoom.y() : 0;
-  const scale = state.panZoom ? state.panZoom.scale() : 1;
-
-  return html`<div id="app-container">
-    <div id="nav">
-      <span>toolchains</span>
-      <span id="nav-buttons">
-        <i class="upload fa-solid fa-upload"></i>
-        <i class="download fa-solid fa-download"></i>
-        <i id="ex-button" class="examples fa-solid fa-book">
-          <div id="ex-dropdown">
-            ${state.examples.map((example) => {
-              return html`<div data-example=${example} class="ex">
-                ${example}
-              </div>`;
-            })}
-          </div>
-        </i>
-        <i class="debug fa-solid fa-bug"></i>
-      </span>
-    </div>
-    <div id="workspace">
-      <canvas
-        id="background"
-        style="--offset-x: ${x}px;--offset-y: ${y}px;--scale: ${scale}"></canvas>
-      <svg id="pipes" preserveAspectRatio="xMidYMid meet">
-        <g class="transform-group">${renderPipes(state)}</g>
-      </svg>
-      <div id="toolchain" class="transform-group">${renderTools(state)}</div>
-      <div id="toolbox">
-        <div class="pane-header">toolbox</div>
-        ${state.toolbox.map(
-          (toolType) =>
-            html`<button class="add-tool" @click=${() => addTool(toolType)}>
-              ${toolType}
-            </button>`
-        )}
-      </div>
-      ${state.debug ? debugView(state) : nothing}
-    </div>
-  </div>`;
+  addTool: addTool,
+  offset: 0,
 };
 
 function getConnectedInports(toolID, portID) {
@@ -114,7 +44,7 @@ function getConnectedInports(toolID, portID) {
   return pipes;
 }
 
-const makeOutportProxy = (toolID, portID) => {
+function makeOutportProxy(toolID, portID) {
   return {
     set(target, prop, val, receiver) {
       const pipes = getConnectedInports(toolID, portID);
@@ -127,25 +57,25 @@ const makeOutportProxy = (toolID, portID) => {
       return Reflect.set(target, prop, val, receiver);
     },
   };
-};
+}
 
-const makeInportProxy = (toolID, portID) => {
+function makeInportProxy(toolID, portID) {
   return {
     set(target, prop, val, receiver) {
       // console.log(`inport ${portID} updated to ${val}!`);
       return Reflect.set(target, prop, val, receiver);
     },
   };
-};
+}
 
-const makeStateProxy = () => {
+function makeStateProxy() {
   return {
     set(target, prop, val, receiver) {
       // console.log(`state ${prop} updated to ${val}!`);
       return Reflect.set(target, prop, val, receiver);
     },
   };
-};
+}
 
 function setupProxies(toolFunc, tool) {
   const inportProxies = {};
@@ -174,10 +104,10 @@ function setupProxies(toolFunc, tool) {
 }
 
 function initializeConfig(toolType, toolConfig) {
-  return {
+  const conf = {
     toolType: toolType,
-    toolID: `${toolType}_${currID}`,
-    pos: { x: currID * 30, y: currID * 30 },
+    toolID: `${toolType}_${uuidv4()}`,
+    pos: { x: globalState.offset * 30, y: globalState.offset * 30 },
     inports: toolConfig.inports ?? {},
     outports: toolConfig.outports ?? {},
     state: toolConfig.state ?? {},
@@ -191,6 +121,8 @@ function initializeConfig(toolType, toolConfig) {
       height: "200px",
     },
   };
+  globalState.offset++;
+  return conf;
 }
 
 async function importTool(toolType) {
@@ -211,7 +143,6 @@ async function addTool(toolType, config) {
   globalState.toolchain.tools[newTool.toolID] = newTool;
 
   if ("init" in newTool.lifecycle) newTool.lifecycle.init();
-  currID++;
 }
 
 function uploadToolchain(toolchainJSON) {
@@ -261,15 +192,17 @@ init();
 
 const svgBackground = document.getElementById("pipes");
 const workspace = document.getElementById("workspace");
+const toolbox = document.getElementById("toolbox");
 const nav = document.getElementById("nav");
 
 const panZoom = addPanZoom(svgBackground, globalState);
 globalState.panZoom = panZoom;
 
-addGlobalInteraction(workspace, globalState);
+addGlobalInteraction(globalState);
 addPortInteraction(workspace, globalState);
 addToolInteraction(workspace, globalState);
 addPipeInteraction(workspace, globalState);
+addToolboxInteraction(toolbox, globalState);
 addNavInteraction(nav, globalState);
 
 window.requestAnimationFrame(r);

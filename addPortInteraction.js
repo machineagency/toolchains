@@ -1,46 +1,5 @@
 import { createListener, buildPipeID } from "./utils.js";
 
-function portConnectionPoint(state, portEl) {
-  let rect = portEl.getBoundingClientRect();
-
-  return state.panZoom.toWorkspaceCoords({
-    x: rect.left + rect.width / 2,
-    y: rect.top + rect.height / 2,
-  });
-}
-
-export function queryPortCoords(state, pipeData) {
-  // maybe should use the live directive?
-  let startCoords, endCoords;
-  if (pipeData.start) {
-    let startPort = document.querySelector(
-      `[data-toolid="${pipeData.start.toolID}"] [data-portside="outport"][data-portid="${pipeData.start.portID}"]`
-    );
-    // console.log(pipeData.start.toolID);
-    // console.log(startPort);
-    if (!startPort) return;
-    startCoords = portConnectionPoint(state, startPort);
-  } else {
-    startCoords = state.mouse;
-  }
-  if (pipeData.end) {
-    let endPort = document.querySelector(
-      `[data-toolid="${pipeData.end.toolID}"] [data-portside="inport"][data-portid="${pipeData.end.portID}"]`
-    );
-    // console.log(pipeData.end.toolID);
-    // console.log(endPort);
-    if (!endPort) return;
-    endCoords = portConnectionPoint(state, endPort);
-  } else {
-    endCoords = state.mouse;
-  }
-
-  return {
-    startCoords,
-    endCoords,
-  };
-}
-
 export function addPortInteraction(workspace, state) {
   const listen = createListener(workspace);
 

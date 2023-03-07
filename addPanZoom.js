@@ -1,4 +1,3 @@
-import { update } from "lodash";
 import { createListener } from "./utils.js";
 
 export function addPanZoom(el, state) {
@@ -24,8 +23,13 @@ export function addPanZoom(el, state) {
     return { x: newX, y: newY };
   }
 
+  function beginBoxSelection() {}
+
   listen("pointerdown", "", (e) => {
-    if (e.shiftKey) return;
+    if (e.shiftKey) {
+      beginBoxSelection();
+      return;
+    }
 
     mousedown = true;
 
