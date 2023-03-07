@@ -57,11 +57,15 @@ export async function addNavInteraction(nav, state) {
     document.body.removeChild(fileInputElement);
   });
 
-  listen("pointerdown", ".ex", (e) => {
-    fetch(`./examples/${e.target.dataset.example}.json`)
-      .then((response) => response.json())
-      .then((data) => state.uploadToolchain(data));
-  });
+  async function importExample(e) {
+    const { default: toolchainJSON } = await import(
+      `./examples/${e.target.dataset.example}.json`
+    );
+
+    state.uploadToolchain(toolchainJSON);
+  }
+
+  listen("pointerdown", ".ex", importExample);
 
   listen("pointerdown", ".settings", (e) => {
     console.log("settings");
