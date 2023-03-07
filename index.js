@@ -16,7 +16,7 @@ import { debugView } from "./ui/debugView";
 let globalState = {
   mouse: null,
   initialized: false,
-  toolbox: ["test", "color", "toggle", "text", "gradient"],
+  toolbox: ["test", "color", "toggle", "text", "gradient", "axi"],
   examples: ["gradients"],
   imports: {},
   toolchain: {

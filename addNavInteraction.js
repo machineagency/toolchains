@@ -67,12 +67,7 @@ export async function addNavInteraction(nav, state) {
 
   listen("pointerdown", ".ex", importExample);
 
-  listen("pointerdown", ".settings", (e) => {
-    console.log("settings");
-  });
-
   listen("pointerdown", ".debug", (e) => {
-    console.log("debug");
     state.debug = !state.debug;
   });
 }
