@@ -8,7 +8,16 @@ class Shadow extends Directive {
     partInfo.parentNode.attachShadow({ mode: "open" });
   }
   update(part, arr) {
+    let tool = arr[1];
+
     render(arr[0], part.parentNode.shadowRoot);
+
+    if (!tool.domInitialized) {
+      tool.domInitialized = true;
+      if ("postInit" in tool.lifecycle) {
+        tool.lifecycle.postInit();
+      }
+    }
   }
 }
 
@@ -67,7 +76,7 @@ export function toolView(toolID, tool) {
           portView(portID, port, "outport")
         )}
       </div>
-      <div class="tool-view">${shadow(tool.lifecycle.render())}</div>
+      <div class="tool-view">${shadow(tool.lifecycle.render(), tool)}</div>
       <div class="tool-state">${stateView(tool.state)}</div>
     </div>
   </div>`;

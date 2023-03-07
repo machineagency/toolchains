@@ -17,8 +17,17 @@ import { view } from "./ui/workspaceView";
 const globalState = {
   mouse: null,
   initialized: false,
-  toolbox: ["test", "color", "toggle", "text", "gradient", "axi"],
-  examples: ["gradients"],
+  toolbox: [
+    "test",
+    "evalJS",
+    "color",
+    "toggle",
+    "text",
+    "gradient",
+    "axi",
+    "editor",
+  ],
+  examples: ["gradients", "editor"],
   imports: {},
   toolchain: {
     tools: {},
@@ -50,9 +59,13 @@ function makeOutportProxy(toolID, portID) {
       const pipes = getConnectedInports(toolID, portID);
       pipes.forEach(([pipeID, pipeData]) => {
         let toolToUpdate = globalState.toolchain.tools[pipeData.end.toolID];
+
         if (!toolToUpdate) return;
         let portToUpdate = toolToUpdate.inports[pipeData.end.portID];
         portToUpdate.value = val;
+        if ("inportsUpdated" in toolToUpdate.lifecycle) {
+          toolToUpdate.lifecycle.inportsUpdated();
+        }
       });
       return Reflect.set(target, prop, val, receiver);
     },
@@ -120,6 +133,7 @@ function initializeConfig(toolType, toolConfig) {
       width: "200px",
       height: "200px",
     },
+    domInitialized: false,
   };
   globalState.offset++;
   return conf;
@@ -137,6 +151,7 @@ async function addTool(toolType, config) {
 
   const toolObj = globalState.imports[toolType];
   const newTool = config ?? initializeConfig(toolType, toolObj.config);
+  newTool.domInitialized = false;
 
   setupProxies(toolObj.tool, newTool);
 
