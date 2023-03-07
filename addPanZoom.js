@@ -1,3 +1,4 @@
+import { update } from "lodash";
 import { createListener } from "./utils.js";
 
 export function addPanZoom(el, state) {
@@ -62,13 +63,23 @@ export function addPanZoom(el, state) {
     pointX = e.offsetX - xs * scale;
     pointY = e.offsetY - ys * scale;
 
+    updatePanZoom();
+    e.preventDefault();
+  });
+
+  function setPanZoom(pz) {
+    scale = pz.scale;
+    pointX = pz.x;
+    pointY = pz.y;
+    updatePanZoom();
+  }
+
+  function updatePanZoom() {
     const imgs = document.querySelectorAll(".transform-group");
     for (const img of imgs) {
       setTransform(img);
     }
-
-    e.preventDefault();
-  });
+  }
 
   function setScaleXY(limits) {
     const bb = el.getBoundingClientRect();
@@ -89,10 +100,7 @@ export function addPanZoom(el, state) {
     pointX = -center.x;
     pointY = -center.y;
 
-    const imgs = document.querySelectorAll(".transform-group");
-    for (const img of imgs) {
-      setTransform(img);
-    }
+    updatePanZoom();
   }
 
   return {
@@ -101,5 +109,6 @@ export function addPanZoom(el, state) {
     y: () => pointY,
     setScaleXY,
     toWorkspaceCoords,
+    setPanZoom,
   };
 }

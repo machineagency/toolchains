@@ -9,7 +9,9 @@
     - [x] send data from outports to inports
     - [x] pipes update when tools moved
     - [x] remove pipes between ports
-  - [ ] save/load toolchain state
+  - [x] save/load toolchain state
+  - [x] save/load workspace view (pan zoom)
+  - [ ] example dropdown
   - [ ] basic port type checking
 - tool lifecycle
   - [x] init
@@ -35,16 +37,14 @@
   - [ ] nice pipe routing
   - [ ] tool alignment/layout
   - [ ] mobile pan zoom
-  - [ ] toolchain shape pane
 - global callbacks
   - [x] log
   - [ ] alert
   - [ ] set global/get global? watch?
 - questions
-  - how to handle tool style scoping?
-  - should i stick with lit-html templating?
-  - Should the active tool be highlighted?
-  - unsure about current pipe data structure
+  - _how to handle tool style scoping?_ - I made a custom lit directive which
+    renders each tool's UI to a shadow DOM. Unsure if this will cause
+    performance issues down the road, but it seems to work fine right now.
 
 ## tool implementation
 

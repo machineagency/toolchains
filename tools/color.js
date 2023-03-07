@@ -8,7 +8,7 @@ const config = {
       value: null,
     },
   },
-  state: { currentColor: "#ffff00" },
+  state: { currentColor: null },
   ui: {
     displayName: "Color",
     width: "200px",
@@ -23,9 +23,9 @@ function color(inports, outports, state) {
   }
 
   function init() {
-    state.currentColor = `#${Math.floor(Math.random() * 16777215).toString(
-      16
-    )}`;
+    state.currentColor =
+      state.currentColor ??
+      `#${Math.floor(Math.random() * 16777215).toString(16)}`;
     outports.color.value = state.currentColor;
   }
 

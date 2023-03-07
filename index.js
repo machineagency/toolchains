@@ -8,6 +8,7 @@ import { addGlobalInteraction } from "./addGlobalInteraction";
 import { addToolInteraction } from "./addToolInteraction";
 import { queryPortCoords, addPortInteraction } from "./addPortInteraction";
 import { addPipeInteraction } from "./addPipeInteraction";
+import { addNavInteraction } from "./addNavInteraction";
 
 import { toolView } from "./ui/toolView";
 import { debugView } from "./ui/debugView";
@@ -27,10 +28,7 @@ let globalState = {
   selection: new Set(),
   keysPressed: [],
   debug: true,
-};
-
-const toolchainLog = (toolID, message) => {
-  console.log(`${toolID} says: ${message}`);
+  addTool: addTool,
 };
 
 let currID = 0;
@@ -67,11 +65,15 @@ const view = (state) => {
   const scale = state.panZoom ? state.panZoom.scale() : 1;
 
   return html`<div id="app-container">
-    <div id="top-bar">
-      <span>toolchains</span
-      ><i
-        @click=${() => (state.debug = !state.debug)}
-        class="fa-solid fa-bug toggle-debug"></i>
+    <div id="nav">
+      <span>toolchains</span>
+      <span id="nav-buttons">
+        <i class="upload fa-solid fa-upload"></i>
+        <i class="download fa-solid fa-download"></i>
+        <i class="examples fa-solid fa-book"></i>
+        <i class="settings fa-solid fa-gear"></i>
+        <i class="debug fa-solid fa-bug"></i>
+      </span>
     </div>
     <div id="workspace">
       <canvas
@@ -84,9 +86,9 @@ const view = (state) => {
       <div id="toolbox">
         <div class="pane-header">toolbox</div>
         ${state.toolbox.map(
-          (toolName) =>
-            html`<button class="add-tool" @click=${() => addTool(toolName)}>
-              ${toolName}
+          (toolType) =>
+            html`<button class="add-tool" @click=${() => addTool(toolType)}>
+              ${toolType}
             </button>`
         )}
       </div>
@@ -104,12 +106,13 @@ function getConnectedInports(toolID, portID) {
   return pipes;
 }
 
-const outportHandler = (toolID, portID) => {
+const makeOutportProxy = (toolID, portID) => {
   return {
     set(target, prop, val, receiver) {
       const pipes = getConnectedInports(toolID, portID);
       pipes.forEach(([pipeID, pipeData]) => {
         let toolToUpdate = globalState.toolchain.tools[pipeData.end.toolID];
+        if (!toolToUpdate) return;
         let portToUpdate = toolToUpdate.inports[pipeData.end.portID];
         portToUpdate.value = val;
       });
@@ -118,82 +121,89 @@ const outportHandler = (toolID, portID) => {
   };
 };
 
-const inportHandler = (toolID, portID) => {
+const makeInportProxy = (toolID, portID) => {
   return {
     set(target, prop, val, receiver) {
-      // console.log(`inport ${prop} updated to ${val}!`);
+      // console.log(`inport ${portID} updated to ${val}!`);
       return Reflect.set(target, prop, val, receiver);
     },
   };
 };
 
-function makeTool(toolID, toolObj) {
-  let outports = {};
-  let inports = {};
-  let state = {};
-
-  const stateHandler = {
+const makeStateProxy = () => {
+  return {
     set(target, prop, val, receiver) {
       // console.log(`state ${prop} updated to ${val}!`);
       return Reflect.set(target, prop, val, receiver);
     },
   };
+};
 
-  for (const [portID, val] of Object.entries(toolObj.config.inports)) {
-    inports[portID] = new Proxy(
+function setupProxies(toolFunc, tool) {
+  const inportProxies = {};
+  const outportProxies = {};
+
+  for (const [portID, val] of Object.entries(tool.inports)) {
+    inportProxies[portID] = new Proxy(
       _.cloneDeep(val),
-      inportHandler(toolID, portID)
+      makeInportProxy(tool.toolID, portID)
     );
   }
 
-  for (const [portID, val] of Object.entries(toolObj.config.outports)) {
-    outports[portID] = new Proxy(
+  for (const [portID, val] of Object.entries(tool.outports)) {
+    outportProxies[portID] = new Proxy(
       _.cloneDeep(val),
-      outportHandler(toolID, portID)
+      makeOutportProxy(tool.toolID, portID)
     );
   }
 
-  state = new Proxy(_.cloneDeep(toolObj.config.state), stateHandler);
+  tool.inports = inportProxies;
+  tool.outports = outportProxies;
+  tool.state = new Proxy(_.cloneDeep(tool.state), makeStateProxy());
+  tool.lifecycle = toolFunc(tool.inports, tool.outports, tool.state);
 
-  let lifecycle = toolObj.tool(inports, outports, state);
-
-  return { inports, outports, state, lifecycle };
+  return true;
 }
 
-function addToolToToolchain(toolName) {
-  const toolObj = globalState.imports[toolName];
-
-  let toolID = `${toolName}_${currID}`;
-  let newTool = makeTool(toolID, toolObj);
-
-  newTool.uiState = {
-    toolbar: true,
-    statePanel: false,
+function initializeConfig(toolType, toolConfig) {
+  return {
+    toolType: toolType,
+    toolID: `${toolType}_${currID}`,
+    pos: { x: currID * 30, y: currID * 30 },
+    inports: toolConfig.inports ?? {},
+    outports: toolConfig.outports ?? {},
+    state: toolConfig.state ?? {},
+    uiState: {
+      toolbar: true,
+      statePanel: false,
+    },
+    ui: toolConfig.ui ?? {
+      displayName: toolType,
+      width: "200px",
+      height: "200px",
+    },
   };
-
-  newTool.pos = { x: 0, y: 0 };
-  newTool.pos.x += currID * 30;
-  newTool.pos.y += currID * 30;
-  newTool.ui = toolObj.config.ui;
-
-  globalState.toolchain.tools[toolID] = newTool;
-  if ("init" in newTool.lifecycle) newTool.lifecycle.init();
-
-  currID++;
 }
 
-async function importTool(toolName) {
-  const { default: toolExport } = await import(`./tools/${toolName}.js`);
-  globalState.imports[toolName] = toolExport;
-  addToolToToolchain(toolName);
+async function importTool(toolType) {
+  const { default: toolExport } = await import(`./tools/${toolType}.js`);
+  globalState.imports[toolType] = toolExport;
 }
 
-async function addTool(toolName) {
-  if (toolName in globalState.imports) {
-    addToolToToolchain(toolName);
-  } else {
-    importTool(toolName);
+async function addTool(toolType, config) {
+  if (!(toolType in globalState.imports)) {
+    await importTool(toolType);
   }
+
+  const toolObj = globalState.imports[toolType];
+  const newTool = config ?? initializeConfig(toolType, toolObj.config);
+
+  setupProxies(toolObj.tool, newTool);
+
+  globalState.toolchain.tools[newTool.toolID] = newTool;
+
+  if ("init" in newTool.lifecycle) newTool.lifecycle.init();
+  currID++;
 }
 
 function setCustomProperties() {
@@ -226,6 +236,7 @@ init();
 
 const svgBackground = document.getElementById("pipes");
 const workspace = document.getElementById("workspace");
+const nav = document.getElementById("nav");
 
 const panZoom = addPanZoom(svgBackground, globalState);
 globalState.panZoom = panZoom;
@@ -234,5 +245,6 @@ addGlobalInteraction(workspace, globalState);
 addPortInteraction(workspace, globalState);
 addToolInteraction(workspace, globalState);
 addPipeInteraction(workspace, globalState);
+addNavInteraction(nav, globalState);
 
 window.requestAnimationFrame(r);

@@ -21,7 +21,7 @@ body {
   height: 100%;
 }
 
-#top-bar {
+#nav {
   position: fixed;
   width: 100%;
   background-color: #282a36;
@@ -36,9 +36,17 @@ body {
   font-weight: 900;
 }
 
-.toggle-debug:hover {
-  color: var(--pink);
+#nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: smaller;
+  margin: auto 0.2rem auto 1rem;
+}
+
+#nav-buttons > i:hover {
   cursor: pointer;
+  color: var(--pink);
 }
 
 #workspace {
@@ -86,12 +94,11 @@ body {
   flex-direction: column;
   user-select: none;
   border: 1px solid var(--black);
-  /* background-color: var(--tool-background); */
+  background-color: var(--black);
 }
 
 .debug-content {
   display: flex;
-  background-color: var(--black);
 }
 
 .debug-header {
@@ -123,6 +130,8 @@ body {
   display: grid;
   gap: 1px;
   height: fit-content;
+  max-height: 200px;
+  overflow: auto;
 }
 /* BACKGROUND */
 
