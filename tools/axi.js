@@ -26,8 +26,8 @@ const commands = {
   togglePen: "TP\r",
   disableMotors: "EM,0,0\r",
   enableMotors: "EM,1,1\r",
-  abMove: abMove(1000, 100, 100),
-  xyMove: xyMove(1000, 100, 100),
+  abMove: abMove(1000, 1000, 1000),
+  xyMove: xyMove(1000, 1000, 1000),
   eStop: "ES\r",
 };
 
