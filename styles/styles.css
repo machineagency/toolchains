@@ -49,6 +49,39 @@ body {
   color: var(--pink);
 }
 
+#nav-buttons > i {
+  position: relative;
+}
+
+#ex-button:hover #ex-dropdown {
+  display: block;
+}
+
+#ex-dropdown {
+  border: 1px solid var(--black);
+  border-radius: 5px;
+  padding: 0.2rem;
+  white-space: nowrap;
+  font-family: "National Park";
+  font-weight: 400;
+  background-color: var(--tool-background);
+  font-size: 1rem;
+  color: var(--text-dark);
+  position: absolute;
+  right: 0;
+  display: none;
+}
+
+.ex {
+  text-align: right;
+  border-radius: 5px;
+  padding: 0.1rem 0.2rem;
+}
+
+.ex:hover {
+  background-color: var(--pink);
+}
+
 #workspace {
   background-color: var(--workspace-background);
   flex: 1;

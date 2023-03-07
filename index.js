@@ -17,6 +17,7 @@ let globalState = {
   mouse: null,
   initialized: false,
   toolbox: ["test", "color", "toggle", "text", "gradient"],
+  examples: ["gradients"],
   imports: {},
   toolchain: {
     tools: {},
@@ -27,8 +28,8 @@ let globalState = {
   transforming: false,
   selection: new Set(),
   keysPressed: [],
-  debug: true,
-  addTool: addTool,
+  debug: false,
+  uploadToolchain: uploadToolchain,
 };
 
 let currID = 0;
@@ -70,8 +71,15 @@ const view = (state) => {
       <span id="nav-buttons">
         <i class="upload fa-solid fa-upload"></i>
         <i class="download fa-solid fa-download"></i>
-        <i class="examples fa-solid fa-book"></i>
-        <i class="settings fa-solid fa-gear"></i>
+        <i id="ex-button" class="examples fa-solid fa-book">
+          <div id="ex-dropdown">
+            ${state.examples.map((example) => {
+              return html`<div data-example=${example} class="ex">
+                ${example}
+              </div>`;
+            })}
+          </div>
+        </i>
         <i class="debug fa-solid fa-bug"></i>
       </span>
     </div>
@@ -204,6 +212,23 @@ async function addTool(toolType, config) {
 
   if ("init" in newTool.lifecycle) newTool.lifecycle.init();
   currID++;
+}
+
+function uploadToolchain(toolchainJSON) {
+  // Clear the current toolchain (should probably warn/prompt if there is a toolchain)
+  globalState.toolchain = {
+    tools: {},
+    pipes: {},
+  };
+
+  Object.entries(toolchainJSON.tools).map(([toolID, tool]) => {
+    addTool(tool.toolType, tool);
+  });
+
+  // TODO: Ensure all tools are added before adding pipes?
+  // Doesn't seem like this is currently an issue but it might be in the future
+  globalState.toolchain.pipes = toolchainJSON.pipes;
+  globalState.panZoom.setPanZoom(toolchainJSON.workspace);
 }
 
 function setCustomProperties() {

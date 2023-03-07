@@ -41,22 +41,7 @@ export async function addNavInteraction(nav, state) {
     const fileReader = new FileReader();
     fileReader.readAsText(file);
     fileReader.onload = () => {
-      let jsonToolchain = JSON.parse(fileReader.result);
-
-      // Clear the current toolchain (should probably warn/prompt if there is a toolchain)
-      state.toolchain = {
-        tools: {},
-        pipes: {},
-      };
-
-      Object.entries(jsonToolchain.tools).map(([toolID, tool]) => {
-        state.addTool(tool.toolType, tool);
-      });
-
-      // TODO: Ensure all tools are added before adding pipes?
-      // Doesn't seem like this is currently an issue but it might be in the future
-      state.toolchain.pipes = jsonToolchain.pipes;
-      state.panZoom.setPanZoom(jsonToolchain.workspace);
+      state.uploadToolchain(JSON.parse(fileReader.result));
     };
   }
 
@@ -72,8 +57,10 @@ export async function addNavInteraction(nav, state) {
     document.body.removeChild(fileInputElement);
   });
 
-  listen("pointerdown", ".examples", (e) => {
-    console.log("examples");
+  listen("pointerdown", ".ex", (e) => {
+    fetch(`./examples/${e.target.dataset.example}.json`)
+      .then((response) => response.json())
+      .then((data) => state.uploadToolchain(data));
   });
 
   listen("pointerdown", ".settings", (e) => {
@@ -82,5 +69,6 @@ export async function addNavInteraction(nav, state) {
 
   listen("pointerdown", ".debug", (e) => {
     console.log("debug");
+    state.debug = !state.debug;
   });
 }
