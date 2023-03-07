@@ -11,7 +11,7 @@
     - [x] remove pipes between ports
   - [x] save/load toolchain state
   - [x] save/load workspace view (pan zoom)
-  - [ ] example dropdown
+  - [x] example dropdown
   - [ ] basic port type checking
 - tool lifecycle
   - [x] init
@@ -26,21 +26,19 @@
   - [x] state pane
   - [x] pin tool ui panels open
   - [ ] edit displayname
+- debug pane
+  - [ ] highlight tool/pipe when hovered
+  - [ ] inspect current port values
 - workspace ui
   - [x] tool library
   - [x] background dots
   - [x] click button to add a tool
   - [x] tool layering
-  - [ ] toolchain console
   - [ ] collapse all toolui
   - [ ] box select tools for moving
   - [ ] nice pipe routing
   - [ ] tool alignment/layout
   - [ ] mobile pan zoom
-- global callbacks
-  - [x] log
-  - [ ] alert
-  - [ ] set global/get global? watch?
 - questions
   - _how to handle tool style scoping?_ - I made a custom lit directive which
     renders each tool's UI to a shadow DOM. Unsure if this will cause
