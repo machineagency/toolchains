@@ -117,55 +117,6 @@ body {
   cursor: pointer;
 }
 
-/* TOOLCHAIN INFO */
-
-#debug-pane {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  user-select: none;
-  border: 1px solid var(--black);
-  background-color: var(--black);
-}
-
-.debug-content {
-  display: flex;
-}
-
-.debug-header {
-  background-color: var(--black);
-  color: var(--text-light);
-  padding: 0.2rem;
-  font-weight: bold;
-  font-size: small;
-}
-
-.debug-header > span {
-  writing-mode: vertical-lr;
-  transform: rotate(180deg);
-}
-
-.debug-details {
-  font-family: monospace;
-  font-size: smaller;
-}
-
-.debug-info {
-  font-family: monospace;
-  font-size: smaller;
-  padding: 0.1rem 0.2rem;
-  background-color: var(--tool-background);
-}
-
-.debug-entry {
-  display: grid;
-  gap: 1px;
-  height: fit-content;
-  max-height: 200px;
-  overflow: auto;
-}
 /* BACKGROUND */
 
 #background {

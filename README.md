@@ -13,6 +13,7 @@
   - [x] save/load workspace view (pan zoom)
   - [x] example dropdown
   - [ ] basic port type checking
+  - [ ] clear current toolchain
 - tool lifecycle
   - [x] init
   - [ ] resize
@@ -25,11 +26,11 @@
   - [x] header
   - [x] state pane
   - [x] pin tool ui panels open
+  - [x] allow tools with no ui
+  - [x] edit displayname
+  - [x] collapse ui
   - [ ] hide state toggle if no state
   - [ ] ui flex mode
-  - [ ] collapse ui
-  - [ ] allow tools with no ui
-  - [ ] edit displayname
 - debug pane
   - [ ] highlight tool/pipe when hovered
   - [ ] inspect current port values

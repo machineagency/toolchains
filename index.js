@@ -32,8 +32,9 @@ const globalState = {
     "velocity",
     "editor",
     "logger",
+    "hsl",
   ],
-  examples: ["gradients", "range", "editor"],
+  examples: ["gradients", "range", "editor", "hsl"],
   imports: {},
   toolchain: {
     tools: {},
@@ -134,11 +135,14 @@ function initializeConfig(toolType, toolConfig) {
       toolbar: true,
       statePanel: false,
     },
-    ui: toolConfig.ui ?? {
-      displayName: toolType,
-      width: "200px",
-      height: "200px",
-    },
+    ui: _.cloneDeep(
+      toolConfig.ui ?? {
+        displayName: toolType,
+        width: "200px",
+        height: "200px",
+        mini: false,
+      }
+    ),
     domInitialized: false,
   };
   globalState.offset++;
@@ -225,5 +229,10 @@ addToolInteraction(workspace, globalState);
 addPipeInteraction(workspace, globalState);
 addToolboxInteraction(toolbox, globalState);
 addNavInteraction(nav, globalState);
+
+if (globalState.debug) {
+  const { default: toolchainJSON } = await import(`./examples/range.json`);
+  uploadToolchain(toolchainJSON);
+}
 
 window.requestAnimationFrame(r);

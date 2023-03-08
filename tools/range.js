@@ -15,7 +15,7 @@ const config = {
       type: "domain",
       value: null,
     },
-    step: {
+    numSteps: {
       type: "number",
       value: null,
     },
@@ -29,15 +29,14 @@ const config = {
   state: {},
   ui: {
     displayName: "Range",
-    width: "150px",
-    height: "40px",
+    mini: true,
   },
 };
 
 function range(inports, outports, state) {
   function inportsUpdated() {
     let domain = inports.domain.value;
-    let step = inports.step.value;
+    let step = inports.numSteps.value;
     if (domain && step) {
       outports.range.value = makeArr(domain.min, domain.max, step);
     }

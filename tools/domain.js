@@ -20,8 +20,7 @@ const config = {
   state: {},
   ui: {
     displayName: "Domain",
-    width: "150px",
-    height: "40px",
+    mini: true,
   },
 };
 

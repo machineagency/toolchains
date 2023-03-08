@@ -43,9 +43,10 @@ function portView(portID, portInfo, portSide) {
 
 export function toolView(toolID, tool) {
   return html`<div
-    class="tool ${tool.uiState.toolbar ? "show-toolbar" : "hide-toolbar"} ${
-    tool.uiState.statePanel ? "show-state" : "hide-state"
-  }"
+    class="tool ${tool.uiState.toolbar ? "show-toolbar" : "hide-toolbar"} ${tool
+      .uiState.statePanel
+      ? "show-state"
+      : "hide-state"} ${tool.ui.mini ? "mini" : "full"}"
     data-toolid=${toolID}
     style="
       --x:${tool.pos.x}px;
@@ -57,27 +58,30 @@ export function toolView(toolID, tool) {
       <div class="b2"></div>
       <div class="b3"></div>
     </div>
-      <div class="toolbar">
-        <span class="tool-displayname">${tool.ui.displayName}</span>
-        <span class="tool-actions">
-          <i class="toggle-state fa-solid fa-code fa-xs "></i>
-          <i class="remove fa-solid fa-rectangle-xmark"></i>
-          <i class="pin fa-solid fa-xs fa-thumbtack"></i>
-          <i class="drag fa-solid fa-grip-vertical"></i>
-        </span>
-      </div>
-      <div class="inports port-container">
-        ${Object.entries(tool.inports).map(([portID, port]) =>
-          portView(portID, port, "inport")
-        )}
-      </div>
-      <div class="outports port-container">
-        ${Object.entries(tool.outports).map(([portID, port]) =>
-          portView(portID, port, "outport")
-        )}
-      </div>
-      <div class="tool-view">${shadow(tool.lifecycle.render(), tool)}</div>
-      <div class="tool-state">${stateView(tool.state)}</div>
+    <div class="toolbar">
+      <span class="tool-displayname">${tool.ui.displayName}</span>
+      <span class="tool-actions">
+        <i class="toggle-state fa-solid fa-code fa-xs "></i>
+        <i class="remove fa-solid fa-rectangle-xmark"></i>
+        <i class="pin fa-solid fa-xs fa-thumbtack"></i>
+        <i class="drag fa-solid fa-grip-vertical"></i>
+      </span>
     </div>
+    <div class="inports port-container">
+      ${Object.entries(tool.inports).map(([portID, port]) =>
+        portView(portID, port, "inport")
+      )}
+    </div>
+    <div class="outports port-container">
+      ${Object.entries(tool.outports).map(([portID, port]) =>
+        portView(portID, port, "outport")
+      )}
+    </div>
+    ${tool.ui.mini
+      ? nothing
+      : html`<div class="tool-view">
+          ${shadow(tool.lifecycle.render(), tool)}
+        </div>`}
+    <div class="tool-state">${stateView(tool.state)}</div>
   </div>`;
 }

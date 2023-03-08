@@ -6,33 +6,34 @@ export function debugView(state) {
   const scale = state.panZoom ? state.panZoom.scale() : 1;
 
   return html`<div id="debug-pane">
-    <div class="pane-header">debug</div>
+    <div class="debug-header">debug</div>
     <div class="debug-content">
       <div class="debug-header"><span>workspace</span></div>
-      <div class="debug-entry">
-        <div class="debug-info">x: ${x.toFixed(2)}</div>
-        <div class="debug-info">y: ${y.toFixed(2)}</div>
-        <div class="debug-info">scale: ${scale.toFixed(2)}</div>
+      <div class="debug-workspace">
+        <span>x</span><span>${x.toFixed(2)}</span>
+        <span>y</span><span>${y.toFixed(2)}</span>
+        <span>scale</span><span>${scale.toFixed(2)}</span>
       </div>
       <div class="debug-header"><span>tools</span></div>
-      <div class="debug-entry">
+      <div class="debug-section">
         ${Object.entries(state.toolchain.tools).map(
           ([toolID, toolInfo]) =>
-            html` <div class="debug-info">
+            html`<div class="debug-tools">
+              <div>display name</div>
+              <div>${toolInfo.ui.displayName}</div>
+              <div>tool id</div>
               <div>${toolID}</div>
-              <div class="debug-details">
-                <div>
-                  X: ${toolInfo.pos.x.toFixed(2)}, Y:
-                  ${toolInfo.pos.y.toFixed(2)}
-                </div>
+              <div>coords</div>
+              <div>
+                X: ${toolInfo.pos.x.toFixed(2)}, Y: ${toolInfo.pos.y.toFixed(2)}
               </div>
             </div>`
         )}
         </div>
         <div class="debug-header"><span>pipes</span></div>
-        <div class="debug-entry">
+        <div class="debug-section">
           ${Object.keys(state.toolchain.pipes).map(
-            (pipeID) => html`<div class="debug-info">${pipeID}</div>`
+            (pipeID) => html`<div class="debug-pipes">${pipeID}</div>`
           )}
         </div>
       </div>

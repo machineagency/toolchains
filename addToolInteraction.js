@@ -1,3 +1,4 @@
+import { update } from "lodash";
 import { createListener } from "./utils.js";
 
 export function addToolInteraction(workspace, state) {
@@ -20,6 +21,26 @@ export function addToolInteraction(workspace, state) {
     );
     return pipes;
   }
+
+  listen("dblclick", ".tool-displayname", (e) => {
+    let [toolID, toolInfo] = getToolDetails(e);
+    console.log(toolID);
+
+    e.target.contentEditable = true;
+
+    e.target.addEventListener("focusout", (e) => {
+      console.log("blurring");
+      state.toolchain.tools[toolID].ui.displayName = e.target.textContent;
+      e.target.contentEditable = false;
+    });
+
+    e.target.addEventListener("keypress", (e) => {
+      if (e.code === "Enter") {
+        e.preventDefault();
+        e.target.blur();
+      }
+    });
+  });
 
   listen("pointerdown", ".remove", (e) => {
     let [toolID, toolInfo] = getToolDetails(e);

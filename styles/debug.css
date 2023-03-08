@@ -1,0 +1,72 @@
+#debug-pane {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  border: 1px solid var(--black);
+  background-color: var(--black);
+  width: 100%;
+}
+
+.debug-content {
+  display: flex;
+}
+
+.debug-header {
+  background-color: var(--black);
+  color: var(--text-light);
+  padding: 0.2rem;
+  font-weight: bold;
+}
+
+.debug-header > span {
+  writing-mode: vertical-lr;
+  font-size: small;
+  transform: rotate(180deg);
+}
+
+.debug-section {
+  display: grid;
+  gap: 1px;
+  height: fit-content;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-family: monospace;
+  font-size: smaller;
+}
+
+.debug-workspace {
+  font-family: monospace;
+  font-size: smaller;
+  background-color: var(--tool-background);
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 3px;
+  padding: 3px;
+  height: 100%;
+}
+
+.debug-tools > div:nth-child(2n -1) {
+  font-style: italic;
+}
+
+.debug-tools {
+  background-color: var(--tool-background);
+  display: grid;
+  grid-template-columns: 80px 200px;
+  gap: 3px;
+  padding: 3px;
+}
+
+.debug-tools:hover {
+  background: var(--pipe);
+}
+
+.debug-pipes {
+  padding: 0.1rem 0.2rem;
+  background-color: var(--tool-background);
+  max-width: 150px;
+  overflow: hidden;
+}
