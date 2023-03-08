@@ -1,4 +1,4 @@
-import{y as o}from"./index-c839d3ed.js";const r={inports:{in:{type:"any",value:null}},outports:{},state:{},ui:{displayName:"Data Viewer",width:"200px",height:"40px"}};function a(t,n,i){function e(){return o`<style>
+import{y as o}from"./index-048f4a64.js";const r={inports:{in:{type:"any",value:null}},outports:{},state:{},ui:{displayName:"Data Viewer",width:"200px",height:"40px"}};function a(t,n,i){function e(){return o`<style>
         pre {
           padding: 0.2rem;
           font-family: monospace;

@@ -1,4 +1,4 @@
-import{y as t}from"./index-c839d3ed.js";const r={inports:{c1:{type:"string",value:null},c2:{type:"string",value:null},dir:{type:"number",value:180}},outports:{},state:{},ui:{displayName:"Gradient",width:"200px",height:"200px"}};function n(e,a,i){return{resize:()=>{},render:()=>t`<style>
+import{y as t}from"./index-048f4a64.js";const r={inports:{c1:{type:"string",value:null},c2:{type:"string",value:null},dir:{type:"number",value:180}},outports:{},state:{},ui:{displayName:"Gradient",width:"200px",height:"200px"}};function n(e,a,i){return{resize:()=>{},render:()=>t`<style>
         .gradient {
           height: 100%;
           background-image: linear-gradient(

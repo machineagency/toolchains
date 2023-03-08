@@ -1,4 +1,4 @@
-import{y as r}from"./index-c839d3ed.js";const a={inports:{stream:{type:"string",value:null}},outports:{},state:{log:[]},ui:{displayName:"Logger",width:"200px",height:"200px"}};function i(t,l,o){function e(){o.log.push(JSON.stringify(t.stream.value))}return{inportsUpdated:e,render:()=>r`<style>
+import{y as r}from"./index-048f4a64.js";const a={inports:{stream:{type:"string",value:null}},outports:{},state:{log:[]},ui:{displayName:"Logger",width:"200px",height:"200px"}};function i(t,l,o){function e(){o.log.push(JSON.stringify(t.stream.value))}return{inportsUpdated:e,render:()=>r`<style>
         .container {
           display: flex;
           flex-direction: column;
