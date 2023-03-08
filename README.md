@@ -25,6 +25,10 @@
   - [x] header
   - [x] state pane
   - [x] pin tool ui panels open
+  - [ ] hide state toggle if no state
+  - [ ] ui flex mode
+  - [ ] collapse ui
+  - [ ] allow tools with no ui
   - [ ] edit displayname
 - debug pane
   - [ ] highlight tool/pipe when hovered
@@ -66,6 +70,14 @@ a function which returns its lifecycle methods.
   - `state`
   - `inports`
   - `outports`
+
+Tool types?
+
+- stateless
+- stateful
+- push
+- pull
+- mini
 
 ### Example tool definition
 

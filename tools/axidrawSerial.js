@@ -1,14 +1,39 @@
 import { html, nothing } from "lit-html";
 
+// speed: mm/s
+// dx: mm
+// dy: mm
+function segment(speed, dx, dy) {
+  const stepsMM = 40;
+  let dist = Math.sqrt(dx * dx + dy * dy);
+  let duration = Math.floor((dist / speed) * 1000);
+  let stepsX = Math.floor(dx * stepsMM);
+  let stepsY = Math.floor(dy * stepsMM);
+
+  return `XM,${duration},${stepsX},${stepsY}\r`;
+}
+
+const commands = {
+  nickname: "QT\r",
+  reboot: "RB\r",
+  queryPenUp: "QP\r",
+  togglePen: "TP\r",
+  home: "HM,1000\r",
+  disableMotors: "EM,0,0\r",
+  enableMotors: "EM,1,1\r",
+  segment: segment(5, 10, 10),
+  eStop: "ES\r",
+};
+
 const config = {
   inports: {},
   outports: {
     serialOut: {
-      type: "pulse",
+      type: "string",
       value: null,
     },
   },
-  state: { connected: false },
+  state: { connected: false, currentCommand: commands.nickname },
   ui: {
     displayName: "Axi",
     width: "200px",
@@ -16,25 +41,9 @@ const config = {
   },
 };
 
-const xyMove = (duration, dx, dy) => `SM,${duration},${dx},${dy}\r`;
-const abMove = (duration, dx, dy) => `XM,${duration},${dx},${dy}\r`;
-
-const commands = {
-  nickname: "QT\r",
-  reboot: "RB\r",
-  queryPenUp: "QP\r",
-  togglePen: "TP\r",
-  disableMotors: "EM,0,0\r",
-  enableMotors: "EM,1,1\r",
-  abMove: abMove(1000, 1000, 1000),
-  xyMove: xyMove(1000, 1000, 1000),
-  eStop: "ES\r",
-};
-
-function axi(inports, outports, state) {
+function axidrawSerial(inports, outports, state) {
   function init() {}
 
-  let responses = [];
   let writer;
   let reader;
   let readableStreamClosed;
@@ -52,7 +61,8 @@ function axi(inports, outports, state) {
         reader.releaseLock();
         break;
       }
-      responses.push(value);
+      console.log(`AXI says ${value}`);
+      outports.serialOut.value = value;
     }
   }
 
@@ -64,11 +74,7 @@ function axi(inports, outports, state) {
   }
 
   async function sendCommand(command) {
-    await writer.write(commands[command]);
-  }
-
-  async function doMove() {
-    await writer.write(xyMove(1, 1, 1));
+    await writer.write(command);
   }
 
   async function openPort() {
@@ -108,30 +114,21 @@ function axi(inports, outports, state) {
     }
   }
 
-  const render = () => {
-    return html`<style>
-        button {
-          width: 100%;
-        }
-      </style>
-      <div>Connected: ${state.connected}</div>
+  function controls() {
+    return html`<input type="text" value=${state.currentCommand} />
+      <button @click=${() => sendCommand(state.currentCommand)}>send</button>`;
+  }
+
+  function render() {
+    return html`
       <button @click=${connect}>
         ${state.connected ? "Disconnect" : "Connect"}
       </button>
-      ${state.connected
-        ? Object.keys(commands).map(
-            (cmd) =>
-              html`<button @click=${() => sendCommand(cmd)}>${cmd}</button>`
-          )
-        : nothing}
-      <div>
-        ${responses.map((response) => {
-          return html`<div>${response}</div>`;
-        })}
-      </div>`;
-  };
+      ${state.connected ? controls() : nothing}
+    `;
+  }
 
   return { init, render };
 }
 
-export default { config, tool: axi };
+export default { config, tool: axidrawSerial };

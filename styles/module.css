@@ -157,7 +157,7 @@
 .tool.show-toolbar .outports .port,
 .tool:hover .outports .port {
   max-height: 20px;
-  max-width: 50px;
+  max-width: 100px;
   right: -2px;
   transform: translateX(0);
 }
@@ -169,7 +169,7 @@
 .tool.show-toolbar .inports .port,
 .tool:hover .inports .port {
   max-height: 20px;
-  max-width: 50px;
+  max-width: 100px;
   right: 3px;
   transform: translateX(-100%);
 }
@@ -187,8 +187,9 @@
   padding: 2px 4px;
   font-size: small;
   border: 1px solid var(--black);
+  user-select: none;
 }
 
 .port:hover {
-  background-color: var(--port-color);
+  background-color: var(--port-color, var(--port));
 }

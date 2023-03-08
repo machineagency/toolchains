@@ -18,6 +18,7 @@ const dracula = {
   "--tool-background-accent": "#d5d5d5",
   "--background-dots": "#d6cce0",
   "--port": "#b7b7b7",
+  "--port-hover": "#e7e7e7",
 };
 
 export { dracula };

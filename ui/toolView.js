@@ -1,4 +1,4 @@
-import { render, html } from "lit-html";
+import { render, html, nothing } from "lit-html";
 import { Directive, directive } from "lit-html/directive.js";
 import { stateView } from "./stateView";
 
@@ -36,7 +36,7 @@ function portView(portID, portInfo, portSide) {
     class="port"
     data-portside=${portSide}
     data-portid=${portID}
-    style="--port-color: ${portTypes[portInfo.type]}">
+    style="--port-color: ${portTypes[portInfo.type] ?? "var(--port-hover)"}">
     ${portID}
   </div>`;
 }
