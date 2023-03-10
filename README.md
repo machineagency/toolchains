@@ -39,8 +39,8 @@
   - [x] background dots
   - [x] click button to add a tool
   - [x] tool layering
+  - [x] box select tools for moving
   - [ ] collapse all toolui
-  - [ ] box select tools for moving
   - [ ] nice pipe routing
   - [ ] tool alignment/layout
   - [ ] mobile pan zoom
