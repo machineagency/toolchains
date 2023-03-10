@@ -11,8 +11,8 @@ const config = {
   state: { log: [] },
   ui: {
     displayName: "Logger",
-    width: "200px",
-    height: "200px",
+    width: 200,
+    height: 200,
   },
 };
 

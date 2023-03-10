@@ -11,8 +11,8 @@ const config = {
   state: { text: "hello world" },
   ui: {
     displayName: "text",
-    width: "200px",
-    height: "50px",
+    width: 200,
+    height: 50,
   },
 };
 

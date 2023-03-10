@@ -41,8 +41,8 @@ const config = {
   state: { connected: false, currentCommand: commands.nickname },
   ui: {
     displayName: "Axi",
-    width: "200px",
-    height: "200px",
+    width: 200,
+    height: 200,
   },
 };
 

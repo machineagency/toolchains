@@ -13,6 +13,8 @@ import { addNavInteraction } from "./addNavInteraction";
 import { addToolboxInteraction } from "./addToolboxInteraction";
 
 import { view } from "./ui/workspaceView";
+import { addSelectBox } from "./addSelectBox";
+import { addBackgroundInteraction } from "./addBackgroundInteraction";
 
 const globalState = {
   mouse: null,
@@ -41,6 +43,7 @@ const globalState = {
     tools: {},
     pipes: {},
   },
+  selectBox: {},
   theme: dracula,
   panZoom: null,
   transforming: false,
@@ -216,12 +219,12 @@ window.addEventListener("resize", () => {
 
 init();
 
-const svgBackground = document.getElementById("pipes");
+const svgLayer = document.getElementById("svg-layer");
 const workspace = document.getElementById("workspace");
 const toolbox = document.getElementById("toolbox");
 const nav = document.getElementById("nav");
 
-const panZoom = addPanZoom(svgBackground, globalState);
+const panZoom = addPanZoom(svgLayer, globalState);
 globalState.panZoom = panZoom;
 
 addGlobalInteraction(globalState);
@@ -230,6 +233,8 @@ addToolInteraction(workspace, globalState);
 addPipeInteraction(workspace, globalState);
 addToolboxInteraction(toolbox, globalState);
 addNavInteraction(nav, globalState);
+addSelectBox(workspace, globalState);
+addBackgroundInteraction(svgLayer, globalState);
 
 // if (globalState.debug) {
 //   const { default: toolchainJSON } = await import(`./examples/range.json`, {

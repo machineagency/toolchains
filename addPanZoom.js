@@ -23,11 +23,8 @@ export function addPanZoom(el, state) {
     return { x: newX, y: newY };
   }
 
-  function beginBoxSelection() {}
-
   listen("pointerdown", "", (e) => {
     if (e.shiftKey) {
-      beginBoxSelection();
       return;
     }
 

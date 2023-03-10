@@ -9,8 +9,12 @@ export function addGlobalInteraction(state) {
   window.addEventListener("keydown", (e) => {
     if (!state.keysPressed.includes(e.key)) state.keysPressed.push(e.key);
 
-    // Delete any loose pipe on escape
-    if (e.key === "Escape") delete state.toolchain.pipes["loose"];
+    if (e.key === "Escape") {
+      // Delete any loose pipe
+      delete state.toolchain.pipes["loose"];
+      // Clear selection
+      state.selection.clear();
+    }
   });
 
   window.addEventListener("keyup", (e) => {

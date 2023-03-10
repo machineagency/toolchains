@@ -11,8 +11,8 @@ const config = {
   state: {},
   ui: {
     displayName: "Data Viewer",
-    width: "200px",
-    height: "40px",
+    width: 200,
+    height: 40,
   },
 };
 

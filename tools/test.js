@@ -38,8 +38,8 @@ const config = {
   },
   ui: {
     displayName: "Test",
-    width: "200px",
-    height: "200px",
+    width: 200,
+    height: 200,
   },
 };
 

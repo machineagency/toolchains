@@ -10,8 +10,10 @@ export function debugView(state) {
     <div class="debug-content">
       <div class="debug-header"><span>workspace</span></div>
       <div class="debug-workspace">
-        <span>x</span><span>${x.toFixed(2)}</span>
-        <span>y</span><span>${y.toFixed(2)}</span>
+        <span>mouse</span><span>(${state.mouse.x.toFixed(
+          2
+        )}, ${state.mouse.y.toFixed(2)})</span>
+        <span>view</span><span>(${x.toFixed(2)},${y.toFixed(2)})</span>
         <span>scale</span><span>${scale.toFixed(2)}</span>
       </div>
       <div class="debug-header"><span>tools</span></div>

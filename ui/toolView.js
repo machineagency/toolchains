@@ -41,18 +41,19 @@ function portView(portID, portInfo, portSide) {
   </div>`;
 }
 
-export function toolView(toolID, tool) {
+export function toolView(toolID, tool, state) {
   return html`<div
-    class="tool ${tool.uiState.toolbar ? "show-toolbar" : "hide-toolbar"} ${tool
-      .uiState.statePanel
-      ? "show-state"
-      : "hide-state"} ${tool.ui.mini ? "mini" : "full"}"
+    class="tool
+      ${tool.uiState.toolbar ? "show-toolbar" : "hide-toolbar"}
+      ${tool.uiState.statePanel ? "show-state" : "hide-state"}
+      ${tool.ui.mini ? "mini" : "full"}
+      ${state.selection.has(toolID) ? "selected" : ""}"
     data-toolid=${toolID}
     style="
       --x:${tool.pos.x}px;
       --y:${tool.pos.y}px;
-      --ui-width:${tool.ui.width};
-      --ui-height:${tool.ui.height};">
+      --ui-width:${tool.ui.width ?? 0}px;
+      --ui-height:${tool.ui.height ?? 0}px;">
     <div class="tool-background">
       <div class="b1"></div>
       <div class="b2"></div>

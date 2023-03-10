@@ -11,8 +11,8 @@ const config = {
   state: { bool: false },
   ui: {
     displayName: "bool",
-    width: "130px",
-    height: "50px",
+    width: 130,
+    height: 50,
   },
 };
 

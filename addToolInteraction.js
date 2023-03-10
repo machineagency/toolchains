@@ -67,7 +67,9 @@ export function addToolInteraction(workspace, state) {
     // Nope, this causes issues with deleting tools - not entirely sure why
     // let parentTool = parentToolElement(e);
     // parentTool.parentNode.appendChild(parentTool);
-
+    if (!e.shiftKey && !state.selection.has(toolID)) {
+      state.selection.clear();
+    }
     state.selection.add(toolID);
     state.transforming = true;
   });
@@ -84,7 +86,9 @@ export function addToolInteraction(workspace, state) {
   });
 
   listen("pointerup", "", (e) => {
-    state.selection.clear();
+    if (state.selection.size == 1) {
+      state.selection.clear();
+    }
     state.transforming = false;
   });
 

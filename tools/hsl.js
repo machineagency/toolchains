@@ -19,8 +19,8 @@ const config = {
   state: {},
   ui: {
     displayName: "HSL",
-    width: "150px",
-    height: "150px",
+    width: 150,
+    height: 150,
   },
 };
 

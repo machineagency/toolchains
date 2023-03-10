@@ -6,8 +6,8 @@ const config = {
   state: { start: 1, end: 5, steps: 20 },
   ui: {
     displayName: "Velocity",
-    width: "200px",
-    height: "200px",
+    width: 200,
+    height: 200,
   },
 };
 

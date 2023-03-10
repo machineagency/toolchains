@@ -140,7 +140,7 @@ body {
   position: fixed;
 }
 
-#pipes {
+#svg-layer {
   position: fixed;
   overflow: hidden;
   width: 100%;
@@ -165,4 +165,13 @@ body {
 
 .pipe:hover {
   stroke-opacity: 1;
+}
+
+/* Selection box */
+
+.select-box {
+  fill: var(--pink);
+  fill-opacity: 0.1;
+  stroke: var(--pink);
+  stroke-width: 1px;
 }

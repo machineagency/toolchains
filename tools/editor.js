@@ -23,8 +23,8 @@ makeArr(0,100,21);`,
   },
   ui: {
     displayName: "Editor",
-    width: "400px",
-    height: "400px",
+    width: 400,
+    height: 400,
   },
 };
 

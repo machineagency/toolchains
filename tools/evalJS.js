@@ -11,8 +11,8 @@ const config = {
   state: {},
   ui: {
     displayName: "Eval",
-    width: "200px",
-    height: "100px",
+    width: 200,
+    height: 100,
   },
 };
 

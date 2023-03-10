@@ -11,8 +11,8 @@ const config = {
   state: { value: 1, min: 0, max: 1000, step: 1 },
   ui: {
     displayName: "Slider",
-    width: "175px",
-    height: "45px",
+    width: 175,
+    height: 45,
   },
 };
 
