@@ -1,0 +1,1 @@
+import{y as e}from"./index-cae7d1c5.js";const o={inports:{text:{type:"string",value:"hello"}},outports:{},state:{},ui:{displayName:"base",width:200,height:200}};function r(t,s,i){return{resize:()=>{},render:()=>e`<div>${t.text}</div>`}}const d={config:o,tool:r};export{d as default};

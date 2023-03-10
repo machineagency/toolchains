@@ -1,4 +1,4 @@
-import{y as p}from"./index-048f4a64.js";const s={inports:{},outports:{},state:{start:1,end:5,steps:20},ui:{displayName:"Velocity",width:"200px",height:"200px"}};function r(i,o,t){function a(n){t[n.target.dataset.val]=Number(n.target.value)}function e(){return p`<style>
+import{y as s}from"./index-cae7d1c5.js";const p={inports:{},outports:{},state:{start:1,end:5,steps:20},ui:{displayName:"Velocity",width:200,height:200}};function r(i,o,t){function a(n){t[n.target.dataset.val]=Number(n.target.value)}function e(){return s`<style>
         .container {
           display: grid;
           grid-template-columns: auto auto auto;
@@ -32,4 +32,4 @@ import{y as p}from"./index-048f4a64.js";const s={inports:{},outports:{},state:{s
           value=${t.steps}
           @change=${a} />
         <span>int</span>
-      </div>`}return{render:e}}const d={config:s,tool:r};export{d as default};
+      </div>`}return{render:e}}const d={config:p,tool:r};export{d as default};

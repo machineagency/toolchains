@@ -1,4 +1,4 @@
-import{i as f,t as A,e as g,b as h,_ as d,y as m}from"./index-048f4a64.js";/**
+import{i as f,t as A,e as g,b as h,_ as d,y as m}from"./index-cae7d1c5.js";/**
  * @license
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
@@ -19,7 +19,7 @@ import{i as f,t as A,e as g,b as h,_ as d,y as m}from"./index-048f4a64.js";/**
   return arr;
 }
 
-makeArr(0,100,21);`},ui:{displayName:"Editor",width:"400px",height:"400px"}};function E(i,t,e){let s;function o(){e.code=s.getValue(),t.js.value=e.code}let r=M();async function u(){let{default:_}=await d(()=>import("https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.css?used"),[]),{default:p}=await d(()=>import("https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/dracula.min.css?used"),[]),{default:$}=await d(()=>import("https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/scroll/simplescrollbars.min.css?used"),[]);r.value.parentNode.adoptedStyleSheets=[_,p,$],s=CodeMirror(r.value,{lineNumbers:!0,tabSize:2,value:e.code,mode:"javascript",theme:"dracula",viewportMargin:1/0,scrollbarStyle:"simple",gutters:["error"]}),t.js.value=e.code,s.on("changes",o)}function v(){return m` <style>
+makeArr(0,100,21);`},ui:{displayName:"Editor",width:400,height:400}};function E(i,t,e){let s;function o(){e.code=s.getValue(),t.js.value=e.code}let r=M();async function u(){let{default:_}=await d(()=>import("https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.css?used"),[]),{default:$}=await d(()=>import("https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/dracula.min.css?used"),[]),{default:p}=await d(()=>import("https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/scroll/simplescrollbars.min.css?used"),[]);r.value.parentNode.adoptedStyleSheets=[_,$,p],s=CodeMirror(r.value,{lineNumbers:!0,tabSize:2,value:e.code,mode:"javascript",theme:"dracula",viewportMargin:1/0,scrollbarStyle:"simple",gutters:["error"]}),t.js.value=e.code,s.on("changes",o)}function v(){return m` <style>
         #editor {
           height: 100%;
         }

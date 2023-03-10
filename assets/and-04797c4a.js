@@ -1,0 +1,1 @@
+const n={inports:{a:{type:"boolean",value:null},b:{type:"boolean",value:null}},outports:{out:{type:"boolean",value:null}},state:{},ui:{displayName:"and",mini:!0}};function t(e,a,u){function l(){e.a.value!==null&&e.b.value!==null&&(a.out.value=e.a.value&&e.b.value)}return{inportsUpdated:l,render:()=>{}}}const d={config:n,tool:t};export{d as default};

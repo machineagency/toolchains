@@ -1,4 +1,4 @@
-import{y as r}from"./index-048f4a64.js";const a={inports:{stream:{type:"string",value:null}},outports:{},state:{log:[]},ui:{displayName:"Logger",width:"200px",height:"200px"}};function i(t,l,o){function e(){o.log.push(JSON.stringify(t.stream.value))}return{inportsUpdated:e,render:()=>r`<style>
+import{y as r}from"./index-cae7d1c5.js";const a={inports:{stream:{type:"string",value:null}},outports:{},state:{log:[]},ui:{displayName:"Logger",width:200,height:200}};function i(t,l,o){function e(){o.log.push(JSON.stringify(t.stream.value))}return{inportsUpdated:e,render:()=>r`<style>
         .container {
           display: flex;
           flex-direction: column;
@@ -17,4 +17,4 @@ import{y as r}from"./index-048f4a64.js";const a={inports:{stream:{type:"string",
       </style>
       <div class="container">
         ${o.log.map(n=>r`<pre>${n}</pre>`)}
-      </div>`}}const s={config:a,tool:i};export{s as default};
+      </div>`}}const c={config:a,tool:i};export{c as default};
