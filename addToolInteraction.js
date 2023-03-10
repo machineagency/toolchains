@@ -59,6 +59,12 @@ export function addToolInteraction(workspace, state) {
     delete state.toolchain.tools[toolID];
   });
 
+  listen("pointerdown", ".toolbar", (e) => {
+    let [toolID, toolInfo] = getToolDetails(e);
+
+    if (e.shiftKey) state.selection.add(toolID);
+  });
+
   listen("pointerdown", ".drag", (e) => {
     let [toolID, toolInfo] = getToolDetails(e);
 
@@ -86,7 +92,7 @@ export function addToolInteraction(workspace, state) {
   });
 
   listen("pointerup", "", (e) => {
-    if (state.selection.size == 1) {
+    if (state.transforming && state.selection.size == 1) {
       state.selection.clear();
     }
     state.transforming = false;

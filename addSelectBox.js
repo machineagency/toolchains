@@ -17,7 +17,7 @@ export function addSelectBox(el, state) {
     state.selection.clear();
   });
 
-  listen("pointerdown", "", (e) => {
+  listen("pointerdown", "#svg-layer", (e) => {
     if (!e.shiftKey) return;
     start = state.mouse;
   });
