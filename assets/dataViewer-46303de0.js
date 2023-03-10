@@ -1,4 +1,4 @@
-import{y as o}from"./index-cae7d1c5.js";const r={inports:{in:{type:"any",value:null}},outports:{},state:{},ui:{displayName:"Data Viewer",width:200,height:40}};function a(t,n,i){function e(){return o`<style>
+import{y as o}from"./index-f35f512e.js";const r={inports:{in:{type:"any",value:null}},outports:{},state:{},ui:{displayName:"Data Viewer",width:200,height:40}};function a(t,n,i){function e(){return o`<style>
         pre {
           padding: 0.2rem;
           font-family: monospace;
