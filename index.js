@@ -18,6 +18,9 @@ const globalState = {
   mouse: null,
   initialized: false,
   toolbox: [
+    "and",
+    "not",
+    "bool",
     "inputSlider",
     "domain",
     "test",
@@ -25,8 +28,6 @@ const globalState = {
     "color",
     "dataViewer",
     "range",
-    // "toggle",
-    // "text",
     "gradient",
     "axidrawSerial",
     "velocity",
@@ -230,9 +231,13 @@ addPipeInteraction(workspace, globalState);
 addToolboxInteraction(toolbox, globalState);
 addNavInteraction(nav, globalState);
 
-if (globalState.debug) {
-  const { default: toolchainJSON } = await import(`./examples/range.json`);
-  uploadToolchain(toolchainJSON);
-}
+// if (globalState.debug) {
+//   const { default: toolchainJSON } = await import(`./examples/range.json`, {
+//     assert: {
+//       type: "json",
+//     },
+//   });
+//   uploadToolchain(toolchainJSON);
+// }
 
 window.requestAnimationFrame(r);

@@ -26,7 +26,12 @@ const commands = {
 };
 
 const config = {
-  inports: {},
+  inports: {
+    command: {
+      type: "string",
+      value: null,
+    },
+  },
   outports: {
     serialOut: {
       type: "string",
