@@ -1,3 +1,18 @@
+@font-face {
+  font-family: "National Park";
+  src: url("/assets/fonts/NationalPark/woff2/NP-VariableVF.woff2")
+      format("woff2 supports variations"),
+    url("/assets/fonts/NationalPark/woff2/NP-VariableVF.woff2")
+      format("woff2-variations");
+}
+
+i::before {
+  display: inline-block;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+
 *,
 *::before,
 *::after {

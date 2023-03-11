@@ -7,6 +7,8 @@
     "deploy": "vite build --base=/toolchains/ && gh-pages -d dist"
   },
   "devDependencies": {
+    "acorn-import-assertions": "^1.8.0",
+    "rollup-plugin-import-assert": "^2.1.3",
     "vite": "^4.1.4"
   },
   "dependencies": {

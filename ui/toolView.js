@@ -16,6 +16,8 @@ class Shadow extends Directive {
       tool.domInitialized = true;
       if ("postInit" in tool.lifecycle) {
         tool.lifecycle.postInit();
+
+        render(arr[0], part.parentNode.shadowRoot);
       }
     }
   }

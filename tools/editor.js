@@ -1,6 +1,14 @@
 import { html } from "lit-html";
 import { ref, createRef } from "lit-html/directives/ref.js";
 
+import "https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js";
+import "https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/comment/comment.min.js";
+import "https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js";
+
+import base from "./codemirror/codemirror.min.css?inline";
+import scroll from "./codemirror/simplescrollbars.min.css?inline";
+import theme from "./codemirror/dracula.min.css?inline";
+
 const config = {
   inports: {},
   outports: {
@@ -34,38 +42,24 @@ function editor(inports, outports, state) {
   function handleChange() {
     state.code = editor.getValue();
     outports.js.value = state.code;
+    editor.refresh();
   }
 
   let editorRef = createRef();
 
-  async function postInit() {
-    let { default: codem } = await import(
-      "https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.css",
-      {
-        assert: {
-          type: "css",
-        },
-      }
-    );
-    let { default: drac } = await import(
-      "https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/dracula.min.css",
-      {
-        assert: {
-          type: "css",
-        },
-      }
-    );
+  function postInit() {
+    const baseSheet = new CSSStyleSheet();
+    baseSheet.replaceSync(base);
+    const draculaSheet = new CSSStyleSheet();
+    draculaSheet.replaceSync(theme);
+    const scrollbarsSheet = new CSSStyleSheet();
+    scrollbarsSheet.replaceSync(scroll);
 
-    let { default: scroll } = await import(
-      "https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/scroll/simplescrollbars.min.css",
-      {
-        assert: {
-          type: "css",
-        },
-      }
-    );
-
-    editorRef.value.parentNode.adoptedStyleSheets = [codem, drac, scroll];
+    editorRef.value.parentNode.adoptedStyleSheets = [
+      baseSheet,
+      draculaSheet,
+      scrollbarsSheet,
+    ];
 
     editor = CodeMirror(editorRef.value, {
       lineNumbers: true,
@@ -74,25 +68,27 @@ function editor(inports, outports, state) {
       mode: "javascript",
       theme: "dracula",
       viewportMargin: Infinity,
-      scrollbarStyle: "simple",
       gutters: ["error"],
     });
 
     outports.js.value = state.code;
 
     editor.on("changes", handleChange);
+    editor.setSize("100%", "100%");
+    setTimeout(() => {
+      editor.refresh();
+    }, 1);
   }
 
   function render() {
-    return html` <style>
+    return html`
+      <style>
         #editor {
           height: 100%;
         }
-        .CodeMirror {
-          height: 100% !important;
-        }
       </style>
-      <div id="editor" ${ref(editorRef)}></div>`;
+      <div id="editor" ${ref(editorRef)}></div>
+    `;
   }
 
   return { render, postInit };
