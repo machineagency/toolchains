@@ -1,4 +1,4 @@
-import{y as l}from"./index-f35f512e.js";const t={inports:{},outports:{num:{type:"number",value:1}},state:{value:1,min:0,max:1e3,step:1},ui:{displayName:"Slider",width:175,height:45}};function o(p,r,e){function i(n){e.value=Number(n),r.num.value=e.value}function a(){return l`<style>
+import{y as l}from"./index-c72eccca.js";const t={inports:{},outports:{num:{type:"number",value:1}},state:{value:1,min:0,max:1e3,step:1},ui:{displayName:"Slider",width:175,height:45}};function o(p,r,e){function i(n){e.value=Number(n),r.num.value=e.value}function a(){return l`<style>
         #container {
           height: 100%;
           display: flex;

@@ -1,0 +1,1 @@
+function u(e,o,r){for(var t=[],n=(o-e)/(r-1),a=0;a<r;a++)t.push(e+n*a);return t}function i(e,o){let r=[];for(var t=0;t<o;t++)r.push(u(0,1,e));return r}const p={inports:{image:{type:"image",value:null}},outports:{out:{type:"array",value:i(10,10)}},state:{},ui:{displayName:"not",mini:!0}};function s(e,o,r){return{render:()=>{}}}const l={config:p,tool:s};export{l as default};
