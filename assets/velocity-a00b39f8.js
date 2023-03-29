@@ -1,4 +1,4 @@
-import{y as s}from"./index-c72eccca.js";const p={inports:{},outports:{},state:{start:1,end:5,steps:20},ui:{displayName:"Velocity",width:200,height:200}};function r(i,o,t){function a(n){t[n.target.dataset.val]=Number(n.target.value)}function e(){return s`<style>
+import{y as s}from"./index-56a203ca.js";const p={inports:{},outports:{},state:{start:1,end:5,steps:20},ui:{displayName:"Velocity",width:200,height:200}};function r(i,o,t){function a(n){t[n.target.dataset.val]=Number(n.target.value)}function e(){return s`<style>
         .container {
           display: grid;
           grid-template-columns: auto auto auto;

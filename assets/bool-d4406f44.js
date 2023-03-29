@@ -1,4 +1,4 @@
-import{y as c}from"./index-c72eccca.js";const r={inports:{},outports:{bool:{type:"boolean",value:!1}},state:{bool:!1},ui:{displayName:"bool",width:130,height:50}};function n(i,l,o){function t(){return c`<style>
+import{y as r}from"./index-56a203ca.js";const c={inports:{},outports:{bool:{type:"boolean",value:!1}},state:{bool:!1},ui:{displayName:"bool",width:130,height:50,resize:"both"}};function i(n,l,o){function t(){return r`<style>
         label {
           display: block;
           width: 100%;
@@ -12,4 +12,4 @@ import{y as c}from"./index-c72eccca.js";const r={inports:{},outports:{bool:{type
         @input=${e=>{o.bool=e.target.checked,l.bool.value=e.target.checked}}
         ?checked=${o.bool}
         type="checkbox"
-        hidden />`}return{render:t}}const b={config:r,tool:n};export{b as default};
+        hidden />`}return{render:t}}const a={config:c,tool:i};export{a as default};
