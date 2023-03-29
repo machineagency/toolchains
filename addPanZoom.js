@@ -16,6 +16,13 @@ export function addPanZoom(el, state) {
       "translate(" + pointX + "px, " + pointY + "px) scale(" + scale + ")";
   }
 
+  function updateTransformGroups() {
+    const transformGroups = document.querySelectorAll(".transform-group");
+    for (const group of transformGroups) {
+      setTransform(group);
+    }
+  }
+
   function toWorkspaceCoords({ x, y }) {
     let newX = (x - pointX) / scale;
     let newY = (y - pointY) / scale;
@@ -43,11 +50,7 @@ export function addPanZoom(el, state) {
     pointX = e.offsetX - start.x;
     pointY = e.offsetY - start.y;
 
-    const transformGroups = document.querySelectorAll(".transform-group");
-
-    for (const group of transformGroups) {
-      setTransform(group);
-    }
+    updateTransformGroups();
   });
 
   listen("pointerup", "", (evt) => {
@@ -64,7 +67,12 @@ export function addPanZoom(el, state) {
     pointX = e.offsetX - xs * scale;
     pointY = e.offsetY - ys * scale;
 
-    updatePanZoom();
+    Object.keys(state.toolchain.tools).forEach((toolID) => {
+      let toolTo = state.toolchain.tools[toolID];
+      if ("onZoom" in toolTo.lifecycle) toolTo.lifecycle.onZoom(scale);
+    });
+
+    updateTransformGroups();
     e.preventDefault();
   });
 
@@ -72,14 +80,7 @@ export function addPanZoom(el, state) {
     scale = pz.scale;
     pointX = pz.x;
     pointY = pz.y;
-    updatePanZoom();
-  }
-
-  function updatePanZoom() {
-    const imgs = document.querySelectorAll(".transform-group");
-    for (const img of imgs) {
-      setTransform(img);
-    }
+    updateTransformGroups();
   }
 
   function setScaleXY(limits) {

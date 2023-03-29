@@ -15,6 +15,8 @@ export function debugView(state) {
         )}, ${state.mouse.y.toFixed(2)})</span>
         <span>view</span><span>(${x.toFixed(2)},${y.toFixed(2)})</span>
         <span>scale</span><span>${scale.toFixed(2)}</span>
+        <span>transforming</span><span>${state.transforming}</span>
+        <span>resizing</span><span>${state.resizing}</span>
       </div>
       <div class="debug-header"><span>tools</span></div>
       <div class="debug-section">

@@ -10,6 +10,7 @@ export function addSelectBox(el, state) {
     start = null;
     end = null;
     state.selectBox = { start, end };
+    state.lockInteraction = false;
   };
 
   listen("pointercancel", "", (e) => {
@@ -19,6 +20,7 @@ export function addSelectBox(el, state) {
 
   listen("pointerdown", "#svg-layer", (e) => {
     if (!e.shiftKey) return;
+    state.lockInteraction = true;
     start = state.mouse;
   });
 

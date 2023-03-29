@@ -1,0 +1,77 @@
+{
+  "pipes": {
+    "p5Editor_2282d924-7611-457a-978f-ce3be53bd122_sketch_p5Viewer_7b8b611f-62ac-477d-a0dd-ca541c68cd2d_sketch": {
+      "start": {
+        "toolID": "p5Editor_2282d924-7611-457a-978f-ce3be53bd122",
+        "portID": "sketch"
+      },
+      "end": {
+        "toolID": "p5Viewer_7b8b611f-62ac-477d-a0dd-ca541c68cd2d",
+        "portID": "sketch"
+      }
+    }
+  },
+  "tools": {
+    "p5Viewer_7b8b611f-62ac-477d-a0dd-ca541c68cd2d": {
+      "toolType": "p5Viewer",
+      "toolID": "p5Viewer_7b8b611f-62ac-477d-a0dd-ca541c68cd2d",
+      "pos": {
+        "x": 810.8281390604775,
+        "y": -346.093485313746
+      },
+      "inports": {
+        "sketch": {
+          "type": "javascript",
+          "value": "function setup() {\n  createCanvas(windowWidth, windowHeight);\n  background(0);\n}\n\nfunction draw() {\n  variableEllipse(mouseX, mouseY, pmouseX, pmouseY);\n}\n\nfunction variableEllipse(x, y, px, py) {\n  let speed = abs(x - px) + abs(y - py);\n  stroke(speed);\n  ellipse(x, y, speed, speed);\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n  background(0)\n}"
+        }
+      },
+      "outports": {},
+      "state": {},
+      "uiState": {
+        "toolbar": true,
+        "statePanel": false
+      },
+      "ui": {
+        "displayName": "P5 Sketch Viewer",
+        "width": 1013.7071524900492,
+        "height": 864.0237674985141,
+        "resize": "both"
+      },
+      "domInitialized": true
+    },
+    "p5Editor_2282d924-7611-457a-978f-ce3be53bd122": {
+      "toolType": "p5Editor",
+      "toolID": "p5Editor_2282d924-7611-457a-978f-ce3be53bd122",
+      "pos": {
+        "x": 126.69016768241546,
+        "y": -345.30371259170914
+      },
+      "inports": {},
+      "outports": {
+        "sketch": {
+          "type": "string",
+          "value": "function setup() {\n  createCanvas(windowWidth, windowHeight);\n  background(0);\n}\n\nfunction draw() {\n  variableEllipse(mouseX, mouseY, pmouseX, pmouseY);\n}\n\nfunction variableEllipse(x, y, px, py) {\n  let speed = abs(x - px) + abs(y - py);\n  stroke(speed);\n  ellipse(x, y, speed, speed);\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n  background(0)\n}"
+        }
+      },
+      "state": {
+        "sketch": "function setup() {\n  createCanvas(windowWidth, windowHeight);\n  background(0);\n}\n\nfunction draw() {\n  variableEllipse(mouseX, mouseY, pmouseX, pmouseY);\n}\n\nfunction variableEllipse(x, y, px, py) {\n  let speed = abs(x - px) + abs(y - py);\n  stroke(speed);\n  ellipse(x, y, speed, speed);\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n  background(0)\n}"
+      },
+      "uiState": {
+        "toolbar": true,
+        "statePanel": false
+      },
+      "ui": {
+        "displayName": "P5 Sketch Editor",
+        "width": 500,
+        "height": 400,
+        "resize": "both"
+      },
+      "domInitialized": true
+    }
+  },
+  "workspace": {
+    "x": 154.49468709305575,
+    "y": 326.70957141198903,
+    "scale": 0.623166939220114
+  }
+}

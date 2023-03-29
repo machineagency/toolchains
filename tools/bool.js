@@ -13,6 +13,7 @@ const config = {
     displayName: "bool",
     width: 130,
     height: 50,
+    resize: "both",
   },
 };
 

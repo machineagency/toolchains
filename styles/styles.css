@@ -12,7 +12,6 @@ i::before {
   -webkit-font-smoothing: antialiased;
 }
 
-
 *,
 *::before,
 *::after {
@@ -135,20 +134,25 @@ body {
 /* BACKGROUND */
 
 #background {
-  --grid-size: 50px;
-  --dot: 1px;
+  --grid-size: 40px;
+  --dot-size: 1px;
 
-  background-size: calc(var(--grid-size) * var(--scale, 1))
-    calc(var(--grid-size) * var(--scale, 1));
-  background-image: radial-gradient(
-    circle,
-    var(--background-dots) var(--dot),
-    var(--workspace-background) var(--dot)
-  );
-  background-position: var(--offset-x, 0) var(--offset-y, 0);
+  --offset-x: 0px;
+  --offset-y: 0px;
+  --scale: 1;
+
   width: 100%;
   height: 100%;
   position: fixed;
+
+  background-size: calc(var(--grid-size) * var(--scale, 1))
+    calc(var(--grid-size) * var(--scale, 1));
+  background-position: var(--offset-x, 0) var(--offset-y, 0);
+  background-image: radial-gradient(
+    circle,
+    var(--background-dots),
+    var(--background) var(--dot-size)
+  );
 }
 
 #toolchain {

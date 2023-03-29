@@ -1,4 +1,12 @@
 import { html } from "lit-html";
+import { ref, createRef } from "lit-html/directives/ref.js";
+
+import { EditorState } from "@codemirror/state";
+import { EditorView } from "@codemirror/view";
+import { javascript } from "@codemirror/lang-javascript";
+import { json } from "@codemirror/lang-json";
+
+import { editorSetup } from "../common/editor";
 
 const config = {
   inports: {
@@ -8,29 +16,104 @@ const config = {
     },
   },
   outports: {},
-  state: {},
+  state: {
+    mode: "json",
+  },
   ui: {
     displayName: "Data Viewer",
+    resize: "both",
     width: 200,
-    height: 40,
+    height: 500,
   },
 };
 
-function dataViewer(inports, outports, state) {
-  function render() {
-    return html`<style>
-        pre {
-          padding: 0.2rem;
-          font-family: monospace;
-          background-color: var(--tool-background);
-          margin: 0;
-          overflow: auto;
-        }
-      </style>
-      <pre>${JSON.stringify(inports.in.value, null, 4)}</pre>`;
+function dataViewer(inports, outports, state, global) {
+  let editorRef = createRef();
+  let view;
+
+  function makeState() {
+    return EditorState.create({
+      doc: JSON.stringify(inports.in.value),
+      extensions: [editorSetup, json(), EditorState.readOnly.of(true)],
+    });
   }
 
-  return { render };
+  function postInit() {
+    view = new EditorView({
+      parent: editorRef.value,
+      state: makeState(),
+    });
+  }
+
+  function inportsUpdated() {
+    view.setState(makeState());
+  }
+
+  function onZoom() {
+    view.requestMeasure();
+  }
+  function render() {
+    let scale = global.panZoom.scale();
+
+    return html`
+      <style>
+        #editor {
+          height: 100%;
+          display: flex;
+          overflow: auto;
+        }
+        .cm-editor {
+          flex: 1;
+        }
+        .cm-editor.cm-focused {
+          outline: none;
+        }
+
+        /* Prepare yourself for the jankiest CSS ever written */
+        /* This is because Codemirror doesn't behave properly when
+         inside something that has been transformed with CSS */
+        .cm-gutter {
+          transform-origin: 0 0;
+          transform: scale(${1 / scale});
+        }
+        .cm-gutter > * {
+          transform-origin: 0 0;
+          transform: scale(${scale});
+        }
+        .cm-cursorLayer {
+          transform-origin: 0 0;
+          transform: scale(${1 / scale});
+        }
+        .cm-selectionLayer {
+          /* transform-origin: 0 0; */
+          transform: scale(${1 / scale});
+        }
+        /* Works on Firefox */
+        * {
+          scrollbar-width: thin;
+          scrollbar-color: blue var(--purple);
+        }
+
+        /* Works on Chrome, Edge, and Safari */
+        *::-webkit-scrollbar {
+          width: 5px;
+          height: 5px;
+        }
+
+        *::-webkit-scrollbar-track {
+          background: var(--black);
+        }
+
+        *::-webkit-scrollbar-thumb {
+          background-color: var(--purple);
+          border: none;
+        }
+      </style>
+      <div id="editor" ${ref(editorRef)}></div>
+    `;
+  }
+
+  return { render, postInit, inportsUpdated, onZoom };
 }
 
 export default { config, tool: dataViewer };

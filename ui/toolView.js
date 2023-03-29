@@ -44,11 +44,13 @@ function portView(portID, portInfo, portSide) {
 }
 
 export function toolView(toolID, tool, state) {
+  let locked = state.resizing || state.transforming || state.lockInteraction;
   return html`<div
     class="tool
       ${tool.uiState.toolbar ? "show-toolbar" : "hide-toolbar"}
       ${tool.uiState.statePanel ? "show-state" : "hide-state"}
       ${tool.ui.mini ? "mini" : "full"}
+      resize-${tool.ui.resize}
       ${state.selection.has(toolID) ? "selected" : ""}"
     data-toolid=${toolID}
     style="
@@ -82,9 +84,10 @@ export function toolView(toolID, tool, state) {
     </div>
     ${tool.ui.mini
       ? nothing
-      : html`<div class="tool-view">
+      : html`<div class="tool-view ${locked ? "disable-pointer" : ""}">
           ${shadow(tool.lifecycle.render(), tool)}
         </div>`}
+    <div class="resize-handle"></div>
     <div class="tool-state">${stateView(tool.state)}</div>
   </div>`;
 }

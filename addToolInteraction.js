@@ -59,6 +59,12 @@ export function addToolInteraction(workspace, state) {
     delete state.toolchain.tools[toolID];
   });
 
+  listen("pointerdown", ".resize-handle", (e) => {
+    let [toolID, toolInfo] = getToolDetails(e);
+    state.resizing = true;
+    state.selection.add(toolID);
+  });
+
   listen("pointerdown", ".toolbar", (e) => {
     let [toolID, toolInfo] = getToolDetails(e);
 
@@ -81,21 +87,31 @@ export function addToolInteraction(workspace, state) {
   });
 
   listen("pointermove", "", (e) => {
-    if (!state.transforming) return;
     let dx = e.movementX / state.panZoom.scale();
     let dy = e.movementY / state.panZoom.scale();
 
-    state.selection.forEach((toolID) => {
-      state.toolchain.tools[toolID].pos.x += dx;
-      state.toolchain.tools[toolID].pos.y += dy;
-    });
+    if (state.transforming) {
+      state.selection.forEach((toolID) => {
+        state.toolchain.tools[toolID].pos.x += dx;
+        state.toolchain.tools[toolID].pos.y += dy;
+      });
+    } else if (state.resizing) {
+      state.selection.forEach((toolID) => {
+        let toolTo = state.toolchain.tools[toolID];
+        toolTo.ui.width += dx;
+        toolTo.ui.height += dy;
+        if ("onResize" in toolTo.lifecycle) toolTo.lifecycle.onResize();
+      });
+    }
   });
 
   listen("pointerup", "", (e) => {
-    if (state.transforming && state.selection.size == 1) {
+    if ((state.transforming || state.resizing) && state.selection.size == 1) {
       state.selection.clear();
     }
+
     state.transforming = false;
+    state.resizing = false;
   });
 
   listen("pointerdown", ".pin", (e) => {

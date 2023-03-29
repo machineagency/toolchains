@@ -20,6 +20,8 @@ const globalState = {
   mouse: null,
   initialized: false,
   toolbox: [
+    "p5Editor",
+    "p5Viewer",
     "and",
     "not",
     "bool",
@@ -37,7 +39,7 @@ const globalState = {
     "logger",
     "hsl",
   ],
-  examples: ["gradients", "range", "editor", "hsl"],
+  examples: ["p5_sketch", "gradients", "range", "editor", "hsl"],
   imports: {},
   toolchain: {
     tools: {},
@@ -46,7 +48,9 @@ const globalState = {
   selectBox: {},
   theme: dracula,
   panZoom: null,
+  resizing: false,
   transforming: false,
+  lockInteraction: false,
   selection: new Set(),
   keysPressed: [],
   debug: false,
@@ -122,7 +126,12 @@ function setupProxies(toolFunc, tool) {
   tool.inports = inportProxies;
   tool.outports = outportProxies;
   tool.state = new Proxy(_.cloneDeep(tool.state), makeStateProxy());
-  tool.lifecycle = toolFunc(tool.inports, tool.outports, tool.state);
+  tool.lifecycle = toolFunc(
+    tool.inports,
+    tool.outports,
+    tool.state,
+    globalState // definitely don't actually pass in global state here, just testing. should make an object with allowed global vars
+  );
 
   return true;
 }
@@ -145,6 +154,7 @@ function initializeConfig(toolType, toolConfig) {
         width: "200px",
         height: "200px",
         mini: false,
+        resize: "none",
       }
     ),
     domInitialized: false,

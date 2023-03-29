@@ -12,7 +12,7 @@ const dracula = {
   "--text-light": "#f8f8f2",
   "--text-dark": "#282a36",
   "--pipe": "#b7b7b7",
-  "--workspace-background": "#44475a",
+  "--background": "#44475a",
   "--toolbar": "#282a36",
   "--tool-background": "#f8f8f2",
   "--tool-background-accent": "#d5d5d5",

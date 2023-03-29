@@ -10,8 +10,8 @@
   display: grid;
   grid-template-columns: auto auto auto;
   grid-template-rows: auto auto auto;
-  min-height: var(--ui-height, 20px);
-  min-width: var(--ui-width, 20px);
+  /* min-height: var(--ui-height, 20px);
+  min-width: var(--ui-width, 20px); */
 }
 
 .tool.show-toolbar .inports,
@@ -99,6 +99,9 @@
 
 .tool-displayname {
   font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* TOOLBAR BUTTONS */
@@ -150,10 +153,15 @@
   position: relative;
   grid-row: 2;
   grid-column: 2;
-  height: var(--ui-height);
-  width: var(--ui-width);
+  min-height: var(--ui-height);
+  min-width: var(--ui-width);
   z-index: 3;
   background-color: var(--tool-background);
+}
+
+.tool-view.disable-pointer {
+  pointer-events: none;
+  user-select: none;
 }
 
 /* STATE PANE */
@@ -232,4 +240,32 @@
 
 .port:hover {
   background-color: var(--port-color, var(--port));
+}
+
+/* RESIZE HANDLE */
+
+.resize-handle {
+  height: 15px;
+  width: 15px;
+  z-index: 1;
+  background-color: transparent;
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+}
+
+.resize-both .resize-handle {
+  cursor: nwse-resize;
+}
+
+.resize-ew .resize-handle {
+  cursor: ew-resize;
+}
+
+.resize-ns .resize-handle {
+  cursor: ns-resize;
+}
+
+.resize-static .resize-handle {
+  display: none;
 }

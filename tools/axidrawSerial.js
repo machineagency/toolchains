@@ -38,7 +38,7 @@ const config = {
       value: null,
     },
   },
-  state: { connected: false, currentCommand: commands.nickname },
+  state: { connected: false, currentCommand: commands.segment },
   ui: {
     displayName: "Axi",
     width: 200,

@@ -54,7 +54,7 @@ export function view(state) {
     <div id="workspace">
       <canvas
         id="background"
-        style="--offset-x: ${x}px;--offset-y: ${y}px;--scale: ${scale}"></canvas>
+        style="--offset-x: ${x}px;--offset-y: ${y}px;--scale: ${scale};"></canvas>
       <svg id="svg-layer" preserveAspectRatio="xMidYMid meet">
         <g class="transform-group">
           ${state.selectBox.start && state.selectBox.end

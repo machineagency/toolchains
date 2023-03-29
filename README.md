@@ -45,6 +45,7 @@ Running Toolchains locally is easy!
         context menu
     - align left, right, center
     - vertical/horizontal even spread
+  - [ ] fade/adjust dotted background on scroll
 - tool ui
   - [x] set initial width and height from tool config
   - [x] render template tool ui
@@ -53,6 +54,7 @@ Running Toolchains locally is easy!
   - [x] state pane
   - [x] edit displayname
   - [x] collapse ui
+  - [x] resize handle
   - [ ] toolbar context menu
     - [ ] remove tool
     - [ ] Edit tool display name
