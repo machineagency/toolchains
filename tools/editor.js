@@ -1,97 +1,126 @@
 import { html } from "lit-html";
 import { ref, createRef } from "lit-html/directives/ref.js";
 
-import "https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js";
-import "https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/comment/comment.min.js";
-import "https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js";
+import { EditorState } from "@codemirror/state";
+import { EditorView } from "@codemirror/view";
+import { javascript } from "@codemirror/lang-javascript";
 
-import base from "./codemirror/codemirror.min.css?inline";
-import scroll from "./codemirror/simplescrollbars.min.css?inline";
-import theme from "./codemirror/dracula.min.css?inline";
+import { editorSetup } from "../common/editor";
 
 const config = {
   inports: {},
   outports: {
-    js: {
+    program: {
       type: "string",
       value: null,
     },
   },
   state: {
-    code: `function makeArr(start, stop, numSteps) {
-  var arr = [];
-  var step = (stop - start) / (numSteps - 1);
-  for (var i = 0; i < numSteps; i++) {
-    arr.push(start + (step * i));
-  }
-  return arr;
-}
-
-makeArr(0,100,21);`,
+    language: "javascript",
+    program: "console.log('hello world!');\n",
   },
   ui: {
     displayName: "Editor",
-    width: 400,
-    height: 400,
+    resize: "both",
+    width: 200,
+    height: 500,
   },
 };
 
-function editor(inports, outports, state) {
-  let editor;
+function editor(inports, outports, state, global) {
+  let editorRef = createRef();
+  let view;
 
-  function handleChange() {
-    state.code = editor.getValue();
-    outports.js.value = state.code;
-    editor.refresh();
+  function listener() {
+    return EditorView.updateListener.of((v) => {
+      state.program = v.state.doc.toString();
+      outports.program.value = v.state.doc.toString();
+    });
   }
 
-  let editorRef = createRef();
+  function makeState() {
+    return EditorState.create({
+      doc: state.program,
+      extensions: [editorSetup, javascript(), listener()],
+    });
+  }
 
   function postInit() {
-    const baseSheet = new CSSStyleSheet();
-    baseSheet.replaceSync(base);
-    const draculaSheet = new CSSStyleSheet();
-    draculaSheet.replaceSync(theme);
-    const scrollbarsSheet = new CSSStyleSheet();
-    scrollbarsSheet.replaceSync(scroll);
-
-    editorRef.value.parentNode.adoptedStyleSheets = [
-      baseSheet,
-      draculaSheet,
-      scrollbarsSheet,
-    ];
-
-    editor = CodeMirror(editorRef.value, {
-      lineNumbers: true,
-      tabSize: 2,
-      value: state.code,
-      mode: "javascript",
-      theme: "dracula",
-      viewportMargin: Infinity,
-      gutters: ["error"],
+    view = new EditorView({
+      parent: editorRef.value,
+      state: makeState(),
     });
-
-    outports.js.value = state.code;
-
-    editor.on("changes", handleChange);
-    editor.setSize("100%", "100%");
-    setTimeout(() => {
-      editor.refresh();
-    }, 1);
   }
 
+  function inportsUpdated() {
+    view.setState(makeState());
+  }
+
+  function onZoom() {
+    view.requestMeasure();
+  }
   function render() {
+    let scale = global.panZoom.scale();
+
     return html`
       <style>
         #editor {
           height: 100%;
+          display: flex;
+          overflow: auto;
+        }
+        .cm-editor {
+          flex: 1;
+        }
+        .cm-editor.cm-focused {
+          outline: none;
+        }
+
+        /* Prepare yourself for the jankiest CSS ever written */
+        /* This is because Codemirror doesn't behave properly when
+         inside something that has been transformed with CSS */
+        .cm-gutter {
+          transform-origin: 0 0;
+          transform: scale(${1 / scale});
+        }
+        .cm-gutter > * {
+          transform-origin: 0 0;
+          transform: scale(${scale});
+        }
+        .cm-cursorLayer {
+          transform-origin: 0 0;
+          transform: scale(${1 / scale});
+        }
+        .cm-selectionLayer {
+          /* transform-origin: 0 0; */
+          transform: scale(${1 / scale});
+        }
+        /* Works on Firefox */
+        * {
+          scrollbar-width: thin;
+          scrollbar-color: blue var(--purple);
+        }
+
+        /* Works on Chrome, Edge, and Safari */
+        *::-webkit-scrollbar {
+          width: 5px;
+          height: 5px;
+        }
+
+        *::-webkit-scrollbar-track {
+          background: var(--black);
+        }
+
+        *::-webkit-scrollbar-thumb {
+          background-color: var(--purple);
+          border: none;
         }
       </style>
       <div id="editor" ${ref(editorRef)}></div>
     `;
   }
 
-  return { render, postInit };
+  return { render, postInit, inportsUpdated, onZoom };
 }
 
 export default { config, tool: editor };
