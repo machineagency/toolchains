@@ -1,4 +1,4 @@
-import{y as t}from"./index-56a203ca.js";const u={inports:{h:{type:"number",value:null},s:{type:"number",value:null},l:{type:"number",value:null}},outports:{},state:{},ui:{displayName:"HSL",width:150,height:150}};function o(e,r,n){function l(){return t`<style>
+import{y as t}from"./lit-html-b7b68613.js";const u={inports:{h:{type:"number",value:null},s:{type:"number",value:null},l:{type:"number",value:null}},outports:{},state:{},ui:{displayName:"HSL",width:150,height:150}};function o(e,r,n){function l(){return t`<style>
         #color {
           background-color: hsl(
             ${e.h.value},

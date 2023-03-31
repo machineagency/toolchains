@@ -1,4 +1,4 @@
-import{y as i}from"./index-56a203ca.js";const r={inports:{sketch:{type:"javascript",value:null}},outports:{},state:{},ui:{displayName:"P5 Sketch Viewer",width:300,height:300,resize:"both"}};function s(t){return`<!DOCTYPE html>
+import{y as i}from"./lit-html-b7b68613.js";const r={inports:{sketch:{type:"javascript",value:null}},outports:{},state:{},ui:{displayName:"P5 Sketch Viewer",width:300,height:300,resize:"both"}};function s(t){return`<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />

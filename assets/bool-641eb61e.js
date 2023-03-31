@@ -1,4 +1,4 @@
-import{y as r}from"./index-56a203ca.js";const c={inports:{},outports:{bool:{type:"boolean",value:!1}},state:{bool:!1},ui:{displayName:"bool",width:130,height:50,resize:"both"}};function i(n,l,o){function t(){return r`<style>
+import{y as r}from"./lit-html-b7b68613.js";const c={inports:{},outports:{bool:{type:"boolean",value:!1}},state:{bool:!1},ui:{displayName:"bool",width:130,height:50,resize:"both"}};function i(n,l,o){function t(){return r`<style>
         label {
           display: block;
           width: 100%;

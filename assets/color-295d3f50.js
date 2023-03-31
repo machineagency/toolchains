@@ -1,4 +1,4 @@
-import{y as c}from"./index-56a203ca.js";const l={inports:{},outports:{color:{type:"string",value:null}},state:{currentColor:null},ui:{displayName:"Color",width:200,height:200}};function a(i,r,o){function e(n){o.currentColor=n.target.value,r.color.value=n.target.value}function t(){o.currentColor=o.currentColor??`#${Math.floor(Math.random()*16777215).toString(16)}`,r.color.value=o.currentColor}return{init:t,render:()=>c`<style>
+import{y as c}from"./lit-html-b7b68613.js";const l={inports:{},outports:{color:{type:"string",value:null}},state:{currentColor:null},ui:{displayName:"Color",width:200,height:200}};function a(i,r,o){function e(n){o.currentColor=n.target.value,r.color.value=n.target.value}function t(){o.currentColor=o.currentColor??`#${Math.floor(Math.random()*16777215).toString(16)}`,r.color.value=o.currentColor}return{init:t,render:()=>c`<style>
         input[type="color"] {
           appearance: none;
           -moz-appearance: none;
