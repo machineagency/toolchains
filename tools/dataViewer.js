@@ -3,9 +3,9 @@ import { ref, createRef } from "lit-html/directives/ref.js";
 
 import { EditorState } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
-import { javascript } from "@codemirror/lang-javascript";
 import { json } from "@codemirror/lang-json";
 
+import beautify from "json-beautify";
 import { editorSetup } from "../common/editor";
 
 const config = {
@@ -22,7 +22,7 @@ const config = {
   ui: {
     displayName: "Data Viewer",
     resize: "both",
-    width: 200,
+    width: 400,
     height: 500,
   },
 };
@@ -33,7 +33,7 @@ function dataViewer(inports, outports, state, global) {
 
   function makeState() {
     return EditorState.create({
-      doc: JSON.stringify(inports.in.value),
+      doc: beautify(inports.in.value, null, 2, 100),
       extensions: [editorSetup, json(), EditorState.readOnly.of(true)],
     });
   }

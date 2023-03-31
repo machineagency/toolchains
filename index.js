@@ -20,6 +20,7 @@ const globalState = {
   mouse: null,
   initialized: false,
   toolbox: [
+    "pathDrawing",
     "p5Editor",
     "p5Viewer",
     "and",
@@ -39,7 +40,14 @@ const globalState = {
     "logger",
     "hsl",
   ],
-  examples: ["p5_sketch", "gradients", "range", "editor", "hsl"],
+  examples: [
+    "p5_sketch",
+    "path-drawing",
+    "gradients",
+    "range",
+    "editor",
+    "hsl",
+  ],
   imports: {},
   toolchain: {
     tools: {},
@@ -96,9 +104,14 @@ function makeInportProxy(toolID, portID) {
   };
 }
 
-function makeStateProxy() {
+function makeStateProxy(toolID) {
   return {
     set(target, prop, val, receiver) {
+      let tool = globalState.toolchain.tools[toolID];
+
+      if ("stateUpdated" in tool.lifecycle) {
+        tool.lifecycle.stateUpdated();
+      }
       // console.log(`state ${prop} updated to ${val}!`);
       return Reflect.set(target, prop, val, receiver);
     },
@@ -125,7 +138,7 @@ function setupProxies(toolFunc, tool) {
 
   tool.inports = inportProxies;
   tool.outports = outportProxies;
-  tool.state = new Proxy(_.cloneDeep(tool.state), makeStateProxy());
+  tool.state = new Proxy(_.cloneDeep(tool.state), makeStateProxy(tool.toolID));
   tool.lifecycle = toolFunc(
     tool.inports,
     tool.outports,

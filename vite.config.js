@@ -1,14 +1,12 @@
 import { defineConfig } from "vite";
-import { importAssertionsPlugin } from "rollup-plugin-import-assert";
-import { importAssertions } from "acorn-import-assertions";
+import { resolve } from "path";
 
 export default defineConfig({
   build: {
     rollupOptions: {
-      acornInjectPlugins: [importAssertions],
-      plugins: [importAssertionsPlugin],
-      output: {
-        externalImportAssertions: true,
+      input: {
+        main: resolve(__dirname, "index.html"),
+        pdi: resolve(__dirname, "tools/pdi/index.html"),
       },
     },
   },

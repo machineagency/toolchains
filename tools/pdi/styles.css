@@ -1,0 +1,196 @@
+html,
+body {
+  width: 100vw;
+  width: calc(var(--vw, 1vw) * 100);
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  margin: 0px;
+  display: flex;
+  font-family: monospace;
+  touch-action: none;
+  overflow: hidden;
+}
+
+/* @media screen and (min-width: 500px) {
+  html {
+    --pointSize: 0.4;
+  }
+} */
+
+/* @media screen and (max-width: 500px) {
+  html {
+    --pointSize: 0.7;
+  }
+} */
+
+html {
+  --pointSize: 0.4;
+
+  --black: #20344c;
+  --white: #faead6;
+  --gray: #b7afa6;
+  --pink: #de7895;
+  --red: #f75060;
+  --orange: #f7885f;
+  --yellow: #f2c469;
+  --green: #b1d36f;
+  --cyan: #3ee0cf;
+  --blue: #0091c2;
+  --purple: #ad6dca;
+
+  color: var(--black);
+
+  /* Interface theme defaults */
+  --selectedOption: var(--pink);
+  --toolboxBackground: var(--white);
+  --text: var(--black);
+}
+
+.drawing-area {
+  /* touch-action: none; */
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.mouse-coords {
+  position: absolute;
+  font-size: 2rem;
+  font-weight: bold;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  user-select: none;
+}
+
+.debug {
+  position: absolute;
+  font-size: 1rem;
+  font-weight: bold;
+  left: 0.5rem;
+  bottom: 0.5rem;
+  user-select: none;
+}
+
+/* TOOLBOX STYLES */
+
+.toolbox {
+  background-color: var(--black);
+  color: var(--white);
+  cursor: default;
+  box-shadow: 0px 0px 10px var(--black);
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.tool {
+  /* border-bottom: 1px solid var(--white); */
+}
+
+.tool-label {
+  font-weight: 900;
+  border-bottom: 1px solid var(--white);
+  text-transform: uppercase;
+  font-size: x-small;
+  padding-left: 0.2rem;
+}
+
+/* RADIO SELECTION */
+.radio-select {
+  display: flex;
+  flex-direction: column;
+  padding: 0.3rem;
+}
+
+.select-option {
+  font-size: smaller;
+  padding: 0.1rem 0.3rem;
+}
+
+.select-option:hover {
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: var(--selectedOption);
+  color: var(--black);
+  font-weight: 900;
+  border-radius: 0.3rem;
+}
+
+/* COLOR PICKERS */
+.color-picker-tool:hover > .color-picker-container {
+  visibility: visible;
+  opacity: 1;
+}
+
+.color-picker-tool:hover {
+  text-decoration: underline;
+}
+
+.color-picker-label {
+  width: 100%;
+  font-weight: 900;
+  display: inline-flex;
+  justify-content: space-between;
+}
+
+.color-picker-label:last-child {
+  padding-right: 0.5rem;
+}
+
+.color-picker-container {
+  display: inline-flex;
+  visibility: hidden;
+  opacity: 0;
+  flex-direction: column;
+  position: absolute;
+  background-color: var(--white);
+  box-shadow: 0px 0px 10px var(--black);
+  transition: visibility 0s, opacity 0.1s ease-in-out;
+  -o-transition: visibility 0s, opacity 0.1s ease-in-out; /* opera */
+  -ms-transition: visibility 0s, opacity 0.1s ease-in-out; /* IE 10 */
+  -moz-transition: visibility 0s, opacity 0.1s ease-in-out; /* Firefox */
+  -webkit-transition: visibility 0s, opacity 0.1s ease-in-out; /*safari and chrome */
+}
+
+.color-picker {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.color-picker:hover {
+  text-decoration: underline;
+}
+
+.color-picker label {
+  padding: 0.4rem 0.5rem;
+  white-space: nowrap;
+}
+
+.color-picker input {
+  border: none;
+  outline: none;
+  width: 100px;
+  padding: 0;
+}
+
+::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+::-webkit-color-swatch {
+  border: 0;
+  border-radius: 0;
+}
+
+::-moz-color-swatch,
+::-moz-focus-inner {
+  border: 0;
+}
+
+::-moz-focus-inner {
+  padding: 0;
+}
