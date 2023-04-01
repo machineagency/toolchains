@@ -1,4 +1,4 @@
-import { html, render, svg } from "lit-html";
+import { html, render, svg, nothing } from "lit-html";
 import { pathToCubics } from "./path.js";
 import { addPanZoom } from "./addPanZoom.js";
 import { addPanZoomMobile } from "./addPanZoomMobile.js";
@@ -48,21 +48,11 @@ const defaultTheme = {
   "--selectedPoint": "#20344c",
 };
 
-const pathProxy = new Proxy(
-  {},
-  {
-    set(target, prop, val, receiver) {
-      // console.log(`inport ${portID} updated to ${val}!`);
-      console.log("PATH UPDATEDDD!");
-      return Reflect.set(target, prop, val, receiver);
-    },
-  }
-);
-
 const global_state = {
   paths: {
     uniqueName: [],
   },
+  bounds: null,
   closedPaths: new Set(["uniqueName"]),
   transforming: false,
   panZoom: null,
@@ -366,6 +356,14 @@ const view = (state) => {
             renderPath(pathToCubics(v).cubics)
           )}
           ${Object.entries(state.paths).map(([k, v], i) => renderPts(v, k))}
+          ${state.bounds
+            ? svg`<rect x=${state.bounds.d1.min} y=${state.bounds.d2.min}
+              height=${state.bounds.d2.max - state.bounds.d2.min}
+              width=${state.bounds.d1.max - state.bounds.d1.min}
+              fill="none"
+              stroke="black"
+              stroke-width="0.1"></rect>`
+            : nothing}
         </g>
       </g>
     </svg>
@@ -400,9 +398,19 @@ const panZoom = addPanZoom(svgEl, global_state);
 global_state.panZoom = panZoom;
 
 panZoom.setScaleXY({
-  x: [-10, 10],
-  y: [-10, 10],
+  x: [0, 40],
+  y: [0, 40],
 });
+
+const setBounds = (bounds) => {
+  global_state.bounds = bounds;
+  panZoom.setScaleXY({
+    x: [bounds.d1.min, bounds.d1.max],
+    y: [bounds.d2.min, bounds.d2.max],
+  });
+};
+
+window.setBounds = setBounds;
 
 addGlobalKeypress(global_state);
 addPathInteraction(svgEl, global_state);

@@ -15,11 +15,20 @@ function navView(state) {
     <span id="nav-buttons">
       <i class="upload fa-solid fa-upload"></i>
       <i class="download fa-solid fa-download"></i>
-      <i id="ex-button" class="examples fa-solid fa-book">
-        <div id="ex-dropdown">
+      <i class="dropdown-icon fa-solid fa-book">
+        <div class="dropdown">
           ${state.examples.map((example) => {
-            return html`<div data-example=${example} class="ex">
+            return html`<div data-example=${example} class="dropdown-item ex">
               ${example}
+            </div>`;
+          })}
+        </div>
+      </i>
+      <i class="dropdown-icon fa-solid fa-book">
+        <div class="dropdown">
+          ${state.snippets.map((snippet) => {
+            return html`<div data-snippet=${snippet} class="dropdown-item snip">
+              ${snippet}
             </div>`;
           })}
         </div>

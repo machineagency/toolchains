@@ -65,7 +65,17 @@ export async function addNavInteraction(nav, state) {
     state.uploadToolchain(toolchainJSON);
   }
 
+  async function importSnippet(e) {
+    const { default: toolchainJSON } = await import(
+      `./snippets/${e.target.dataset.snippet}.json`
+    );
+
+    state.uploadToolchain(toolchainJSON, true);
+  }
+
   listen("pointerdown", ".ex", importExample);
+
+  listen("pointerdown", ".snip", importSnippet);
 
   listen("pointerdown", ".debug", (e) => {
     state.debug = !state.debug;

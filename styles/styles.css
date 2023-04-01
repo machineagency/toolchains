@@ -67,11 +67,11 @@ body {
   position: relative;
 }
 
-#ex-button:hover #ex-dropdown {
+.dropdown-icon:hover .dropdown {
   display: block;
 }
 
-#ex-dropdown {
+.dropdown {
   border: 1px solid var(--black);
   border-radius: 5px;
   padding: 0.2rem;
@@ -86,13 +86,13 @@ body {
   display: none;
 }
 
-.ex {
+.dropdown-item {
   text-align: right;
   border-radius: 5px;
   padding: 0.1rem 0.2rem;
 }
 
-.ex:hover {
+.dropdown-item:hover {
   background-color: var(--pink);
 }
 

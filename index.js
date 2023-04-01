@@ -21,13 +21,15 @@ const globalState = {
   initialized: false,
   toolbox: [
     "pathDrawing",
+    "pathViewer",
     "p5Editor",
     "p5Viewer",
     "and",
     "not",
     "bool",
     "inputSlider",
-    "domain",
+    "domain1D",
+    "domain2D",
     "test",
     "evalJS",
     "color",
@@ -48,6 +50,7 @@ const globalState = {
     "editor",
     "hsl",
   ],
+  snippets: ["squareDomain2D", "domainA3"],
   imports: {},
   toolchain: {
     tools: {},
@@ -197,21 +200,27 @@ async function addTool(toolType, config) {
   if ("init" in newTool.lifecycle) newTool.lifecycle.init();
 }
 
-function uploadToolchain(toolchainJSON) {
-  // Clear the current toolchain (should probably warn/prompt if there is a toolchain)
-  globalState.toolchain = {
-    tools: {},
-    pipes: {},
-  };
+function uploadToolchain(toolchainJSON, snippet = false) {
+  if (!snippet) {
+    // If we're not adding a snippet, clear the current toolchain
+    // TODO: (should probably warn / prompt if there is a toolchain)
+    globalState.toolchain = {
+      tools: {},
+      pipes: {},
+    };
+    // Also if not a snippet, set panzoom to the uploaded panzoom
+    globalState.panZoom.setPanZoom(toolchainJSON.workspace);
+  }
 
-  Object.entries(toolchainJSON.tools).map(([toolID, tool]) => {
+  // For each tool in the toolchain JSON, add the tool
+  Object.entries(toolchainJSON.tools).forEach(([toolID, tool]) => {
     addTool(tool.toolType, tool);
   });
 
+  // Add all the toolchain's pipes to the global toolchain
+  Object.assign(globalState.toolchain.pipes, toolchainJSON.pipes);
   // TODO: Ensure all tools are added before adding pipes?
   // Doesn't seem like this is currently an issue but it might be in the future
-  globalState.toolchain.pipes = toolchainJSON.pipes;
-  globalState.panZoom.setPanZoom(toolchainJSON.workspace);
 }
 
 function setCustomProperties() {

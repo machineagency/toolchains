@@ -19,18 +19,23 @@ const config = {
   },
   state: {},
   ui: {
-    displayName: "Domain",
+    displayName: "Domain 1D",
     mini: true,
   },
 };
 
-function logger(inports, outports, state) {
+function domain1D(inports, outports, state) {
   function inportsUpdated() {
-    if (inports.min.value && inports.max.value) {
+    if (
+      typeof inports.min.value == "number" &&
+      typeof inports.max.value == "number"
+    ) {
       outports.domain.value = {
         min: inports.min.value,
         max: inports.max.value,
       };
+    } else {
+      outports.domain.value = null;
     }
   }
 
@@ -49,4 +54,4 @@ function logger(inports, outports, state) {
   return { inportsUpdated, render };
 }
 
-export default { config, tool: logger };
+export default { config, tool: domain1D };
