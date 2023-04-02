@@ -24,6 +24,8 @@ const globalState = {
     "pathViewer",
     "p5Editor",
     "p5Viewer",
+    "uploadFile",
+    "imageViewer",
     "and",
     "not",
     "bool",
