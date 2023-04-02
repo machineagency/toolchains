@@ -45,6 +45,7 @@ const globalState = {
   examples: [
     "p5_sketch",
     "path-drawing",
+    "path-testing",
     "gradients",
     "range",
     "editor",

@@ -8,10 +8,11 @@ const stepsMM = 40;
 // dx: mm
 // dy: mm
 function relativeMove(speed, dx, dy) {
-  let dist = Math.sqrt(dx * dx + dy * dy);
-  let duration = Math.round((dist / speed) * 1000);
   let stepsX = Math.round(dx * stepsMM);
   let stepsY = Math.round(dy * stepsMM);
+
+  let dist = Math.sqrt(dx * dx + dy * dy);
+  let duration = Math.round((dist / speed) * 1000);
 
   if (duration == 0) console.log("INVALID DURATION");
 
@@ -25,9 +26,11 @@ function relativeMove(speed, dx, dy) {
 // speed: mm/s
 // x: mm
 // y: mm
-function absoluteMove(stepFrequency, x, y) {
+function absoluteMove(speed, x, y) {
   if (!x) x = 0;
   if (!y) y = 0;
+
+  let stepFrequency = speed * stepsMM;
 
   let stepsX = Math.round(x * stepsMM);
   let stepsY = Math.round(y * stepsMM);
@@ -53,9 +56,11 @@ const commands = {
   queryPenUp: "QP",
   togglePen: "TP",
   home: "HM,1000",
+  queryMotors: "QE",
   disableMotors: "EM,0,0",
   enableMotors: "EM,1,1",
   eStop: "ES",
+  queryVersion: "V",
 };
 
 const config = {
@@ -86,7 +91,8 @@ const config = {
     currentPos: [0, 0],
     testOffset: 20,
     numTest: 0,
-    penUpSpeed: 1000,
+    penUpSpeed: 100,
+    penDownSpeed: 20,
   },
   ui: {
     displayName: "Axi",
@@ -101,6 +107,7 @@ function axidrawSerial(inports, outports, state) {
   let currentCallback;
 
   function logger(value) {
+    console.debug(value);
     if (value.includes("OK")) {
       if (currentCallback) currentCallback();
     }
@@ -126,35 +133,58 @@ function axidrawSerial(inports, outports, state) {
     state.commandStream.shift();
   }
 
-  function testPath() {
-    console.log(state.numTest);
-    // TODO: Actually calculate the test offset here
-    const absStart = [state.numTest * state.testOffset, 0];
+  function calcStart() {
+    const testBounds = inports.testBounds.value;
+    const workspaceBounds = inports.workspaceBounds.value;
 
-    // state.commandStream.push(absoluteMove(25000, absStart[0], absStart[1]));
+    if (!testBounds || !workspaceBounds) {
+      console.log("Need test and workspace bounds to auto-move test");
+      return [0, 0];
+    }
+
+    const numX = Math.floor(workspaceBounds.d1.max / testBounds.d1.max);
+
+    const xPos = state.numTest % numX;
+    const yPos = Math.floor(state.numTest / numX);
+
+    return [xPos * testBounds.d1.max, yPos * testBounds.d2.max];
+  }
+
+  function testPath() {
+    const absStart = calcStart();
+
+    let lastX = 0;
+    let lastY = 0;
 
     for (const cmdSet of Object.values(inports.path.value)) {
-      // Move to the test start location
-      state.commandStream.push(
-        absoluteMove(state.penUpSpeed, absStart[0], absStart[1])
-      );
-
       let flattenedPath = path(cmdSet);
-      let lastX = flattenedPath[0][0];
-      let lastY = flattenedPath[0][0];
-      state.commandStream.push(commands.penUp);
+      if (flattenedPath.length < 1) continue;
+
+      // pen-up move to start of path
+      let dx = flattenedPath[0][0] - lastX;
+      let dy = flattenedPath[0][1] - lastY;
+      lastX = flattenedPath[0][0];
+      lastY = flattenedPath[0][1];
+
+      state.commandStream.push(relativeMove(state.penUpSpeed, dx, dy));
+      flattenedPath.shift();
       state.commandStream.push(commands.penDown);
+
       flattenedPath.forEach(([x, y]) => {
         let dx = x - lastX;
         let dy = y - lastY;
         lastX = x;
         lastY = y;
         // In-path moves are relative to the test start location
-        state.commandStream.push(relativeMove(20, dx, dy));
+        state.commandStream.push(relativeMove(state.penDownSpeed, dx, dy));
       });
       state.commandStream.push(commands.penUp);
     }
+
     state.numTest++;
+    state.commandStream.push(
+      absoluteMove(state.penUpSpeed, absStart[0], absStart[1])
+    );
     beginStream();
   }
 
@@ -181,8 +211,15 @@ function axidrawSerial(inports, outports, state) {
       <button @click=${() => writeToStream(commands.motorsOff)}>
         motorsOff
       </button>
-      <button @click=${() => writeToStream(commands.motorsOn)}>
-        motorsOn
+      <button @click=${() => writeToStream(commands.motorsOn)}>motorsOn</button>
+      <button @click=${() => writeToStream(commands.queryMotors)}>
+        Query motors
+      </button>
+      <button @click=${() => writeToStream(commands.queryVersion)}>
+        Query version
+      </button>
+      <button @click=${() => writeToStream(commands.nickname)}>
+        Query nickname
       </button>`;
   }
 
