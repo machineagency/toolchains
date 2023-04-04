@@ -2,13 +2,13 @@ import { html } from "lit-html";
 
 const config = {
   inports: {
-    file: {
+    contents: {
       type: "string",
       value: null,
     },
   },
   outports: {},
-  state: { filename: "file.txt" },
+  state: { filename: null },
   ui: {
     displayName: "Download File",
     width: 150,
@@ -20,7 +20,8 @@ function downloadFile(inports, outports, state) {
   function downloadClicked() {
     const downloadLink = document.createElement("a");
     downloadLink.href =
-      "data:text/plain;charset=utf-8," + encodeURIComponent(inports.file.value);
+      "data:text/plain;charset=utf-8," +
+      encodeURIComponent(inports.contents.value);
     downloadLink.download = state.filename;
     document.body.appendChild(downloadLink);
     downloadLink.click();
@@ -37,6 +38,7 @@ function downloadFile(inports, outports, state) {
           height: 100%;
           display: flex;
           flex-direction: column;
+          font-family: inherit;
         }
         .fileBtn {
           display: flex;
@@ -44,6 +46,8 @@ function downloadFile(inports, outports, state) {
           align-items: center;
           flex: 1;
           background-color: var(--blue);
+          font-weight: 600;
+          border-top: 1px solid var(--black);
         }
         .fileBtn:hover {
           cursor: pointer;
@@ -51,15 +55,19 @@ function downloadFile(inports, outports, state) {
         }
         .fname {
           display: flex;
+          border: none;
+          padding: 0.3rem;
         }
       </style>
       <div class="container">
+        <input
+          class="fname"
+          value=${state.filename}
+          placeholder="Enter file name"
+          @input=${updateInput}
+          type="text" />
         <div class="fileBtn" @click=${downloadClicked}>
-          <span>Download File</span>
-        </div>
-        <div class="fname">
-          <span>File Name</span>
-          <input value=${state.filename} @input=${updateInput} type="text" />
+          <span>Download</span>
         </div>
       </div>`;
   };

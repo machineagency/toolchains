@@ -18,7 +18,7 @@ const config = {
   ui: {
     displayName: "Velocity",
     width: 200,
-    height: 200,
+    height: 100,
   },
 };
 
@@ -93,7 +93,21 @@ function velocity(inports, outports, state) {
           margin: 0.2rem auto;
         }
         input[type="number"] {
-          width: 30px;
+          width: 50px;
+        }
+        .btn {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex: 1;
+          background-color: var(--blue);
+          font-weight: 600;
+          border-top: 1px solid var(--black);
+          padding: 0.3rem;
+        }
+        .btn:hover {
+          cursor: pointer;
+          background-color: var(--purple);
         }
       </style>
       <div class="container">
@@ -121,7 +135,9 @@ function velocity(inports, outports, state) {
           value=${state.height}
           @change=${(e) => (state.height = Number(e.target.value))} />
         <span>mm</span>
-        <button @click=${makeGcode}>Make G-code</button>
+      </div>
+      <div class="btn" @click=${makeGcode}>
+        <span>Make G-code</span>
       </div>`;
   }
 

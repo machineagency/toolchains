@@ -52,6 +52,7 @@ function uploadFile(inports, outports, state) {
           align-items: center;
           flex: 1;
           background-color: var(--blue);
+          font-weight: 600;
         }
         .fileBtn:hover {
           cursor: pointer;
