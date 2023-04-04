@@ -28,14 +28,12 @@ function velocity(inports, outports, state) {
     let layer_height = 0.2;
     let num_layers = state.height / layer_height;
     let center = [100, 100];
-    let pixelSize = 1; // pixel size in mm
     let numSteps = 4 * Math.PI * r;
-    let stepDist = (2 * Math.PI * r) / numSteps;
-
-    console.log(stepDist);
 
     let pixelArr = inports.pixelArr.value;
-    pixelArr.reverse();
+
+    console.log(pixelArr);
+
     let p = new Printer();
     p.start();
     p.extrude_rel();

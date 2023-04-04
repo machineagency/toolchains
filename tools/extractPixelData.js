@@ -43,7 +43,11 @@ function extractPixelData(inports, outports, state) {
     const ctx = myCanvas.getContext("2d", { willReadFrequently: true });
     const img = new Image();
     img.onload = function () {
+      // gotta size the canvas to the image or else making the pixel array won't work
+      myCanvas.width = img.width;
+      myCanvas.height = img.height;
       ctx.drawImage(img, 0, 0);
+
       makePixelArray(ctx, img.width, img.height);
     };
     img.src = inports.dataurl.value;
