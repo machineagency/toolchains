@@ -22,9 +22,11 @@ const globalState = {
   toolbox: [
     "pathDrawing",
     "pathViewer",
+    "extractPixelData",
     "p5Editor",
     "p5Viewer",
     "uploadFile",
+    "downloadFile",
     "imageViewer",
     "and",
     "not",

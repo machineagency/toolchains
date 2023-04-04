@@ -51,7 +51,6 @@ function uploadFile(inports, outports, state) {
           justify-content: center;
           align-items: center;
           flex: 1;
-          /* height: 100%; */
           background-color: var(--blue);
         }
         .fileBtn:hover {
@@ -62,9 +61,6 @@ function uploadFile(inports, outports, state) {
       <div class="container">
         <div class="fileBtn" @click=${uploadClicked}>
           <span>Upload File</span>
-        </div>
-        <div class="info">
-          <span>${state.file ? "info here" : "no file"}</span>
         </div>
       </div>`;
   };
