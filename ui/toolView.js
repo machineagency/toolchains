@@ -43,33 +43,47 @@ function portView(portID, portInfo, portSide) {
   </div>`;
 }
 
+function toolMenu(tool) {
+  return html` <!-- <div class="menu-item">
+      <i class="fa-solid fa-magnifying-glass fa-fw"></i
+      ><span>Inspect State</span>
+    </div>
+    <div class="menu-item">
+      <i class="fa-solid fa-pen-to-square fa-fw"></i
+      ><span>Edit Display Name</span>
+    </div> -->
+    <div class="menu-item collapse">
+      <i
+        class="collapse fa-solid fa-fw ${tool.ui.mini
+          ? "fa-maximize"
+          : "fa-minimize"}"></i
+      ><span class="collapse">${tool.ui.mini ? "Expand" : "Collapse"}</span>
+    </div>
+    <div class="menu-item remove">
+      <i class="fa-solid fa-trash fa-fw remove"></i
+      ><span class="remove">Delete</span>
+    </div>`;
+}
+
 export function toolView(toolID, tool, state) {
   let locked = state.resizing || state.transforming || state.lockInteraction;
   return html`<div
-    class="tool
-      ${tool.uiState.toolbar ? "show-toolbar" : "hide-toolbar"}
-      ${tool.uiState.statePanel ? "show-state" : "hide-state"}
-      ${tool.ui.mini ? "mini" : "full"}
-      resize-${tool.ui.resize}
-      ${state.selection.has(toolID) ? "selected" : ""}"
+    class="tool resize-${tool.ui.resize}
+    ${tool.ui.mini ? "mini" : "full"}
+    ${state.selection.has(toolID) ? "selected" : ""}"
     data-toolid=${toolID}
     style="
       --x:${tool.pos.x}px;
       --y:${tool.pos.y}px;
       --ui-width:${tool.ui.width ?? 0}px;
       --ui-height:${tool.ui.height ?? 0}px;">
-    <div class="tool-background">
-      <div class="b1"></div>
-      <div class="b2"></div>
-      <div class="b3"></div>
-    </div>
     <div class="toolbar">
       <span class="tool-displayname">${tool.ui.displayName}</span>
-      <span class="tool-actions">
-        <i class="toggle-state fa-solid fa-code fa-xs "></i>
-        <i class="remove fa-solid fa-rectangle-xmark"></i>
-        <i class="pin fa-solid fa-xs fa-thumbtack"></i>
-        <i class="drag fa-solid fa-grip-vertical"></i>
+      <span>
+        <a class="menu" href="#"
+          ><i class="fa-solid fa-ellipsis-vertical"> </i>
+        </a>
+        <div class="tool-menu">${toolMenu(tool)}</div>
       </span>
     </div>
     <div class="inports port-container">
@@ -85,9 +99,10 @@ export function toolView(toolID, tool, state) {
     ${tool.ui.mini
       ? nothing
       : html`<div class="tool-view ${locked ? "disable-pointer" : ""}">
-          ${shadow(tool.lifecycle.render(), tool)}
-        </div>`}
-    <div class="resize-handle"></div>
-    <div class="tool-state">${stateView(tool.state)}</div>
+            ${shadow(tool.lifecycle.render(), tool)}
+          </div>
+          <div class="resize-handle"></div>`}
+
+    <!-- <div class="tool-state">${stateView(tool.state)}</div> -->
   </div>`;
 }

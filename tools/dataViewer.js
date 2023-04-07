@@ -64,9 +64,12 @@ function dataViewer(inports, outports, state, global) {
         }
         .cm-editor {
           flex: 1;
+          border: 0;
+          outline: none;
         }
         .cm-editor.cm-focused {
           outline: none;
+          border: 0;
         }
 
         /* Prepare yourself for the jankiest CSS ever written */

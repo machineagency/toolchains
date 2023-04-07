@@ -1,100 +1,42 @@
 .selected {
-  outline: 3px solid var(--cyan);
-  outline-offset: -1px;
+  outline: 2px solid var(--cyan);
 }
 
 .tool {
-  /* box-sizing: content-box; */
   position: fixed;
   transform: translate(var(--x, 0), var(--y, 0));
   display: grid;
   grid-template-columns: auto auto auto;
-  grid-template-rows: auto auto auto;
-  /* min-height: var(--ui-height, 20px);
-  min-width: var(--ui-width, 20px); */
+  grid-template-rows: auto auto;
+  border: 1px solid var(--black);
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  background-color: var(--black);
+  box-shadow: 0 0 3px 0 black;
 }
 
-.tool.show-toolbar .inports,
-.tool.show-toolbar .outports,
-.tool:hover .inports,
-.tool:hover .outports {
-  visibility: visible;
-}
-
-.tool.show-state .tool-state {
-  display: block;
+.mini {
+  border-radius: 5px;
 }
 
 /* TOOLBAR  */
 
-.tool.full.show-toolbar .toolbar,
-.tool.full:hover .toolbar {
-  top: 1px;
-  visibility: visible;
-}
-
-/* .tool.mini.show-toolbar .toolbar,
-.tool.mini:hover .toolbar {
-  top: 1px;
-  visibility: visible;
-} */
-
 .toolbar {
-  border: 1px solid var(--black);
-  background-color: var(--black);
-  position: relative;
-  z-index: 2;
   user-select: none;
   grid-row: 1;
   grid-column: 2;
-  visibility: hidden;
   color: var(--text-light);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  z-index: 3;
   padding: 3px 5px;
   gap: 20px;
-  top: 100%;
-  transition: all ease-in-out 150ms;
-}
-
-.tool-actions {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.tool-actions > i {
-  display: inline;
 }
 
 .mini .toolbar {
-  flex-direction: column;
-  flex-flow: column-reverse;
-  padding-bottom: 5px;
-  top: 0;
-  visibility: visible;
   grid-row: 2;
   grid-column: 2;
-}
-
-.mini .tool-actions {
-  gap: 10px;
-  flex-direction: column;
-  flex-flow: column-reverse;
-}
-
-.mini .toggle-state {
-  display: none;
-}
-
-.mini .drag {
-  rotate: 90deg;
-}
-
-.mini .tool-displayname {
-  writing-mode: vertical-lr;
-  rotate: 180deg;
 }
 
 .tool-displayname {
@@ -104,59 +46,68 @@
   text-overflow: ellipsis;
 }
 
-/* TOOLBAR BUTTONS */
+/* TOOL MENU */
 
-.remove {
+.menu {
   cursor: pointer;
+  color: var(--text-light);
 }
 
-.remove:hover {
-  color: var(--red);
+.menu:hover,
+.menu:focus,
+.menu:active,
+.menu:focus:hover,
+.menu:active:hover {
+  color: var(--pink);
 }
 
-.pin {
+.menu:active + .tool-menu,
+.menu:focus + .tool-menu {
+  display: flex;
+}
+
+.tool-menu {
+  display: none;
+  position: absolute;
+  user-select: none;
+  background-color: var(--black);
+  color: var(--text-light);
+  font-size: small;
+  flex-direction: column;
+  padding: 3px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px 0 black;
+  z-index: 5;
+}
+
+.menu-item {
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   cursor: pointer;
+  white-space: nowrap;
+  border-radius: 5px;
 }
 
-.pin:hover,
-.tool.show-toolbar .pin:hover {
-  color: var(--cyan);
+.menu-item > i {
+  display: inline;
 }
 
-.tool.show-toolbar .pin {
-  color: var(--blue);
-}
-
-.toggle-state {
-  cursor: pointer;
-}
-
-.toggle-state:hover,
-.tool.show-state .toggle-state:hover {
-  color: var(--cyan);
-}
-
-.tool.show-state .toggle-state {
-  color: var(--purple);
-}
-
-.drag:hover {
-  color: var(--orange);
-  cursor: move;
+.menu-item:hover {
+  background-color: var(--black-accent);
 }
 
 /* TOOL VIEW */
 
 .tool-view {
+  z-index: 2;
   box-sizing: content-box;
-  border: 1px solid var(--black);
   position: relative;
   grid-row: 2;
   grid-column: 2;
   min-height: var(--ui-height);
   min-width: var(--ui-width);
-  z-index: 3;
-  background-color: var(--tool-background);
 }
 
 .tool-view.disable-pointer {
@@ -164,78 +115,46 @@
   user-select: none;
 }
 
-/* STATE PANE */
-
-.tool-state {
-  z-index: 3;
-  grid-row: 3;
-  grid-column: 2;
-  display: none;
-  font-family: monospace;
-  overflow: hidden;
-  max-width: var(--ui-width);
-}
-
 /* PORTS */
 
 .port-container {
   display: flex;
-  width: 0px;
   flex-direction: column;
-  justify-content: center;
-  position: relative;
+  position: absolute;
   gap: 2px;
+  grid-row: 2;
   z-index: 1;
 }
 
 .inports {
-  grid-row: 2;
   grid-column: 1;
+  right: 100%;
+  align-items: end;
 }
 
 .outports {
-  grid-row: 2;
   grid-column: 3;
+  left: 100%;
 }
 
 .outports .port {
-  transform: translateX(-100%);
-}
-
-.tool.show-toolbar .outports .port,
-.tool:hover .outports .port {
-  max-height: 20px;
-  max-width: 100px;
-  right: -2px;
-  transform: translateX(0);
+  border-radius: 0 6px 6px 0;
 }
 
 .inports .port {
-  transform: translateX(0);
-}
-
-.tool.show-toolbar .inports .port,
-.tool:hover .inports .port {
-  max-height: 20px;
-  max-width: 100px;
-  right: 3px;
-  transform: translateX(-100%);
+  border-radius: 6px 0 0 6px;
 }
 
 .port {
-  position: relative;
-  transition: all ease-in-out 150ms;
-  max-height: 0px;
-  max-width: 0px;
   width: fit-content;
+  max-width: 100px;
   cursor: pointer;
   overflow: hidden;
   background-color: var(--port);
-  border-radius: 6px;
   padding: 2px 4px;
-  font-size: small;
-  border: 1px solid var(--black);
+  font-size: xx-small;
   user-select: none;
+  box-shadow: 0 0 3px 0 black;
 }
 
 .port:hover {

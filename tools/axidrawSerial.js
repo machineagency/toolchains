@@ -90,7 +90,6 @@ const config = {
     commandHistory: [],
     currentPos: [0, 0],
     testOffset: 20,
-    numTest: 0,
     penUpSpeed: 100,
     penDownSpeed: 20,
   },
@@ -102,6 +101,7 @@ const config = {
 };
 
 function axidrawSerial(inports, outports, state) {
+  let numTest = 0;
   let port, connect, disconnect, writeToStream;
 
   let currentCallback;
@@ -144,8 +144,8 @@ function axidrawSerial(inports, outports, state) {
 
     const numX = Math.floor(workspaceBounds.d1.max / testBounds.d1.max);
 
-    const xPos = state.numTest % numX;
-    const yPos = Math.floor(state.numTest / numX);
+    const xPos = numTest % numX;
+    const yPos = Math.floor(numTest / numX);
 
     return [xPos * testBounds.d1.max, yPos * testBounds.d2.max];
   }
@@ -181,7 +181,7 @@ function axidrawSerial(inports, outports, state) {
       state.commandStream.push(commands.penUp);
     }
 
-    state.numTest++;
+    numTest++;
     state.commandStream.push(
       absoluteMove(state.penUpSpeed, absStart[0], absStart[1])
     );

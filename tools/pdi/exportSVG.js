@@ -12,12 +12,12 @@ export function exportSVG(state) {
   const svgURL =
     "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
 
-  return svgURL;
-  // const downloadLink = document.createElement("a");
-  // downloadLink.href = svgURL;
-  // downloadLink.download = "anon.svg";
-  // document.body.appendChild(downloadLink);
-  // downloadLink.click();
+  // return svgURL;
+  const downloadLink = document.createElement("a");
+  downloadLink.href = svgURL;
+  downloadLink.download = "anon.svg";
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
 
-  // document.body.removeChild(downloadLink);
+  document.body.removeChild(downloadLink);
 }

@@ -342,6 +342,9 @@ const view = (state) => {
         ["grid", "dots", "none"],
         "background"
       )}
+      <button @click=${() => exportSVG(state)} class="export-svg">
+        export svg
+      </button>
     </div>
     <!-- <div class="mouse-coords">
       ${state.mouse[0].toFixed(2)},${state.mouse[1].toFixed(2)}

@@ -1,4 +1,3 @@
-import { update } from "lodash";
 import { createListener } from "./utils.js";
 
 export function addToolInteraction(workspace, state) {
@@ -22,25 +21,23 @@ export function addToolInteraction(workspace, state) {
     return pipes;
   }
 
-  listen("dblclick", ".tool-displayname", (e) => {
-    let [toolID, toolInfo] = getToolDetails(e);
-    console.log(toolID);
+  // listen("dblclick", ".tool-displayname", (e) => {
+  //   let [toolID, toolInfo] = getToolDetails(e);
 
-    e.target.contentEditable = true;
+  //   e.target.contentEditable = true;
 
-    e.target.addEventListener("focusout", (e) => {
-      console.log("blurring");
-      state.toolchain.tools[toolID].ui.displayName = e.target.textContent;
-      e.target.contentEditable = false;
-    });
+  //   e.target.addEventListener("focusout", (e) => {
+  //     state.toolchain.tools[toolID].ui.displayName = e.target.textContent;
+  //     e.target.contentEditable = false;
+  //   });
 
-    e.target.addEventListener("keypress", (e) => {
-      if (e.code === "Enter") {
-        e.preventDefault();
-        e.target.blur();
-      }
-    });
-  });
+  //   e.target.addEventListener("keypress", (e) => {
+  //     if (e.code === "Enter") {
+  //       e.preventDefault();
+  //       e.target.blur();
+  //     }
+  //   });
+  // });
 
   listen("pointerdown", ".remove", (e) => {
     let [toolID, toolInfo] = getToolDetails(e);
@@ -59,20 +56,22 @@ export function addToolInteraction(workspace, state) {
     delete state.toolchain.tools[toolID];
   });
 
+  listen("pointerdown", ".collapse", (e) => {
+    let [toolID, toolInfo] = getToolDetails(e);
+    toolInfo.ui.mini = !toolInfo.ui.mini;
+    console.log(toolInfo);
+  });
+
   listen("pointerdown", ".resize-handle", (e) => {
     let [toolID, toolInfo] = getToolDetails(e);
     state.resizing = true;
     state.selection.add(toolID);
   });
 
-  listen("pointerdown", ".toolbar", (e) => {
+  function startDrag(e) {
     let [toolID, toolInfo] = getToolDetails(e);
 
     if (e.shiftKey) state.selection.add(toolID);
-  });
-
-  listen("pointerdown", ".drag", (e) => {
-    let [toolID, toolInfo] = getToolDetails(e);
 
     // Get the parent tool and reappend it to the parentNode,
     // this brings it to the front
@@ -84,6 +83,14 @@ export function addToolInteraction(workspace, state) {
     }
     state.selection.add(toolID);
     state.transforming = true;
+  }
+
+  listen("pointerdown", ".tool-displayname", (e) => {
+    startDrag(e);
+  });
+
+  listen("pointerdown", ".toolbar", (e) => {
+    startDrag(e);
   });
 
   listen("pointermove", "", (e) => {
@@ -107,21 +114,21 @@ export function addToolInteraction(workspace, state) {
 
   listen("pointerup", "", (e) => {
     if ((state.transforming || state.resizing) && state.selection.size == 1) {
-      state.selection.clear();
+      if (!e.shiftKey) state.selection.clear();
     }
 
     state.transforming = false;
     state.resizing = false;
   });
 
-  listen("pointerdown", ".pin", (e) => {
-    let [toolID, toolInfo] = getToolDetails(e);
-    toolInfo.uiState.toolbar = !toolInfo.uiState.toolbar;
-  });
+  // listen("pointerdown", ".pin", (e) => {
+  //   let [toolID, toolInfo] = getToolDetails(e);
+  //   toolInfo.uiState.toolbar = !toolInfo.uiState.toolbar;
+  // });
 
-  listen("pointerdown", ".toggle-state", (e) => {
-    let [toolID, toolInfo] = getToolDetails(e);
-    toolInfo.uiState.statePanel = !toolInfo.uiState.statePanel;
-    console.log("Toggle state");
-  });
+  // listen("pointerdown", ".toggle-state", (e) => {
+  //   let [toolID, toolInfo] = getToolDetails(e);
+  //   toolInfo.uiState.statePanel = !toolInfo.uiState.statePanel;
+  //   console.log("Toggle state");
+  // });
 }
