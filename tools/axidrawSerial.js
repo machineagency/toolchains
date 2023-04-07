@@ -230,6 +230,7 @@ function axidrawSerial(inports, outports, state) {
           display: flex;
           flex-direction: column;
           height: 100%;
+          background-color: var(--tool-background);
         }
       </style>
       <div id="controls-container">
