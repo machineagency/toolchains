@@ -10,7 +10,9 @@ function portConnectionPoint(state, portEl) {
 }
 
 function queryPortCoords(state, pipeData) {
-  let startCoords, endCoords;
+  let startCoords = null;
+  let endCoords = null;
+  let inProgress = false;
   if (pipeData.start) {
     let startPort = document.querySelector(
       `[data-toolid="${pipeData.start.toolID}"] [data-portside="outport"][data-portid="${pipeData.start.portID}"]`
@@ -19,6 +21,7 @@ function queryPortCoords(state, pipeData) {
     startCoords = portConnectionPoint(state, startPort);
   } else {
     startCoords = state.mouse;
+    inProgress = true;
   }
   if (pipeData.end) {
     let endPort = document.querySelector(
@@ -28,18 +31,17 @@ function queryPortCoords(state, pipeData) {
     endCoords = portConnectionPoint(state, endPort);
   } else {
     endCoords = state.mouse;
+    inProgress = true;
   }
 
   return {
-    startCoords,
-    endCoords,
+    startCoords: startCoords,
+    endCoords: endCoords,
+    inProgress: inProgress,
   };
 }
 
-function calculatePipeBezier(pipeInfo) {
-  let start = pipeInfo.startCoords;
-  let end = pipeInfo.endCoords;
-
+function calculatePipeBezier(start, end) {
   return `M${start.x},${start.y}
     C${start.x + 100},${start.y}
     ${end.x - 100},${end.y}
@@ -48,10 +50,19 @@ function calculatePipeBezier(pipeInfo) {
 
 export function pipesView(state) {
   return Object.entries(state.toolchain.pipes).map(([pipeID, pipeData]) => {
-    let portCoords = queryPortCoords(state, pipeData);
-    if (!portCoords) return;
-    let pipeD = calculatePipeBezier(portCoords);
+    let q = queryPortCoords(state, pipeData);
+    if (!q) return;
 
-    return svg`<path class="pipe-background" data-pipeid=${pipeID} d="${pipeD}" /><path class="pipe" data-pipeid=${pipeID} d="${pipeD}" />`;
+    let { startCoords, endCoords, inProgress } = q;
+    if (!startCoords || !endCoords) return;
+    let pipeD = calculatePipeBezier(startCoords, endCoords);
+
+    // If a connection is in progress, only render the gray background - not the actual pipe
+    if (inProgress) {
+      return svg`<path class="pipe-background" data-pipeid=${pipeID} d="${pipeD}" />`;
+    } else {
+      return svg`<path class="pipe-background" data-pipeid=${pipeID} d="${pipeD}" />
+    <path class="pipe" data-pipeid=${pipeID} d="${pipeD}" />`;
+    }
   });
 }

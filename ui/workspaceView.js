@@ -65,12 +65,12 @@ export function view(state) {
         id="background"
         style="--offset-x: ${x}px;--offset-y: ${y}px;--scale: ${scale};"></canvas>
       <svg id="svg-layer" preserveAspectRatio="xMidYMid meet">
-        <g class="transform-group">
+        <g id="select-box-container" class="transform-group">
           ${state.selectBox.start && state.selectBox.end
             ? drawSelectBox(state)
             : nothing}
-          ${pipesView(state)}
         </g>
+        <g id="pipes-container" class="transform-group"></g>
       </svg>
       <div id="toolchain" class="transform-group">${renderTools(state)}</div>
       <div id="toolbox">

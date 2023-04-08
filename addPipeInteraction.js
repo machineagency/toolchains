@@ -12,4 +12,13 @@ export function addPipeInteraction(workspace, state) {
 
     delete state.toolchain.pipes[pipeID];
   });
+
+  listen("contextmenu", ".pipe-background", (e) => {
+    e.preventDefault();
+
+    const pipeID = e.target.dataset.pipeid;
+    if (pipeID === "loose") {
+      delete state.toolchain.pipes[pipeID];
+    }
+  });
 }

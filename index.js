@@ -13,6 +13,8 @@ import { addNavInteraction } from "./addNavInteraction";
 import { addToolboxInteraction } from "./addToolboxInteraction";
 
 import { view } from "./ui/workspaceView";
+import { pipesView } from "./ui/pipesView";
+
 import { addSelectBox } from "./addSelectBox";
 import { addBackgroundInteraction } from "./addBackgroundInteraction";
 
@@ -72,6 +74,7 @@ const globalState = {
   uploadToolchain: uploadToolchain,
   addTool: addTool,
   offset: 0,
+  toolLayer: 1,
 };
 
 function getConnectedInports(toolID, portID) {
@@ -175,6 +178,7 @@ function initializeConfig(toolType, toolConfig) {
         height: "200px",
         mini: false,
         resize: "none",
+        layer: 1,
       }
     ),
     domInitialized: false,
@@ -235,6 +239,9 @@ function setCustomProperties() {
 
 function r() {
   render(view(globalState), document.body);
+  // Render pipes after the rest of the UI so that the port queries are accurate
+  // and the pipes don't update one frame after
+  render(pipesView(globalState), pipesContainer);
   window.requestAnimationFrame(r);
 }
 
@@ -256,6 +263,8 @@ window.addEventListener("resize", () => {
 init();
 
 const svgLayer = document.getElementById("svg-layer");
+const pipesContainer = document.getElementById("pipes-container");
+
 const workspace = document.getElementById("workspace");
 const toolbox = document.getElementById("toolbox");
 const nav = document.getElementById("nav");
@@ -271,14 +280,5 @@ addToolboxInteraction(toolbox, globalState);
 addNavInteraction(nav, globalState);
 addSelectBox(workspace, globalState);
 addBackgroundInteraction(svgLayer, globalState);
-
-// if (globalState.debug) {
-//   const { default: toolchainJSON } = await import(`./examples/range.json`, {
-//     assert: {
-//       type: "json",
-//     },
-//   });
-//   uploadToolchain(toolchainJSON);
-// }
 
 window.requestAnimationFrame(r);

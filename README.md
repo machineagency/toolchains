@@ -56,10 +56,10 @@ Running Toolchains locally is easy!
   - [x] collapse ui
   - [x] resize handle
   - [ ] toolbar context menu
-    - [ ] remove tool
+    - [x] remove tool
+    - [x] collapse ui elements (hide ports when not active)
     - [ ] Edit tool display name
     - [ ] show state inspector
-    - [ ] collapse ui elements (hide ports when not active)
 - workspace ui
   - [x] tool library
   - [x] background dots

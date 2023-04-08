@@ -63,7 +63,7 @@ function extractPixelData(inports, outports, state) {
           image-rendering: pixelated;
         }
       </style>
-      <img src=${inports.dataurl.value} />`;
+      <img draggable="false" src=${inports.dataurl.value} />`;
   }
 
   return { render, inportsUpdated };

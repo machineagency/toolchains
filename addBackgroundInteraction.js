@@ -23,4 +23,12 @@ export async function addBackgroundInteraction(svgBackground, state) {
       state.selection.clear();
     }
   });
+
+  listen("contextmenu", "#svg-layer", (e) => {
+    console.log("right click!");
+    e.preventDefault();
+    if (state.toolchain.pipes["loose"]) {
+      delete state.toolchain.pipes["loose"];
+    }
+  });
 }
