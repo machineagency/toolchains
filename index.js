@@ -59,6 +59,7 @@ const globalState = {
   snippets: ["squareDomain2D", "domainA3"],
   imports: {},
   toolchain: {
+    title: "untitled",
     tools: {},
     pipes: {},
   },
@@ -208,14 +209,19 @@ async function addTool(toolType, config) {
   if ("init" in newTool.lifecycle) newTool.lifecycle.init();
 }
 
+function newToolcahin() {
+  globalState.toolchain = {
+    tools: {},
+    pipes: {},
+    title: "untitled",
+  };
+}
+
 function uploadToolchain(toolchainJSON, snippet = false) {
   if (!snippet) {
     // If we're not adding a snippet, clear the current toolchain
     // TODO: (should probably warn / prompt if there is a toolchain)
-    globalState.toolchain = {
-      tools: {},
-      pipes: {},
-    };
+    newToolcahin();
     // Also if not a snippet, set panzoom to the uploaded panzoom
     globalState.panZoom.setPanZoom(toolchainJSON.workspace);
   }
@@ -224,6 +230,8 @@ function uploadToolchain(toolchainJSON, snippet = false) {
   Object.entries(toolchainJSON.tools).forEach(([toolID, tool]) => {
     addTool(tool.toolType, tool);
   });
+
+  globalState.toolchain.title = toolchainJSON.title ?? "untitled";
 
   // Add all the toolchain's pipes to the global toolchain
   Object.assign(globalState.toolchain.pipes, toolchainJSON.pipes);

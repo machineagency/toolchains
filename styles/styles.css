@@ -43,29 +43,76 @@ body {
   color: #f8f8f2;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 0.3rem;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 3px;
   font-size: 1.2rem;
   z-index: 1000;
   user-select: none;
   font-weight: 900;
 }
 
+/* CONTEXT BOX */
+#context-box-container {
+  position: absolute;
+  z-index: 1000;
+}
+
+#context-box {
+  transform: translate(var(--x, 0), var(--y, 0));
+}
+
+/* TITLE FIELD */
+
+#nav:focus-within .edit-name,
+#nav:hover .edit-name {
+  visibility: visible;
+}
+
+#toolchain-title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: medium;
+
+  line-height: 1;
+}
+
+#title-field {
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+.edit-name {
+  visibility: hidden;
+  color: var(--background);
+  cursor: pointer;
+}
+
+.edit-name:hover {
+  color: var(--pink);
+  cursor: pointer;
+}
+
+/* NAV BUTTONS */
+
 #nav-buttons {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
   font-size: smaller;
-  margin: auto 0.2rem auto 1rem;
+  color: var(--inactive);
 }
 
 #nav-buttons > i:hover {
   cursor: pointer;
-  color: var(--pink);
+  background-color: var(--pink);
+  color: var(--black);
 }
 
 #nav-buttons > i {
   position: relative;
+  padding: 4px;
+  border-radius: 4px;
 }
 
 .dropdown-icon:hover .dropdown {

@@ -10,6 +10,7 @@ export function debugView(state) {
     <div class="debug-content">
       <div class="debug-header"><span>workspace</span></div>
       <div class="debug-workspace">
+        <span>title</span><span>${state.toolchain.title}</span>
         <span>mouse</span><span>(${state.mouse.x.toFixed(
           2
         )}, ${state.mouse.y.toFixed(2)})</span>

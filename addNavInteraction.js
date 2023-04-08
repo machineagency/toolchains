@@ -1,7 +1,14 @@
-import { createListener } from "./utils.js";
+import {
+  createListener,
+  selectElementContents,
+  blurTargetOnEnter,
+  checkCharacterCount,
+} from "./utils.js";
 
 export async function addNavInteraction(nav, state) {
   const listen = createListener(nav);
+
+  let tcTitle = document.getElementById("title-field");
 
   listen("pointerdown", ".download", (e) => {
     const x = state.panZoom ? state.panZoom.x() : 0;
@@ -17,6 +24,7 @@ export async function addNavInteraction(nav, state) {
     );
 
     const toolchainJSON = {
+      title: state.toolchain.title ?? untitled,
       pipes: state.toolchain.pipes,
       tools: tools,
       workspace: {
@@ -30,13 +38,13 @@ export async function addNavInteraction(nav, state) {
     downloadLink.href =
       "data:text/json;charset=utf-8," +
       encodeURIComponent(JSON.stringify(toolchainJSON));
-    downloadLink.download = "toolchain.json";
+    downloadLink.download = (state.toolchain.title ?? "toolchain") + ".json";
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
   });
 
-  function uploadToolchain(e) {
+  function upload(e) {
     let file = e.target.files[0];
     const fileReader = new FileReader();
     fileReader.readAsText(file);
@@ -53,7 +61,7 @@ export async function addNavInteraction(nav, state) {
 
     document.body.appendChild(fileInputElement);
     fileInputElement.click();
-    fileInputElement.onchange = uploadToolchain;
+    fileInputElement.onchange = upload;
     document.body.removeChild(fileInputElement);
   });
 
@@ -79,5 +87,30 @@ export async function addNavInteraction(nav, state) {
 
   listen("pointerdown", ".debug", (e) => {
     state.debug = !state.debug;
+  });
+
+  function updateToolchainName(e) {
+    state.toolchain.title = tcTitle.textContent;
+    tcTitle.contentEditable = false;
+    tcTitle.removeEventListener("focusout", updateToolchainName);
+    tcTitle.removeEventListener("keypress", blurTargetOnEnter);
+    tcTitle.removeEventListener("keypress", check);
+  }
+
+  function check(e) {
+    checkCharacterCount(tcTitle, 50, e);
+  }
+
+  listen("pointerdown", ".edit-name", (e) => {
+    tcTitle.contentEditable = true;
+
+    tcTitle.addEventListener("focusout", updateToolchainName);
+    tcTitle.addEventListener("keypress", blurTargetOnEnter);
+    tcTitle.addEventListener("keypress", check);
+
+    setTimeout(function () {
+      selectElementContents(tcTitle);
+      tcTitle.focus();
+    }, 0);
   });
 }

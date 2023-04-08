@@ -31,7 +31,7 @@ export function addPanZoom(el, state) {
   }
 
   listen("pointerdown", "", (e) => {
-    if (e.shiftKey) {
+    if (e.shiftKey || e.button === 2) {
       return;
     }
 

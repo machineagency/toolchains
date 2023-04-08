@@ -12,6 +12,10 @@ function renderTools(state) {
 function navView(state) {
   return html`<div id="nav">
     <span>toolchains</span>
+    <span id="toolchain-title">
+      <span id="title-field">${state.toolchain.title ?? "untitled"}</span>
+      <i class="edit-name fa-solid fa-pen-to-square fa-fw fa-sm"></i>
+    </span>
     <span id="nav-buttons">
       <i class="upload fa-solid fa-upload"></i>
       <i class="download fa-solid fa-download"></i>
@@ -82,6 +86,7 @@ export function view(state) {
             </button>`
         )}
       </div>
+      <div id="context-box-container"></div>
       ${state.debug ? debugView(state) : nothing}
     </div>
   </div>`;
