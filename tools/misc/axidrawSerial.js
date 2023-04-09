@@ -1,6 +1,6 @@
 import { html, nothing } from "lit-html";
-import serialSetup from "../common/serial.js";
-import { path } from "./pdi/path.js";
+import serialSetup from "../../common/serial.js";
+import { path } from "../path/pdi/path.js";
 
 const stepsMM = 40;
 

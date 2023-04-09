@@ -6,7 +6,7 @@ import { EditorView } from "@codemirror/view";
 import { json } from "@codemirror/lang-json";
 
 import beautify from "json-beautify";
-import { editorSetup } from "../common/editor";
+import { editorSetup } from "../../common/editor";
 
 const config = {
   inports: {

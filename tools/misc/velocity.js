@@ -1,5 +1,5 @@
 import { html } from "lit-html";
-import { Printer } from "../common/printer";
+import { Printer } from "../../common/printer";
 
 const config = {
   inports: {
@@ -31,8 +31,6 @@ function velocity(inports, outports, state) {
     let numSteps = 4 * Math.PI * r;
 
     let pixelArr = inports.pixelArr.value;
-
-    console.log(pixelArr);
 
     let p = new Printer();
     p.start();

@@ -11,8 +11,9 @@ const config = {
   state: { currentColor: null },
   ui: {
     displayName: "Color",
-    width: 200,
-    height: 200,
+    width: 75,
+    height: 75,
+    resize: "both",
   },
 };
 

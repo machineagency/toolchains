@@ -5,7 +5,7 @@ import { EditorState } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { javascript } from "@codemirror/lang-javascript";
 
-import { editorSetup } from "../common/editor";
+import { editorSetup } from "../../common/editor";
 
 const config = {
   inports: {},

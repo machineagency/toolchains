@@ -44,14 +44,10 @@ function portView(portID, portInfo, portSide) {
 }
 
 function toolMenu(tool) {
-  return html` <!-- <div class="menu-item">
-      <i class="fa-solid fa-magnifying-glass fa-fw"></i
-      ><span>Inspect State</span>
+  return html`<div class="menu-item edit-toolname">
+      <i class="edit-toolname fa-solid fa-pen-to-square fa-fw"></i
+      ><span class="edit-toolname ">Edit Display Name</span>
     </div>
-    <div class="menu-item">
-      <i class="fa-solid fa-pen-to-square fa-fw"></i
-      ><span>Edit Display Name</span>
-    </div> -->
     <div class="menu-item collapse">
       <i
         class="collapse fa-solid fa-fw ${tool.ui.mini

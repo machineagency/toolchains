@@ -1,0 +1,138 @@
+[
+  {
+    "group": "Math and Logic",
+    "icon": "calculator",
+    "entries": [
+      {
+        "displayName": "And",
+        "path": "tools/logic/and.js"
+      },
+      {
+        "displayName": "Not",
+        "path": "tools/logic/not.js"
+      },
+      {
+        "displayName": "Domain 1D",
+        "path": "tools/math/domain1D.js"
+      },
+      {
+        "displayName": "Domain 2D",
+        "path": "tools/math/domain2D.js"
+      },
+      {
+        "displayName": "Range",
+        "path": "tools/math/range.js"
+      }
+    ]
+  },
+  {
+    "group": "Color",
+    "icon": "palette",
+    "entries": [
+      {
+        "displayName": "Color Picker",
+        "path": "tools/color/color.js"
+      },
+      {
+        "displayName": "Gradient",
+        "path": "tools/color/gradient.js"
+      },
+      {
+        "displayName": "HSL",
+        "path": "tools/color/hsl.js"
+      }
+    ]
+  },
+  {
+    "group": "Inputs",
+    "icon": "computer-mouse",
+    "entries": [
+      {
+        "displayName": "Number Slider",
+        "path": "tools/inputs/inputSlider.js"
+      },
+      {
+        "displayName": "Text",
+        "path": "tools/inputs/text.js"
+      },
+      {
+        "displayName": "Boolean",
+        "path": "tools/inputs/bool.js"
+      }
+    ]
+  },
+  {
+    "group": "File I/O",
+    "icon": "folder",
+    "entries": [
+      {
+        "displayName": "Upload",
+        "path": "tools/files/uploadFile.js"
+      },
+      {
+        "displayName": "Download",
+        "path": "tools/files/downloadFile.js"
+      }
+    ]
+  },
+  {
+    "group": "Image",
+    "icon": "image",
+    "entries": [
+      {
+        "displayName": "Image Viewer",
+        "path": "tools/image/imageViewer.js"
+      },
+      {
+        "displayName": "Pixel Data",
+        "path": "tools/image/extractPixelData.js"
+      }
+    ]
+  },
+  {
+    "group": "Path",
+    "icon": "bezier-curve",
+    "entries": [
+      {
+        "displayName": "Path Drawing",
+        "path": "tools/path/pathDrawing.js"
+      },
+      {
+        "displayName": "Path Viewer",
+        "path": "tools/path/pathViewer.js"
+      }
+    ]
+  },
+  {
+    "group": "Data",
+    "icon": "database",
+    "entries": [
+      {
+        "displayName": "Data Viewer",
+        "path": "tools/data/dataViewer.js"
+      }
+    ]
+  },
+  {
+    "group": "Experiments",
+    "icon": "flask",
+    "entries": [
+      {
+        "displayName": "Velocity Painting",
+        "path": "tools/misc/velocity.js"
+      },
+      {
+        "displayName": "Axidraw Serial",
+        "path": "tools/misc/axidrawSerial.js"
+      },
+      {
+        "displayName": "P5 Editor",
+        "path": "tools/p5/p5Editor.js"
+      },
+      {
+        "displayName": "P5 Sketch Viewer",
+        "path": "tools/p5/p5Viewer.js"
+      }
+    ]
+  }
+]

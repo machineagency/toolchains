@@ -18,45 +18,21 @@ import { pipesView } from "./ui/pipesView";
 import { addSelectBox } from "./addSelectBox";
 import { addBackgroundInteraction } from "./addBackgroundInteraction";
 
+import toolboxData from "./toolbox.json";
+
 const globalState = {
   mouse: null,
   initialized: false,
-  toolbox: [
-    "pathDrawing",
-    "pathViewer",
-    "extractPixelData",
-    "p5Editor",
-    "p5Viewer",
-    "uploadFile",
-    "downloadFile",
-    "imageViewer",
-    "and",
-    "not",
-    "bool",
-    "inputSlider",
-    "domain1D",
-    "domain2D",
-    "evalJS",
-    "color",
-    "dataViewer",
-    "range",
-    "gradient",
-    "axidrawSerial",
-    "velocity",
-    "editor",
-    "hsl",
-  ],
+  toolbox: toolboxData,
   examples: [
     "p5_sketch",
-    "velocity",
-    "path-drawing",
-    "path-testing",
+    // "velocity",
+    "path_drawing",
+    // "path-testing",
     "gradients",
-    "range",
-    "editor",
     "hsl",
   ],
-  snippets: ["squareDomain2D", "domainA3"],
+  // snippets: ["squareDomain2D", "domainA3"],
   imports: {},
   toolchain: {
     title: "untitled",
@@ -74,8 +50,6 @@ const globalState = {
   debug: false,
   uploadToolchain: uploadToolchain,
   addTool: addTool,
-  offset: 0,
-  toolLayer: 1,
 };
 
 function getConnectedInports(toolID, portID) {
@@ -160,11 +134,12 @@ function setupProxies(toolFunc, tool) {
   return true;
 }
 
-function initializeConfig(toolType, toolConfig) {
+function initializeConfig(path, toolConfig) {
+  const toolType = path.split("/").at(-1).split(".")[0];
   const conf = {
-    toolType: toolType,
+    path: path,
     toolID: `${toolType}_${uuidv4()}`,
-    pos: { x: globalState.offset * 30, y: globalState.offset * 30 },
+    pos: { x: globalState.mouse.x, y: globalState.mouse.y },
     inports: toolConfig.inports ?? {},
     outports: toolConfig.outports ?? {},
     state: toolConfig.state ?? {},
@@ -179,27 +154,25 @@ function initializeConfig(toolType, toolConfig) {
         height: "200px",
         mini: false,
         resize: "none",
-        layer: 1,
       }
     ),
     domInitialized: false,
   };
-  globalState.offset++;
   return conf;
 }
 
-async function importTool(toolType) {
-  const { default: toolExport } = await import(`./tools/${toolType}.js`);
-  globalState.imports[toolType] = toolExport;
+async function importTool(path) {
+  const { default: toolExport } = await import(path);
+  globalState.imports[path] = toolExport;
 }
 
-async function addTool(toolType, config) {
-  if (!(toolType in globalState.imports)) {
-    await importTool(toolType);
+async function addTool(path, config) {
+  if (!(path in globalState.imports)) {
+    await importTool(path);
   }
 
-  const toolObj = globalState.imports[toolType];
-  const newTool = config ?? initializeConfig(toolType, toolObj.config);
+  const toolObj = globalState.imports[path];
+  const newTool = config ?? initializeConfig(path, toolObj.config);
   newTool.domInitialized = false;
 
   setupProxies(toolObj.tool, newTool);
@@ -227,8 +200,8 @@ function uploadToolchain(toolchainJSON, snippet = false) {
   }
 
   // For each tool in the toolchain JSON, add the tool
-  Object.entries(toolchainJSON.tools).forEach(([toolID, tool]) => {
-    addTool(tool.toolType, tool);
+  Object.entries(toolchainJSON.tools).forEach(([toolID, toolState]) => {
+    addTool(toolState.path, toolState);
   });
 
   globalState.toolchain.title = toolchainJSON.title ?? "untitled";

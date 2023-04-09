@@ -1,7 +1,6 @@
 import { html, svg, nothing } from "lit-html";
 import { toolView } from "./toolView";
 import { debugView } from "./debugView";
-import { pipesView } from "./pipesView";
 
 function renderTools(state) {
   return Object.entries(state.toolchain.tools).map(([id, tool]) => {
@@ -9,6 +8,15 @@ function renderTools(state) {
   });
 }
 
+// <!-- <i class="dropdown-icon fa-solid fa-book">
+//   <div class="dropdown">
+//     ${state.snippets.map((snippet) => {
+//   return html`<div data-snippet=${snippet} class="dropdown-item snip">
+//     ${snippet}
+//   </div>`;
+// })}
+//   </div>
+// </i> -->
 function navView(state) {
   return html`<div id="nav">
     <span>toolchains</span>
@@ -28,16 +36,14 @@ function navView(state) {
           })}
         </div>
       </i>
-      <i class="dropdown-icon fa-solid fa-book">
-        <div class="dropdown">
-          ${state.snippets.map((snippet) => {
-            return html`<div data-snippet=${snippet} class="dropdown-item snip">
-              ${snippet}
-            </div>`;
-          })}
-        </div>
-      </i>
+
       <i class="debug fa-solid fa-bug"></i>
+      <a
+        href="https://github.com/branchwelder/toolchains"
+        target="_blank"
+        rel="noreferrer noopener">
+        <i class="fa-brands fa-github"></i>
+      </a>
     </span>
   </div>`;
 }
@@ -55,6 +61,28 @@ function drawSelectBox(state) {
     L ${start.x} ${end.y}
     Z
     "/>`;
+}
+
+function toolboxSection(data) {
+  return html`<div class="section">
+    <input type="checkbox" class="collapse-toggle" id="check-${data.group}" />
+    <label for="check-${data.group}" class="collapse-header">
+      <i class="fa-fw fa-solid fa-${data.icon}"></i>
+      <span class="section-title">${data.group}</span>
+      <i class="expand-caret fa-solid fa-caret-left"></i>
+    </label>
+    <div class="collapsible">
+      ${data.entries.map(
+        (entry) =>
+          html`<div
+            draggable="true"
+            class="add-tool collapse-item"
+            data-path=${entry.path}>
+            ${entry.displayName}
+          </div> `
+      )}
+    </div>
+  </div>`;
 }
 
 export function view(state) {
@@ -78,13 +106,8 @@ export function view(state) {
       </svg>
       <div id="toolchain" class="transform-group">${renderTools(state)}</div>
       <div id="toolbox">
-        <div class="pane-header">toolbox</div>
-        ${state.toolbox.map(
-          (toolType) =>
-            html`<button class="add-tool" data-tooltype=${toolType}>
-              ${toolType}
-            </button>`
-        )}
+        <div id="toolbox-title">toolbox</div>
+        ${state.toolbox.map((sectionData) => toolboxSection(sectionData))}
       </div>
       <div id="context-box-container"></div>
       ${state.debug ? debugView(state) : nothing}

@@ -32,6 +32,8 @@ export function debugView(state) {
               <div>
                 X: ${toolInfo.pos.x.toFixed(2)}, Y: ${toolInfo.pos.y.toFixed(2)}
               </div>
+              <div>UI</div>
+              <div>${toolInfo.ui.width} x ${toolInfo.ui.height}</div>
             </div>`
         )}
         </div>

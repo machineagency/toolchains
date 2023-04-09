@@ -69,7 +69,7 @@ function pathDrawing(inports, outports, state) {
 
   function postInit() {
     let iframe = document.createElement("iframe");
-    iframe.src = "./tools/pdi/index.html";
+    iframe.src = "./tools/path/pdi/index.html";
 
     iframe.onload = () => {
       let pWindow = iframe.contentWindow;

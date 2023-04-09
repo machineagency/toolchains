@@ -6,9 +6,9 @@ import { EditorState } from "@codemirror/state";
 import { javascript } from "@codemirror/lang-javascript";
 import { autocompletion, completeFromList } from "@codemirror/autocomplete";
 
-import { helpPanel } from "../common/editorPanel";
-import { snippets } from "../common/completions";
-import { editorSetup } from "../common/editor";
+import { helpPanel } from "../../common/editorPanel";
+import { snippets } from "../../common/completions";
+import { editorSetup } from "../../common/editor";
 
 function p5Completions(context) {
   let word = context.matchBefore(/\w*/);

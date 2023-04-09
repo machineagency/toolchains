@@ -12,7 +12,6 @@
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   background-color: var(--black);
-  box-shadow: 0 0 3px 0 black;
 }
 
 .mini {
@@ -30,7 +29,7 @@
   align-items: center;
   justify-content: space-between;
   z-index: 3;
-  padding: 3px 5px;
+  padding: 4px 5px;
   gap: 20px;
 }
 
@@ -42,7 +41,6 @@
 .tool-displayname {
   font-weight: 600;
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
 }
 
@@ -139,10 +137,12 @@
 
 .outports .port {
   border-radius: 0 6px 6px 0;
+  padding: 2px 4px 2px 2px;
 }
 
 .inports .port {
   border-radius: 6px 0 0 6px;
+  padding: 2px 2px 2px 4px;
 }
 
 .port {
@@ -151,10 +151,10 @@
   cursor: pointer;
   overflow: hidden;
   background-color: var(--port);
-  padding: 2px 4px;
-  font-size: xx-small;
+  font-size: x-small;
+  line-height: 1;
   user-select: none;
-  box-shadow: 0 0 3px 0 black;
+  border: 1px solid var(--black);
 }
 
 .port:hover {

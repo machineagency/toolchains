@@ -29,7 +29,7 @@ export function addPortInteraction(workspace, state) {
       state.toolchain.tools[start.toolID].outports[start.portID].value;
   }
 
-  listen("click", ".inports .port", (e) => {
+  function handleInport(e) {
     const [toolID, toolInfo] = getToolDetails(e);
     const portID = e.target.dataset.portid;
 
@@ -54,9 +54,9 @@ export function addPortInteraction(workspace, state) {
         },
       };
     }
-  });
+  }
 
-  listen("pointerdown", ".outports .port", (e) => {
+  function handleOutport(e) {
     let [toolID, toolInfo] = getToolDetails(e);
     const portID = e.target.dataset.portid;
 
@@ -81,5 +81,11 @@ export function addPortInteraction(workspace, state) {
         },
       };
     }
-  });
+  }
+
+  listen("pointerup", ".inports .port", handleInport);
+  listen("pointerdown", ".inports .port", handleInport);
+
+  listen("pointerup", ".outports .port", handleOutport);
+  listen("pointerdown", ".outports .port", handleOutport);
 }

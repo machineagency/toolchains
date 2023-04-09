@@ -1,10 +1,12 @@
 export function addGlobalInteraction(state) {
-  window.addEventListener("pointermove", (e) => {
+  function updateMouse(e) {
     state.mouse = state.panZoom.toWorkspaceCoords({
       x: e.clientX,
       y: e.clientY,
     });
-  });
+  }
+  window.addEventListener("pointermove", updateMouse);
+  window.addEventListener("dragover", updateMouse);
 
   window.addEventListener("keydown", (e) => {
     if (!state.keysPressed.includes(e.key)) state.keysPressed.push(e.key);

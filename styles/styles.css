@@ -50,6 +50,7 @@ body {
   z-index: 1000;
   user-select: none;
   font-weight: 900;
+  border-bottom: 1px solid #626576;
 }
 
 /* CONTEXT BOX */
@@ -103,16 +104,20 @@ body {
   color: var(--inactive);
 }
 
-#nav-buttons > i:hover {
+#nav-buttons i:hover {
   cursor: pointer;
   background-color: var(--pink);
   color: var(--black);
 }
 
-#nav-buttons > i {
+#nav-buttons i {
   position: relative;
   padding: 4px;
   border-radius: 4px;
+}
+
+#nav-buttons a {
+  color: var(--inactive);
 }
 
 .dropdown-icon:hover .dropdown {
@@ -153,30 +158,75 @@ body {
 
 #toolbox {
   position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translate(0, -50%);
-  display: flex;
-  flex-direction: column;
+  top: 40px;
   user-select: none;
-  border: 1px solid var(--black);
-}
-
-.ui-pane {
-  background-color: var(--tool-background);
-}
-
-.pane-header {
   background-color: var(--black);
   color: var(--text-light);
-  padding: 0.2rem;
-  font-weight: bold;
+  border-radius: 0 5px 5px 0;
+  padding: 0 5px 2px 3px;
+  border: 1px solid #626576;
+  border-left: none;
 }
 
-#toolbox button {
-  font-family: "National Park";
-  font-weight: 400;
+#toolbox-title {
+  font-weight: 900;
+  padding: 3px;
+}
+
+.collapse-header {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  gap: 3px;
+  padding: 4px 0;
+  font-weight: 600;
+  color: var(--inactive);
   cursor: pointer;
+}
+
+.section-title {
+  flex: 1;
+}
+
+.collapse-toggle {
+  display: none;
+}
+
+.collapsible {
+  max-height: 0;
+  visibility: hidden;
+}
+
+.expand-caret {
+  margin-left: 5px;
+  transition: transform 200ms;
+}
+
+.collapse-toggle:checked ~ .collapsible {
+  max-height: 100vh;
+  visibility: visible;
+}
+
+.collapse-header:hover {
+  color: var(--text-light);
+}
+.collapse-toggle:checked ~ .collapse-header {
+  color: var(--cyan);
+}
+
+.collapse-toggle:checked ~ .collapse-header .expand-caret {
+  transform: rotate(-90deg);
+}
+
+.collapse-item {
+  border-radius: 5px;
+  padding: 3px 1.1rem;
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+
+.collapse-item:hover {
+  background-color: var(--black-accent);
 }
 
 /* BACKGROUND */

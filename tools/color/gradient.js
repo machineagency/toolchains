@@ -19,14 +19,13 @@ const config = {
   state: {},
   ui: {
     displayName: "Gradient",
-    width: 200,
-    height: 200,
+    width: 100,
+    height: 100,
+    resize: "both",
   },
 };
 
 function gradient(inports, outports, state) {
-  const resize = () => {};
-
   const render = () => {
     return html`<style>
         .gradient {
@@ -41,7 +40,7 @@ function gradient(inports, outports, state) {
       <div class="gradient"></div>`;
   };
 
-  return { resize, render };
+  return { render };
 }
 
 export default { config, tool: gradient };
