@@ -24,9 +24,16 @@ export function addPortInteraction(workspace, state) {
       end.portID
     );
 
+    let startTool = state.toolchain.tools[start.toolID];
+    let endTool = state.toolchain.tools[end.toolID];
+
     state.toolchain.pipes[pipeID] = { start, end };
-    state.toolchain.tools[end.toolID].inports[end.portID].value =
-      state.toolchain.tools[start.toolID].outports[start.portID].value;
+    endTool.inports[end.portID].value = startTool.outports[start.portID].value;
+
+    if ("inportsUpdated" in endTool.lifecycle) {
+      // run the inports updated method when a pipe is connected
+      endTool.lifecycle.inportsUpdated();
+    }
   }
 
   function handleInport(e) {

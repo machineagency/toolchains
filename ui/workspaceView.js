@@ -8,15 +8,6 @@ function renderTools(state) {
   });
 }
 
-// <!-- <i class="dropdown-icon fa-solid fa-book">
-//   <div class="dropdown">
-//     ${state.snippets.map((snippet) => {
-//   return html`<div data-snippet=${snippet} class="dropdown-item snip">
-//     ${snippet}
-//   </div>`;
-// })}
-//   </div>
-// </i> -->
 function navView(state) {
   return html`<div id="nav">
     <span>toolchains</span>
@@ -29,9 +20,9 @@ function navView(state) {
       <i class="download fa-solid fa-download"></i>
       <i class="dropdown-icon fa-solid fa-book">
         <div class="dropdown">
-          ${state.examples.map((example) => {
-            return html`<div data-example=${example} class="dropdown-item ex">
-              ${example}
+          ${Object.entries(state.examples).map(([path, _]) => {
+            return html`<div data-path=${path} class="dropdown-item ex">
+              ${path.split("/").at(-1).split(".")[0]}
             </div>`;
           })}
         </div>

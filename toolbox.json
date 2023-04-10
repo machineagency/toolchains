@@ -5,23 +5,23 @@
     "entries": [
       {
         "displayName": "And",
-        "path": "tools/logic/and.js"
+        "path": "logic/and"
       },
       {
         "displayName": "Not",
-        "path": "tools/logic/not.js"
+        "path": "logic/not"
       },
       {
         "displayName": "Domain 1D",
-        "path": "tools/math/domain1D.js"
+        "path": "math/domain1D"
       },
       {
         "displayName": "Domain 2D",
-        "path": "tools/math/domain2D.js"
+        "path": "math/domain2D"
       },
       {
         "displayName": "Range",
-        "path": "tools/math/range.js"
+        "path": "math/range"
       }
     ]
   },
@@ -31,15 +31,15 @@
     "entries": [
       {
         "displayName": "Color Picker",
-        "path": "tools/color/color.js"
+        "path": "color/color"
       },
       {
         "displayName": "Gradient",
-        "path": "tools/color/gradient.js"
+        "path": "color/gradient"
       },
       {
         "displayName": "HSL",
-        "path": "tools/color/hsl.js"
+        "path": "color/hsl"
       }
     ]
   },
@@ -49,15 +49,15 @@
     "entries": [
       {
         "displayName": "Number Slider",
-        "path": "tools/inputs/inputSlider.js"
+        "path": "inputs/inputSlider"
       },
       {
         "displayName": "Text",
-        "path": "tools/inputs/text.js"
+        "path": "inputs/text"
       },
       {
         "displayName": "Boolean",
-        "path": "tools/inputs/bool.js"
+        "path": "inputs/bool"
       }
     ]
   },
@@ -67,11 +67,11 @@
     "entries": [
       {
         "displayName": "Upload",
-        "path": "tools/files/uploadFile.js"
+        "path": "files/uploadFile"
       },
       {
         "displayName": "Download",
-        "path": "tools/files/downloadFile.js"
+        "path": "files/downloadFile"
       }
     ]
   },
@@ -81,11 +81,11 @@
     "entries": [
       {
         "displayName": "Image Viewer",
-        "path": "tools/image/imageViewer.js"
+        "path": "image/imageViewer"
       },
       {
         "displayName": "Pixel Data",
-        "path": "tools/image/extractPixelData.js"
+        "path": "image/extractPixelData"
       }
     ]
   },
@@ -95,11 +95,11 @@
     "entries": [
       {
         "displayName": "Path Drawing",
-        "path": "tools/path/pathDrawing.js"
+        "path": "path/pathDrawing"
       },
       {
         "displayName": "Path Viewer",
-        "path": "tools/path/pathViewer.js"
+        "path": "path/pathViewer"
       }
     ]
   },
@@ -109,7 +109,7 @@
     "entries": [
       {
         "displayName": "Data Viewer",
-        "path": "tools/data/dataViewer.js"
+        "path": "data/dataViewer"
       }
     ]
   },
@@ -119,19 +119,19 @@
     "entries": [
       {
         "displayName": "Velocity Painting",
-        "path": "tools/misc/velocity.js"
+        "path": "misc/velocity"
       },
       {
         "displayName": "Axidraw Serial",
-        "path": "tools/misc/axidrawSerial.js"
+        "path": "misc/axidrawSerial"
       },
       {
         "displayName": "P5 Editor",
-        "path": "tools/p5/p5Editor.js"
+        "path": "p5/p5Editor"
       },
       {
         "displayName": "P5 Sketch Viewer",
-        "path": "tools/p5/p5Viewer.js"
+        "path": "p5/p5Viewer"
       }
     ]
   }

@@ -66,17 +66,17 @@ export async function addNavInteraction(nav, state) {
   });
 
   async function importExample(e) {
-    const { default: toolchainJSON } = await import(
-      `./examples/${e.target.dataset.example}.json`
-    );
+    const { default: toolchainJSON } = await state.examples[
+      e.target.dataset.path
+    ]();
 
     state.uploadToolchain(toolchainJSON);
   }
 
   async function importSnippet(e) {
-    const { default: toolchainJSON } = await import(
-      `./snippets/${e.target.dataset.snippet}.json`
-    );
+    const { default: toolchainJSON } = await state.snippets[
+      e.target.dataset.path
+    ]();
 
     state.uploadToolchain(toolchainJSON, true);
   }

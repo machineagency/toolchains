@@ -8,8 +8,13 @@ export function addPipeInteraction(workspace, state) {
 
     const pipeID = e.target.dataset.pipeid;
     const end = state.toolchain.pipes[pipeID].end;
-    state.toolchain.tools[end.toolID].inports[end.portID].value = null;
+    const endTool = state.toolchain.tools[end.toolID];
+    endTool.inports[end.portID].value = null;
 
+    if ("inportsUpdated" in endTool.lifecycle) {
+      // run the inports updated method when a pipe is disconnected
+      endTool.lifecycle.inportsUpdated();
+    }
     delete state.toolchain.pipes[pipeID];
   });
 

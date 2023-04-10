@@ -41,7 +41,7 @@ const config = {
   outports: {
     paths: {
       type: "array",
-      value: false,
+      value: examplePath,
     },
   },
   state: { paths: examplePath },
@@ -70,6 +70,8 @@ function pathDrawing(inports, outports, state) {
   function postInit() {
     let iframe = document.createElement("iframe");
     iframe.src = "./tools/path/pdi/index.html";
+
+    // outports.paths.value = state.paths;
 
     iframe.onload = () => {
       let pWindow = iframe.contentWindow;

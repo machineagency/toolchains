@@ -20,19 +20,14 @@ import { addBackgroundInteraction } from "./addBackgroundInteraction";
 
 import toolboxData from "./toolbox.json";
 
+const toolModules = import.meta.glob("/tools/**/*.js");
+const examples = import.meta.glob("/examples/**/*.json");
+
 const globalState = {
   mouse: null,
   initialized: false,
   toolbox: toolboxData,
-  examples: [
-    "p5_sketch",
-    // "velocity",
-    "path_drawing",
-    // "path-testing",
-    "gradients",
-    "hsl",
-  ],
-  // snippets: ["squareDomain2D", "domainA3"],
+  examples: examples,
   imports: {},
   toolchain: {
     title: "untitled",
@@ -162,7 +157,8 @@ function initializeConfig(path, toolConfig) {
 }
 
 async function importTool(path) {
-  const { default: toolExport } = await import(path);
+  const { default: toolExport } = await toolModules[`/tools/${path}.js`]();
+
   globalState.imports[path] = toolExport;
 }
 
