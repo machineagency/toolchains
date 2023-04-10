@@ -1,0 +1,1 @@
+const s=e=>{window.addEventListener("keydown",d=>{e.keysPressed.includes(d.key)||e.keysPressed.push(d.key),d.key==="Escape"&&(e.selectedPts=new Set),d.key==="Escape"&&e.mode==="drawing"&&(e.drawing=!1,e.preview=null)}),window.addEventListener("keyup",d=>{e.keysPressed.splice(e.keysPressed.indexOf(d.key),1)})};export{s as addGlobalKeypress};
