@@ -1,4 +1,4 @@
-import{y as i}from"./lit-html-b7b68613.js";const a={inports:{contents:{type:"string",value:null}},outports:{},state:{filename:null},ui:{displayName:"Download File",width:150,height:50}};function d(t,r,n){function o(){const e=document.createElement("a");e.href="data:text/plain;charset=utf-8,"+encodeURIComponent(t.contents.value),e.download=n.filename,document.body.appendChild(e),e.click(),document.body.removeChild(e)}function l(e){n.filename=e.target.value}return{render:()=>i`<style>
+import{y as i}from"./lit-html-b7b68613.js";const a={inports:{contents:{type:"string",value:null}},outports:{},state:{filename:null},ui:{displayName:"Download File",width:150,height:50,icon:"download"}};function d(o,r,n){function t(){const e=document.createElement("a");e.href="data:text/plain;charset=utf-8,"+encodeURIComponent(o.contents.value),e.download=n.filename,document.body.appendChild(e),e.click(),document.body.removeChild(e)}function l(e){n.filename=e.target.value}return{render:()=>i`<style>
         .container {
           height: 100%;
           display: flex;
@@ -31,7 +31,7 @@ import{y as i}from"./lit-html-b7b68613.js";const a={inports:{contents:{type:"str
           placeholder="Enter file name"
           @input=${l}
           type="text" />
-        <div class="fileBtn" @click=${o}>
+        <div class="fileBtn" @click=${t}>
           <span>Download</span>
         </div>
       </div>`}}const s={config:a,tool:d};export{s as default};

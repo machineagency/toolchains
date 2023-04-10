@@ -1,4 +1,4 @@
-import{y as r}from"./lit-html-b7b68613.js";const d={inports:{},outports:{dataUrl:{type:"dataurl",value:null}},state:{file:null},ui:{displayName:"Upload File",width:150,height:50}};function c(u,l,n){function i(e){let a=e.target.files[0];const t=new FileReader;t.readAsDataURL(a),t.onload=()=>{n.file=t.result,l.dataUrl.value=t.result}}function o(){let e=document.createElement("input");e.setAttribute("type","file"),e.style.display="none",document.body.appendChild(e),e.click(),e.onchange=i,document.body.removeChild(e)}return{render:()=>r`<style>
+import{y as r}from"./lit-html-b7b68613.js";const d={inports:{},outports:{dataUrl:{type:"dataurl",value:null}},state:{file:null},ui:{displayName:"Upload File",width:150,height:50,icon:"upload"}};function c(u,t,n){function i(e){let a=e.target.files[0];const l=new FileReader;l.readAsDataURL(a),l.onload=()=>{n.file=l.result,t.dataUrl.value=l.result}}function o(){let e=document.createElement("input");e.setAttribute("type","file"),e.style.display="none",document.body.appendChild(e),e.click(),e.onchange=i,document.body.removeChild(e)}return{render:()=>r`<style>
         .container {
           height: 100%;
           display: flex;

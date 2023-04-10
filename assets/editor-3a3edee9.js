@@ -1,4 +1,4 @@
-import{y as p}from"./lit-html-b7b68613.js";import{n as f,e as g}from"./ref-cfc580af.js";import{E as a,e as h,g as b}from"./editor-7887b23b.js";import{j as w}from"./index-8347ce50.js";import"./index-e63d0e3e.js";const v={inports:{},outports:{program:{type:"string",value:null}},state:{language:"javascript",program:`console.log('hello world!');
+import{y as p}from"./lit-html-b7b68613.js";import{n as f,e as g}from"./ref-377bfd4e.js";import{E as a,e as h,g as b}from"./editor-7887b23b.js";import{j as w}from"./index-8347ce50.js";import"./index-528b6888.js";const v={inports:{},outports:{program:{type:"string",value:null}},state:{language:"javascript",program:`console.log('hello world!');
 `},ui:{displayName:"Editor",resize:"both",width:200,height:500}};function k(S,n,t,s){let o=g(),e;function l(){return a.updateListener.of(r=>{t.program=r.state.doc.toString(),n.program.value=r.state.doc.toString()})}function i(){return h.create({doc:t.program,extensions:[b,w(),l()]})}function c(){e=new a({parent:o.value,state:i()})}function d(){e.setState(i())}function m(){e.requestMeasure()}function u(){let r=s.panZoom.scale();return p`
       <style>
         #editor {
