@@ -14,6 +14,7 @@ const config = {
     width: 200,
     height: 200,
     resize: "both",
+    icon: "image",
   },
 };
 

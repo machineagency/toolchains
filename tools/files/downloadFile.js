@@ -13,6 +13,7 @@ const config = {
     displayName: "Download File",
     width: 150,
     height: 50,
+    icon: "download",
   },
 };
 

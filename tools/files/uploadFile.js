@@ -13,6 +13,7 @@ const config = {
     displayName: "Upload File",
     width: 150,
     height: 50,
+    icon: "upload",
   },
 };
 

@@ -29,9 +29,7 @@ function andGate(inports, outports, state) {
     }
   }
 
-  const render = () => {};
-
-  return { inportsUpdated, render };
+  return { inportsUpdated };
 }
 
 export default { config, tool: andGate };

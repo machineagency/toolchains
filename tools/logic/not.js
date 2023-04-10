@@ -25,9 +25,7 @@ function notGate(inports, outports, state) {
     }
   }
 
-  const render = () => {};
-
-  return { inportsUpdated, render };
+  return { inportsUpdated };
 }
 
 export default { config, tool: notGate };

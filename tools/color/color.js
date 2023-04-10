@@ -14,6 +14,7 @@ const config = {
     width: 75,
     height: 75,
     resize: "both",
+    icon: "palette",
   },
 };
 

@@ -36,7 +36,7 @@ Running Toolchains locally is easy!
   - [ ] tool layering - any selected tool should be above others
   - [ ] add tool to coordinates in current view, rather than 0,0
   - [ ] clear current toolchain
-  - [ ] name toolchain
+  - [x] name toolchain
   - [ ] pipe coloring for boolean/null values
   - [ ] cache toolchains to local storage?
   - [ ] adaptive pipe routing? current beziers are fine for most cases but not
@@ -58,7 +58,7 @@ Running Toolchains locally is easy!
   - [ ] toolbar context menu
     - [x] remove tool
     - [x] collapse ui elements (hide ports when not active)
-    - [ ] Edit tool display name
+    - [x] Edit tool display name
     - [ ] show state inspector
 - workspace ui
   - [x] tool library

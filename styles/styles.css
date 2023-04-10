@@ -175,10 +175,10 @@ body {
 
 .collapse-header {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   font-size: 0.8rem;
-  gap: 3px;
-  padding: 4px 0;
+  gap: 4px;
+  padding: 3px 0;
   font-weight: 600;
   color: var(--inactive);
   cursor: pointer;

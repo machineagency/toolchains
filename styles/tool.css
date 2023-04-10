@@ -1,5 +1,10 @@
 .selected {
   outline: 2px solid var(--cyan);
+  z-index: 20;
+}
+
+.not-selected {
+  z-index: 10;
 }
 
 .tool {
@@ -12,6 +17,7 @@
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   background-color: var(--black);
+  box-shadow: 0 0 1px 0 black;
 }
 
 .mini {
@@ -30,7 +36,6 @@
   justify-content: space-between;
   z-index: 3;
   padding: 4px 5px;
-  gap: 20px;
 }
 
 .mini .toolbar {
@@ -42,13 +47,17 @@
   font-weight: 600;
   white-space: nowrap;
   text-overflow: ellipsis;
+  padding-right: 5px;
+  color: var(--white);
 }
 
 /* TOOL MENU */
 
 .menu {
   cursor: pointer;
-  color: var(--text-light);
+  color: #50505d;
+  display: flex;
+  align-items: center;
 }
 
 .menu:hover,
@@ -74,7 +83,7 @@
   flex-direction: column;
   padding: 3px;
   border-radius: 5px;
-  box-shadow: 0 0 7px 0 black;
+  box-shadow: 0 0 4px 0 black;
   z-index: 5;
 }
 
@@ -114,14 +123,19 @@
 }
 
 /* PORTS */
+.mini .port-container {
+  justify-content: center;
+}
 
 .port-container {
   display: flex;
   flex-direction: column;
-  position: absolute;
+  position: relative;
   gap: 2px;
   grid-row: 2;
+  width: 0;
   z-index: 1;
+  padding: 3px 0;
 }
 
 .inports {

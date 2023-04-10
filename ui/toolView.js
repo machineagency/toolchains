@@ -48,13 +48,13 @@ function toolMenu(tool) {
       <i class="edit-toolname fa-solid fa-pen-to-square fa-fw"></i
       ><span class="edit-toolname ">Edit Display Name</span>
     </div>
-    <div class="menu-item collapse">
+    <!-- <div class="menu-item collapse">
       <i
         class="collapse fa-solid fa-fw ${tool.ui.mini
-          ? "fa-maximize"
-          : "fa-minimize"}"></i
+      ? "fa-maximize"
+      : "fa-minimize"}"></i
       ><span class="collapse">${tool.ui.mini ? "Expand" : "Collapse"}</span>
-    </div>
+    </div> -->
     <div class="menu-item remove">
       <i class="fa-solid fa-trash fa-fw remove"></i
       ><span class="remove">Delete</span>
@@ -62,11 +62,12 @@ function toolMenu(tool) {
 }
 
 export function toolView(toolID, tool, state) {
+  let selected = state.selection.has(toolID);
   let locked = state.resizing || state.transforming || state.lockInteraction;
   return html`<div
     class="tool resize-${tool.ui.resize}
     ${tool.ui.mini ? "mini" : "full"}
-    ${state.selection.has(toolID) ? "selected" : ""}"
+    ${selected ? "selected" : "not-selected"}"
     data-toolid=${toolID}
     style="
       --x:${tool.pos.x}px;
@@ -74,13 +75,14 @@ export function toolView(toolID, tool, state) {
       --ui-width:${tool.ui.width ?? 0}px;
       --ui-height:${tool.ui.height ?? 0}px;">
     <div class="toolbar">
+      <!-- ${tool.ui.icon
+        ? html`<i class="fa-solid fa-fw fa-${tool.ui.icon}"></i>`
+        : nothing} -->
       <span class="tool-displayname">${tool.ui.displayName}</span>
-      <span>
-        <a class="menu" href="#"
-          ><i class="fa-solid fa-ellipsis-vertical"> </i>
-        </a>
+      <div class="menu-icon">
+        <a class="menu" href="#"><i class="fa-solid fa-xs fa-gear"> </i> </a>
         <div class="tool-menu">${toolMenu(tool)}</div>
-      </span>
+      </div>
     </div>
     <div class="inports port-container">
       ${Object.entries(tool.inports).map(([portID, port]) =>
@@ -98,7 +100,5 @@ export function toolView(toolID, tool, state) {
             ${shadow(tool.lifecycle.render(), tool)}
           </div>
           <div class="resize-handle"></div>`}
-
-    <!-- <div class="tool-state">${stateView(tool.state)}</div> -->
   </div>`;
 }
