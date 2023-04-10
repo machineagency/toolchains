@@ -102,6 +102,32 @@
     ]
   },
   {
+    "group": "Trigonometry",
+    "icon": "calculator",
+    "entries": [
+      {
+        "displayName": "Degrees",
+        "path": "trig/degrees"
+      },
+      {
+        "displayName": "Radians",
+        "path": "trig/radians"
+      },
+      {
+        "displayName": "Sine",
+        "path": "trig/sine"
+      },
+      {
+        "displayName": "Cosine",
+        "path": "trig/cosine"
+      },
+      {
+        "displayName": "Tangent",
+        "path": "trig/tangent"
+      }
+    ]
+  },
+  {
     "group": "Color",
     "icon": "palette",
     "entries": [
