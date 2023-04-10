@@ -1,0 +1,1 @@
+const n={inports:{x:{type:"number",value:null}},outports:{result:{type:"number",value:null}},ui:{displayName:"Cosine"}};function t(e,l){function u(){e.x.value!==null?l.result.value=Math.cos(e.x.value):l.result.value=null}return{inportsUpdated:u}}const o={config:n,tool:t};export{o as default};

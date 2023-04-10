@@ -1,0 +1,1 @@
+const l={inports:{x:{type:"number",value:null}},outports:{result:{type:"number",value:null}},ui:{displayName:"Tangent"}};function u(e,n){function t(){e.x.value!==null?n.result.value=Math.tan(e.x.value):n.result.value=null}return{inportsUpdated:t}}const a={config:l,tool:u};export{a as default};

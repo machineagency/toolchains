@@ -1,1 +1,0 @@
-const e={inports:{in:{type:"boolean",value:null}},outports:{out:{type:"boolean",value:null}},state:{},ui:{displayName:"not",mini:!0}};function u(t,n,l){function o(){t.in.value!==null&&(n.out.value=!t.in.value)}return{inportsUpdated:o}}const a={config:e,tool:u};export{a as default};

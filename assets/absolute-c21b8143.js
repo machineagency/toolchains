@@ -1,0 +1,1 @@
+const a={inports:{a:{type:"number",value:null}},outports:{result:{type:"number",value:null}},ui:{displayName:"abs"}};function t(l,e){function u(){l.a.value!==null?e.result.value=Math.abs(l.a.value):e.result.value=null}return{inportsUpdated:u}}const n={config:a,tool:t};export{n as default};

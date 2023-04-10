@@ -1,0 +1,1 @@
+const n={inports:{x:{type:"number",value:null}},outports:{result:{type:"number",value:null}},ui:{displayName:"Sine"}};function t(e,l){function u(){e.x.value!==null?l.result.value=Math.sin(e.x.value):l.result.value=null}return{inportsUpdated:u}}const a={config:n,tool:t};export{a as default};

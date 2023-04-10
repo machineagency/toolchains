@@ -1,0 +1,1 @@
+const n={inports:{radians:{type:"number",value:null}},outports:{degrees:{type:"number",value:null}},ui:{displayName:"Degrees"}};function u(e,a){function l(){e.radians.value!==null?a.degrees.value=180/Math.PI*e.radians.value:a.degrees.value=null}return{inportsUpdated:l}}const r={config:n,tool:u};export{r as default};

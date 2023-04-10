@@ -1,0 +1,1 @@
+const a={inports:{a:{type:"number",value:null},b:{type:"number",value:null}},outports:{result:{type:"number",value:null}},ui:{displayName:"",icon:"minus"}};function n(u,l){function e(){u.a.value!==null&&u.b.value!==null?l.result.value=u.a.value-u.b.value:l.result.value=null}return{inportsUpdated:e}}const t={config:a,tool:n};export{t as default};

@@ -1,0 +1,1 @@
+const n={inports:{a:{type:"number",value:null},b:{type:"number",value:null}},outports:{result:{type:"number",value:null}},ui:{displayName:"",icon:"percent"}};function a(l,u){function e(){l.a.value!==null&&l.b.value!==null?u.result.value=l.a.value%l.b.value:u.result.value=null}return{inportsUpdated:e}}const t={config:n,tool:a};export{t as default};
