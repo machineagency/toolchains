@@ -1,25 +1,25 @@
 const config = {
   inports: {
-    in: {
-      type: "boolean",
+    a: {
+      type: "number",
       value: null,
     },
   },
   outports: {
     result: {
-      type: "boolean",
+      type: "number",
       value: null,
     },
   },
   ui: {
-    displayName: "not",
+    displayName: "abs",
   },
 };
 
-function notGate(inports, outports) {
+function absolute(inports, outports) {
   function inportsUpdated() {
-    if (inports.in.value !== null) {
-      outports.result.value = !inports.in.value;
+    if (inports.a.value !== null) {
+      outports.result.value = Math.abs(inports.a.value);
     } else {
       outports.result.value = null;
     }
@@ -28,4 +28,4 @@ function notGate(inports, outports) {
   return { inportsUpdated };
 }
 
-export default { config, tool: notGate };
+export default { config, tool: absolute };

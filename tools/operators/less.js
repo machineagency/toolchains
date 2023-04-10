@@ -1,11 +1,11 @@
 const config = {
   inports: {
     a: {
-      type: "boolean",
+      type: "number",
       value: null,
     },
     b: {
-      type: "boolean",
+      type: "number",
       value: null,
     },
   },
@@ -16,14 +16,15 @@ const config = {
     },
   },
   ui: {
-    displayName: "and",
+    displayName: "",
+    icon: "less-than",
   },
 };
 
-function andGate(inports, outports) {
+function less(inports, outports) {
   function inportsUpdated() {
     if (inports.a.value !== null && inports.b.value !== null) {
-      outports.result.value = inports.a.value && inports.b.value;
+      outports.result.value = inports.a.value < inports.b.value;
     } else {
       outports.result.value = null;
     }
@@ -32,4 +33,4 @@ function andGate(inports, outports) {
   return { inportsUpdated };
 }
 
-export default { config, tool: andGate };
+export default { config, tool: less };

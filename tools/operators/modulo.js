@@ -1,29 +1,30 @@
 const config = {
   inports: {
     a: {
-      type: "boolean",
+      type: "number",
       value: null,
     },
     b: {
-      type: "boolean",
+      type: "number",
       value: null,
     },
   },
   outports: {
     result: {
-      type: "boolean",
+      type: "number",
       value: null,
     },
   },
   ui: {
-    displayName: "and",
+    displayName: "",
+    icon: "percent",
   },
 };
 
-function andGate(inports, outports) {
+function modulo(inports, outports) {
   function inportsUpdated() {
     if (inports.a.value !== null && inports.b.value !== null) {
-      outports.result.value = inports.a.value && inports.b.value;
+      outports.result.value = inports.a.value % inports.b.value;
     } else {
       outports.result.value = null;
     }
@@ -32,4 +33,4 @@ function andGate(inports, outports) {
   return { inportsUpdated };
 }
 
-export default { config, tool: andGate };
+export default { config, tool: modulo };

@@ -48,13 +48,6 @@ function toolMenu(tool) {
       <i class="edit-toolname fa-solid fa-pen-to-square fa-fw"></i
       ><span class="edit-toolname ">Edit Display Name</span>
     </div>
-    <!-- <div class="menu-item collapse">
-      <i
-        class="collapse fa-solid fa-fw ${tool.ui.mini
-      ? "fa-maximize"
-      : "fa-minimize"}"></i
-      ><span class="collapse">${tool.ui.mini ? "Expand" : "Collapse"}</span>
-    </div> -->
     <div class="menu-item remove">
       <i class="fa-solid fa-trash fa-fw remove"></i
       ><span class="remove">Delete</span>
@@ -62,11 +55,13 @@ function toolMenu(tool) {
 }
 
 export function toolView(toolID, tool, state) {
+  let mini = !("render" in tool.lifecycle);
   let selected = state.selection.has(toolID);
   let locked = state.resizing || state.transforming || state.lockInteraction;
+
   return html`<div
     class="tool resize-${tool.ui.resize}
-    ${tool.ui.mini ? "mini" : "full"}
+    ${mini ? "mini" : "full"}
     ${selected ? "selected" : "not-selected"}"
     data-toolid=${toolID}
     style="
@@ -74,13 +69,15 @@ export function toolView(toolID, tool, state) {
       --y:${tool.pos.y}px;
       --ui-width:${tool.ui.width ?? 0}px;
       --ui-height:${tool.ui.height ?? 0}px;">
-    <div class="toolbar">
-      <!-- ${tool.ui.icon
-        ? html`<i class="fa-solid fa-fw fa-${tool.ui.icon}"></i>`
-        : nothing} -->
-      <span class="tool-displayname">${tool.ui.displayName}</span>
+    <div class="toolbar drag-tool">
+      ${tool.ui.icon
+        ? html`<i class="drag-tool fa-solid fa-fw fa-${tool.ui.icon}"></i>`
+        : nothing}
+      <span class="drag-tool tool-displayname">${tool.ui.displayName}</span>
       <div class="menu-icon">
-        <a class="menu" href="#"><i class="fa-solid fa-xs fa-gear"> </i> </a>
+        <a class="menu" href="#"
+          ><i class="fa-solid fa-ellipsis-vertical"> </i>
+        </a>
         <div class="tool-menu">${toolMenu(tool)}</div>
       </div>
     </div>
@@ -94,7 +91,7 @@ export function toolView(toolID, tool, state) {
         portView(portID, port, "outport")
       )}
     </div>
-    ${tool.ui.mini
+    ${mini
       ? nothing
       : html`<div class="tool-view ${locked ? "disable-pointer" : ""}">
             ${shadow(tool.lifecycle.render(), tool)}

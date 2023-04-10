@@ -12,6 +12,10 @@
         "path": "logic/not"
       },
       {
+        "displayName": "Or",
+        "path": "logic/or"
+      },
+      {
         "displayName": "Domain 1D",
         "path": "math/domain1D"
       },
@@ -22,6 +26,78 @@
       {
         "displayName": "Range",
         "path": "math/range"
+      }
+    ]
+  },
+  {
+    "group": "Operators",
+    "icon": "calculator",
+    "entries": [
+      {
+        "displayName": "Add",
+        "path": "operators/add"
+      },
+      {
+        "displayName": "Subtract",
+        "path": "operators/subtract"
+      },
+      {
+        "displayName": "Multiply",
+        "path": "operators/multiply"
+      },
+      {
+        "displayName": "Divide",
+        "path": "operators/divide"
+      },
+      {
+        "displayName": "Modulo",
+        "path": "operators/modulo"
+      },
+      {
+        "displayName": "Power",
+        "path": "operators/power"
+      },
+      {
+        "displayName": "Equals",
+        "path": "operators/equals"
+      },
+      {
+        "displayName": "Absolute Value",
+        "path": "operators/absolute"
+      },
+      {
+        "displayName": "Not Equals",
+        "path": "operators/notEquals"
+      },
+      {
+        "displayName": "Square Root",
+        "path": "operators/squareRoot"
+      },
+      {
+        "displayName": "Greater Than",
+        "path": "operators/greater"
+      },
+      {
+        "displayName": "Less Than",
+        "path": "operators/less"
+      }
+    ]
+  },
+  {
+    "group": "Constants",
+    "icon": "calculator",
+    "entries": [
+      {
+        "displayName": "pi",
+        "path": "constants/piConstant"
+      },
+      {
+        "displayName": "ln10",
+        "path": "constants/ln10Constant"
+      },
+      {
+        "displayName": "e",
+        "path": "constants/eConstant"
       }
     ]
   },

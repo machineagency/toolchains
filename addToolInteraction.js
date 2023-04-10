@@ -79,7 +79,7 @@ export function addToolInteraction(workspace, state) {
     state.selection.add(toolID);
   });
 
-  function startDrag(e) {
+  listen("pointerdown", ".drag-tool", (e) => {
     let [toolID, toolInfo] = getToolDetails(e);
 
     if (e.shiftKey) state.selection.add(toolID);
@@ -94,14 +94,6 @@ export function addToolInteraction(workspace, state) {
     }
     state.selection.add(toolID);
     state.transforming = true;
-  }
-
-  listen("pointerdown", ".tool-displayname", (e) => {
-    startDrag(e);
-  });
-
-  listen("pointerdown", ".toolbar", (e) => {
-    startDrag(e);
   });
 
   listen("pointermove", "", (e) => {
