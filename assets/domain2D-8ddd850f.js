@@ -1,0 +1,1 @@
+const l={inports:{d1:{type:"domain1D",value:null},d2:{type:"domain1D",value:null}},outports:{domain2d:{type:"domain2D",value:null}},ui:{displayName:"Domain 2D"}};function o(a,d){function n(){a.d1.value&&a.d2.value&&(d.domain2d.value={d1:a.d1.value,d2:a.d2.value})}return{inportsUpdated:n}}const u={config:l,tool:o};export{u as default};
