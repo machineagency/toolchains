@@ -7,8 +7,6 @@ const config = {
       value: null,
     },
   },
-  outports: {},
-  state: {},
   ui: {
     displayName: "Image Viewer",
     width: 200,
@@ -18,7 +16,7 @@ const config = {
   },
 };
 
-function imageViewer(inports, outports, state) {
+function imageViewer(inports, outports) {
   const render = () => {
     return html`<style>
         img {
@@ -27,6 +25,7 @@ function imageViewer(inports, outports, state) {
           object-fit: contain;
           display: block;
           image-rendering: pixelated;
+          user-select: none;
         }
       </style>
       <img draggable="false" src=${inports.dataurl.value} />`;

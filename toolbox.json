@@ -186,8 +186,20 @@
         "path": "image/imageViewer"
       },
       {
-        "displayName": "Pixel Data",
-        "path": "image/extractPixelData"
+        "displayName": "Extract Image Data",
+        "path": "image/getImageData"
+      },
+      {
+        "displayName": "Image RGBA",
+        "path": "image/imageRGBA"
+      },
+      {
+        "displayName": "Construct Image Data",
+        "path": "image/constructImageData"
+      },
+      {
+        "displayName": "View Image Data",
+        "path": "image/viewImageData"
       }
     ]
   },

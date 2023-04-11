@@ -50,22 +50,6 @@ function calculatePipeBezier(start, end) {
 
 export function pipesView(state) {
   return Object.entries(state.toolchain.pipes).map(([pipeID, pipeData]) => {
-    // Add a class to the pipe depending on the value
-    let val =
-      state.toolchain.tools[pipeData.start.toolID].outports[
-        pipeData.start.portID
-      ].value;
-    let pipeClass;
-    if (val === null) {
-      pipeClass = "empty";
-    } else if (Array.isArray(val)) {
-      pipeClass = "array";
-    } else if (typeof val === "object") {
-      pipeClass = "object";
-    } else {
-      pipeClass = "single";
-    }
-
     let q = queryPortCoords(state, pipeData);
     if (!q) return;
 
@@ -77,6 +61,21 @@ export function pipesView(state) {
     if (inProgress) {
       return svg`<path class="pipe-background" data-pipeid=${pipeID} d="${pipeD}" />`;
     } else {
+      // Add a class to the pipe depending on the value
+      let val =
+        state.toolchain.tools[pipeData.start.toolID].outports[
+          pipeData.start.portID
+        ].value;
+      let pipeClass;
+      if (val === null) {
+        pipeClass = "empty";
+      } else if (Array.isArray(val)) {
+        pipeClass = "array";
+      } else if (typeof val === "object") {
+        pipeClass = "object";
+      } else {
+        pipeClass = "single";
+      }
       return svg`<path class="pipe-background ${pipeClass}" data-pipeid=${pipeID} d="${pipeD}" />
     <path class="pipe ${pipeClass}" data-pipeid=${pipeID} d="${pipeD}" />`;
     }
