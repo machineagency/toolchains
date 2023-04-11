@@ -28,6 +28,10 @@ function uploadFile(inports, outports, state) {
     };
   }
 
+  function init() {
+    outports.dataUrl.value = state.file;
+  }
+
   function uploadClicked() {
     let fileInputElement = document.createElement("input");
 
@@ -67,7 +71,7 @@ function uploadFile(inports, outports, state) {
       </div>`;
   };
 
-  return { render };
+  return { render, init };
 }
 
 export default { config, tool: uploadFile };

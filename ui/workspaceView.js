@@ -85,9 +85,10 @@ export function view(state) {
     ${navView(state)}
     <div id="workspace">
       <canvas
+        draggable="false"
         id="background"
         style="--offset-x: ${x}px;--offset-y: ${y}px;--scale: ${scale};"></canvas>
-      <svg id="svg-layer" preserveAspectRatio="xMidYMid meet">
+      <svg id="svg-layer" preserveAspectRatio="xMidYMid meet" draggable="false">
         <g id="select-box-container" class="transform-group">
           ${state.selectBox.start && state.selectBox.end
             ? drawSelectBox(state)

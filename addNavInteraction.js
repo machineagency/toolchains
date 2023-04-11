@@ -18,7 +18,16 @@ export async function addNavInteraction(nav, state) {
     const tools = Object.fromEntries(
       Object.entries(state.toolchain.tools).map(([toolID, tool]) => {
         // Can't serialize the lifecycle methods, use destructuring to get rid of them
-        const { lifecycle: _, ...newTool } = tool;
+
+        const toolObj = state.imports[tool.path];
+
+        const { lifecycle: x, inports: y, outports: z, ...newTool } = tool;
+
+        // We don't need to save inport and outport values, because they are derived
+        // from state.So we save them as their initial config values
+        newTool.inports = toolObj.config.inports ?? {};
+        newTool.outports = toolObj.config.outports ?? {};
+
         return [toolID, newTool];
       })
     );

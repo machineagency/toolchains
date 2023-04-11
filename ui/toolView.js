@@ -64,6 +64,7 @@ export function toolView(toolID, tool, state) {
     ${mini ? "mini" : "full"}
     ${selected ? "selected" : "not-selected"}"
     data-toolid=${toolID}
+    draggable="false"
     style="
       --x:${tool.pos.x}px;
       --y:${tool.pos.y}px;

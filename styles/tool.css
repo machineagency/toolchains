@@ -47,8 +47,13 @@
   font-weight: 600;
   white-space: nowrap;
   text-overflow: ellipsis;
-  padding-right: 5px;
+  padding-right: 10px;
+  padding-left: 4px;
   color: var(--white);
+}
+
+.mini .tool-displayname {
+  white-space: break-spaces;
 }
 
 /* TOOL MENU */
