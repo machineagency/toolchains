@@ -50,7 +50,7 @@ body {
   z-index: 1000;
   user-select: none;
   font-weight: 900;
-  border-bottom: 1px solid #626576;
+  box-shadow: 0 0 2px 0 black;
 }
 
 /* CONTEXT BOX */
@@ -164,8 +164,7 @@ body {
   color: var(--text-light);
   border-radius: 0 5px 5px 0;
   padding: 0 5px 2px 3px;
-  border: 1px solid #626576;
-  border-left: none;
+  box-shadow: 0 0 2px 0 black;
 }
 
 #toolbox-title {
@@ -267,8 +266,8 @@ body {
 .pipe-background {
   /* the gray pipe */
   fill: none;
-  stroke: var(--port);
   stroke-width: 3px;
+  stroke: var(--port);
 }
 
 .pipe {
@@ -282,6 +281,24 @@ body {
 
 .pipe:hover {
   stroke-opacity: 1;
+}
+
+.single {
+  stroke: var(--port);
+}
+
+.empty {
+  stroke: var(--orange);
+}
+
+.array {
+  stroke-dasharray: 0.5 5;
+  stroke-linecap: round;
+}
+
+.object {
+  stroke-dasharray: 10;
+  stroke-linecap: round;
 }
 
 /* Selection box */

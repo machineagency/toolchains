@@ -1,5 +1,3 @@
-import { html } from "lit-html";
-
 const config = {
   inports: {
     d1: {
@@ -17,14 +15,12 @@ const config = {
       value: null,
     },
   },
-  state: {},
   ui: {
     displayName: "Domain 2D",
-    mini: true,
   },
 };
 
-function domain2D(inports, outports, state) {
+function domain2D(inports, outports) {
   function inportsUpdated() {
     if (inports.d1.value && inports.d2.value) {
       outports.domain2d.value = {
@@ -34,11 +30,7 @@ function domain2D(inports, outports, state) {
     }
   }
 
-  function render() {
-    return html``;
-  }
-
-  return { inportsUpdated, render };
+  return { inportsUpdated };
 }
 
 export default { config, tool: domain2D };

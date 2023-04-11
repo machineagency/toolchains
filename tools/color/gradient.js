@@ -16,7 +16,6 @@ const config = {
     },
   },
   outports: {},
-  state: {},
   ui: {
     displayName: "Gradient",
     width: 100,
@@ -25,7 +24,7 @@ const config = {
   },
 };
 
-function gradient(inports, outports, state) {
+function gradient(inports, outports) {
   const render = () => {
     return html`<style>
         .gradient {

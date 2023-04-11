@@ -1,5 +1,3 @@
-import { html } from "lit-html";
-
 function makeArr(startValue, stopValue, cardinality) {
   var arr = [];
   var step = (stopValue - startValue) / (cardinality - 1);
@@ -26,14 +24,12 @@ const config = {
       value: null,
     },
   },
-  state: {},
   ui: {
     displayName: "Range",
-    mini: true,
   },
 };
 
-function range(inports, outports, state) {
+function range(inports, outports) {
   function inportsUpdated() {
     let domain = inports.domain.value;
     let step = inports.numSteps.value;
@@ -42,19 +38,7 @@ function range(inports, outports, state) {
     }
   }
 
-  function render() {
-    return html`<style>
-        #container {
-          display: flex;
-          align-items: center;
-          max-height: 100%;
-          height: 100%;
-        }
-      </style>
-      <div id="container">test</div>`;
-  }
-
-  return { inportsUpdated, render };
+  return { inportsUpdated };
 }
 
 export default { config, tool: range };

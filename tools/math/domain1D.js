@@ -1,5 +1,3 @@
-import { html } from "lit-html";
-
 const config = {
   inports: {
     min: {
@@ -17,14 +15,12 @@ const config = {
       value: null,
     },
   },
-  state: {},
   ui: {
     displayName: "Domain 1D",
-    mini: true,
   },
 };
 
-function domain1D(inports, outports, state) {
+function domain1D(inports, outports) {
   function inportsUpdated() {
     if (
       typeof inports.min.value == "number" &&
@@ -39,19 +35,7 @@ function domain1D(inports, outports, state) {
     }
   }
 
-  function render() {
-    return html`<style>
-        #container {
-          display: flex;
-          align-items: center;
-          max-height: 100%;
-          height: 100%;
-        }
-      </style>
-      <div id="container">test</div>`;
-  }
-
-  return { inportsUpdated, render };
+  return { inportsUpdated };
 }
 
 export default { config, tool: domain1D };
