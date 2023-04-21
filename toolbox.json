@@ -200,6 +200,10 @@
       {
         "displayName": "View Image Data",
         "path": "image/viewImageData"
+      },
+      {
+        "displayName": "Pixel Data",
+        "path": "image/extractPixelData"
       }
     ]
   },
@@ -214,6 +218,10 @@
       {
         "displayName": "Path Viewer",
         "path": "path/pathViewer"
+      },
+      {
+        "displayName": "3D Path Viewer",
+        "path": "path/path3dViewer"
       }
     ]
   },
@@ -246,6 +254,14 @@
       {
         "displayName": "P5 Sketch Viewer",
         "path": "p5/p5Viewer"
+      },
+      {
+        "displayName": "Potter Velocity Painting",
+        "path": "misc/potterVelocity"
+      },
+      {
+        "displayName": "Potter Velocity 2",
+        "path": "misc/potterVelocityNew"
       }
     ]
   }
