@@ -57,24 +57,29 @@ export function addPanZoom(el, state) {
     mousedown = false;
   });
 
-  listen("wheel", "", (e) => {
-    let xs = (e.offsetX - pointX) / scale;
-    let ys = (e.offsetY - pointY) / scale;
+  listen(
+    "wheel",
+    "",
+    (e) => {
+      let xs = (e.offsetX - pointX) / scale;
+      let ys = (e.offsetY - pointY) / scale;
 
-    if (Math.sign(e.deltaY) < 0) scale *= 1.03;
-    else scale /= 1.03;
+      if (Math.sign(e.deltaY) < 0) scale *= 1.03;
+      else scale /= 1.03;
 
-    pointX = e.offsetX - xs * scale;
-    pointY = e.offsetY - ys * scale;
+      pointX = e.offsetX - xs * scale;
+      pointY = e.offsetY - ys * scale;
 
-    Object.keys(state.toolchain.tools).forEach((toolID) => {
-      let toolTo = state.toolchain.tools[toolID];
-      if ("onZoom" in toolTo.lifecycle) toolTo.lifecycle.onZoom(scale);
-    });
+      Object.keys(state.toolchain.tools).forEach((toolID) => {
+        let toolTo = state.toolchain.tools[toolID];
+        if ("onZoom" in toolTo.lifecycle) toolTo.lifecycle.onZoom(scale);
+      });
 
-    updateTransformGroups();
-    e.preventDefault();
-  });
+      updateTransformGroups();
+      e.preventDefault();
+    },
+    { passive: false }
+  );
 
   function setPanZoom(pz) {
     scale = pz.scale;

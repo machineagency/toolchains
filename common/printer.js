@@ -39,12 +39,15 @@ M104 S0`;
 export class Printer {
   constructor(
     nozzleRadius = 0.4 / 2,
+    layerHeight = 0.2,
     filamentRadius = 1.75 / 2,
     retract = 6.5
   ) {
     this.pos = [0, 0, 0];
+    this.e = 0;
     this.nozzleRadius = nozzleRadius;
     this.filamentRadius = filamentRadius;
+    this.layerHeight = layerHeight;
     this.retract = retract;
     this.program = [];
     this.speeds = {
@@ -81,8 +84,16 @@ export class Printer {
   }
 
   calcExtrude(newPos) {
-    let filament_ratio = this.nozzleRadius / this.filamentRadius;
-    return this.dist(newPos) * filament_ratio ** 2;
+    // let filament_ratio = this.nozzleRadius / this.filamentRadius;
+    // return this.dist(newPos) * filament_ratio ** 2;
+
+    let newE =
+      this.e +
+      (this.dist(newPos) * 4 * this.layerHeight * 30) /
+        (Math.PI * this.nozzleRadius * 2);
+
+    this.e = newE;
+    return newE;
   }
 
   cmd(command) {
@@ -162,9 +173,9 @@ export class Printer {
     this.cmd("M107");
   }
 
-  zInc(hop = 0.2) {
+  zInc() {
     let feed_rate = this.sec_to_min(this.speeds["layer_up"]);
-    this.pos[2] = this.fixNum(this.pos[2] + hop);
+    this.pos[2] = this.fixNum(this.pos[2] + this.layerHeight);
     this.cmd(`G0 F${feed_rate} Z${this.pos[2]}`);
     this.setFeedrate(this.speeds["wall_outer"]);
   }
